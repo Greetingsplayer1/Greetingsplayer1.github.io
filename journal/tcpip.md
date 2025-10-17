@@ -16,3 +16,8 @@ Protocals in this layer include:
 - Bluetooth
 - LTE
 - Ethernet
+
+## links and more practace
+
+[German Alphabet](https://resources.collins.co.uk/Dictionary/CD%20Resources
+/Collins_German_3000_words_and_phrases.pdf)
