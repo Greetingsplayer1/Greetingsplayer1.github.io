@@ -1,2 +1,3 @@
-# Greetingsplayer1.github.io
-# Greetingsplayer1.github.io
+# My webstie
+
+This repo is my personal perfolio
