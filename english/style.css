@@ -62,18 +62,3 @@ li.dropdown {
 
 .dropdown:hover .dropdown-content {
   display: block;
-
-ul>
-  <li><a href="https://greetingsplayer1.github.io/english/draft1.html">Homepage</a></li>
-  <li><a href="https://greetingsplayer1.github.io/english/draftpage2.html">Main Courses</a></li>
-  <li><a href="https://greetingsplayer1.github.io/english/draftpage3.html">Electives</a></li>
-  <li class="dropdown">
-    <a href="javascript:void(0)" class="dropbtn">Links to sources to build this</a>
-    <div class="dropdown-content">
-    <a href="https://arlingtontech.apsva.us/wp-content/uploads/sites/58/sites/58/2024/12/Arlington-Tech-Academic-Pathways.pdf" target="_blank">(what put here)</a>
-      <a href="https://arlingtontech.apsva.us/stem-pathways/
-"target="_blank">(what put here)</a>
-      <a href="https://careercenter.apsva.us/wp-content/uploads/sites/11/2024/01/CRF-Arlington-Tech-Rising-9.pdf"target="_blank">(what put here)</a>    
-    </div>
-  </li>
-</ul>}
