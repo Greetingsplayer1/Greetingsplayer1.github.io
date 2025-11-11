@@ -21,6 +21,7 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: #38444d;
+  z-index: 1000;
 }
 
 li {
