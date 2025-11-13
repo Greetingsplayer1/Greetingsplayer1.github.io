@@ -1,16 +1,9 @@
-body {
-  margin: 0;
-}
-
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 130px;
+  width: 200px;
   background-color: #f1f1f1;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
 }
 
 li a {
@@ -20,12 +13,8 @@ li a {
   text-decoration: none;
 }
 
-li a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-
-li a:hover:not(.active) {
+/* Change the link and background color on hover */
+li a:hover {
   background-color: #555555;
   color: white;
 }
