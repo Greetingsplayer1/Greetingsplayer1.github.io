@@ -1,5 +1,5 @@
 # Encryption Activity Reflection
-
+My project thing
 
 ## Part 1: Key Exchange
 
@@ -72,10 +72,16 @@ Assume that each packet can hold two bytes. Fill in the packet information below
 ## Part 4: Reflection Questions
 
 - What is the difference between symmetric and asymmetric encryption? What purpose did each serve in this simulation?
+	- The difference between symetric and asymmetric encryption is the lack of a shared key. In this simulation, the asymetric encryption was the first message sent, and the symmetric encryption was the messages where we both had the same ceaser cipher for each message.
 - Why is it important that this protocol uses a new key for each message?
+	- It is important because if the same key in every message is used, then a hacker could just get the key and know every message that was sent.
 - Why is it important that you never share your secret key?
+	- You use your private key to decrypt messages that are sent to you if you share it then you hackers will be able to see what you are sending..
 - In the transport layer, do these messages use TCP or UDP? Why?
+	- These messages use TCP because it ensures that the message gets there error free.
 - Now that you've created packets in the transport layer, give a short explanation of what happens to these packets in the internet layer and in the link layer.
-- This protocol successfully encrypts the **content** of the message. Even though and adversary in the middle can't read the content of the message, what other
-information can they still see?
+	- Internet Layer In the internet layer, the message is sent along between the different routing tables to get to the desired IP adress.
+	- Link Layer In the link layer, the message is divided between the header and payload. The header holds the information about the source, destination and sequence of the packet while the payload contains the actual data. The link layer also adds parity bits for error detection and correction.
+- This protocol successfully encrypts the contents of the message. Even though and adversary in the middle can't read the content of the message but can see the message
+	- The source, destination, sequence, and anything else in the header.
 
