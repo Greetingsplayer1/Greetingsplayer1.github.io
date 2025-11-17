@@ -18,11 +18,10 @@ and the messages that you received.
 
 | Encoded Message | Decoded Message | Key |
 | --------------- | --------------- | --- |
-|                 |                 |     |
-|                 |                 |     |
-|                 |                 |     |
-|                 |                 |     |
-
+|Spwwz espcp oz jzf wtvp nwlds czjlw nlfdp T oz lyo T slgp l qlgzctep nlco xj qlgzctep nlco td RZWPX|Hello there do you like clash royal cause I do and I have a favorite card my favorite card is GOLEM|11|
+|Bc, W rcb'h dzom qzogv fcmozs. W rc sbxcm chvsf uoasg, sgdsqwozzm cjsfqcadzwqohsr pcofr uoasg.|No, I don't play clash royale. I do enjoy other games, especially overcomplicated board games.|14|
+|Ты некультурная свинья и заслуживаешь тюрьмы. Zixpe Olvxib потрясающий|Ты некультурная свинья и заслуживаешь тюрьмы. Clash Royale потрясающий|23|
+|G sldmprslyrcjw yk lmr ksjrgjglesyj, ylb gd G ucpc, G umsjbl'r'tc qrsbgcb psqqgyl. Yjqm, ufw qugraf rm clejgqf hsqr rm qyw "Ajyqf Pmwyjc". Rfyr kybc lm qclqc.|I unfortunately am not multilingual, and if I were, I wouldn't've studied russian. Also, why switch to english just to say "Clash Royale". That made no sense.|24
 
 ## Part 3: Connection to TCP/IP Model
 
@@ -37,9 +36,11 @@ Go back to the first encrypted message that you sent (it should be in `rsa_encry
 This message is represented as a string of letters, numbers, and symbols. But we know that the real message is in binary.
 
 Select the first six characters from this message and copy them here:
-
+kwI4Sk
 Using the ASCII table, convert these five characters to binary (if necessary,
 include leading zeroes so that each character is 8 bits): 
+
+01101011 01110111 01001001 00110100 01010011 01101011
 
 ### Transport Layer: Break your message into packets
 
@@ -51,21 +52,21 @@ Assume that each packet can hold two bytes. Fill in the packet information below
     Source: [Your Name]
     Destination: [Partner's Name]  
     Sequence: 1/3
-    Data: [binary for char 1] [binary for char 2]
+    Data: 01101011 01110111
     =========
     Packet 2:
 
-    Source: [Your Name]
-    Destination: [Partner's Name]
+    Source: Kyle computer
+    Destination: Sebastians computer
     Sequence: 2/3 
-    Data: [binary for char 3] [binary for char 4]
+    Data: 01001001 00110100
     =========
     Packet 3:
 
     Source: [Your Name]
     Destination: [Partner's Name]
     Sequence: 3/3
-    Data: [binary for char 5] [binary for char 6]
+    Data: 01010011 01101011
     =========
 
 ## Part 4: Reflection Questions
