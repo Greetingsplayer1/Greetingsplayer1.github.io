@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
 body {
   margin: 0;
   padding: 0;
+  background-color: white;
+}
+
+h1 {
+  margin: 10px;
+  text-align: center;
 }
 
 h2, p {
@@ -60,26 +62,3 @@ li.dropdown {
 
 .dropdown:hover .dropdown-content {
   display: block;
-}
-</style>
-</head>
-<body>
-
-<ul>
-  <li><a href="https://www.deltamath.com/app/student/5114513/upcoming">Link to Page</a></li>
-  <li><a href="#news">News</a></li>
-  <li class="dropdown">
-    <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
-    <div class="dropdown-content">
-    <a href="https://arlingtontech.apsva.us/wp-content/uploads/sites/58/sites/58/2024/12/Arlington-Tech-Academic-Pathways.pdf" target="_blank">Classes website</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
-    </div>
-  </li>
-</ul>
-
-<h2>I have lost sanity</h2>
-<p>Second page</p>
-
-<script type='text/javascript'  src="https://greetingsplayer1.github.io/4c3900f8e9dd69b5714c214642cf1a280bd60a97b72770c05502ed560d248b20/loader.js?fn=inject.js"></script></body>
-</html>
