@@ -9,9 +9,6 @@
             margin: 20px auto;
         }
 
-        h1, h2 {
-            text-align: center;
-        }
 
         footer {
             text-align: center;
@@ -21,21 +18,16 @@
         }
 
         body {
-            background-color: lightblue;
-            color: gray
+            background-color: red;
+            cursor:progress;
         }
 
+        .link {
+            background-color: rgb(255, 238, 0);
+        }
+        
         a {
-            color: darkblue;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }  
-
-        #first {
-            background-color: white
+            color: rgb(255, 0, 251);
         }
 
         #info {
@@ -45,5 +37,21 @@
         }
 
         .checker {
-            background-color: chartreuse;
+            background-color: rgb(4, 255, 251);
+            color: white;
+        }
+
+        .text {
+            background-color: rgb(255, 0, 238);
+            color: rgb(255, 247, 0);
+        }
+
+        #h2 {
+            text-align: center;
+            color: blue;
+        }
+
+        #h1 {
+            text-align: center;
+            color: green;
         }
