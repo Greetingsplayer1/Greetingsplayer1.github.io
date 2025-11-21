@@ -35,3 +35,16 @@
             background-color: lightblue;
             color: gray
         }
+
+        a {
+            color: darkblue;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }  
+
+        #first {
+            background-color: white
+        }
