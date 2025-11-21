@@ -13,17 +13,6 @@
             text-align: center;
         }
 
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            text-align: center;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-
         footer {
             text-align: center;
             margin-top: 20px;
@@ -47,4 +36,14 @@
 
         #first {
             background-color: white
+        }
+
+        #info {
+            font-size: 1.2em;
+            color: darkgreen;
+            margin-bottom: 15px;
+        }
+
+        .checker {
+            background-color: chartreuse;
         }
