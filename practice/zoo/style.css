@@ -44,16 +44,19 @@
         .text {
             background-color: rgb(255, 0, 238);
             color: rgb(255, 247, 0);
+            font-family: 'Brush Script MT', cursive;
         }
 
         #h2 {
             text-align: center;
             color: blue;
+            font-family: 'Brush Script MT', cursive;
         }
 
         #h1 {
             text-align: center;
             color: green;
+            font-family: 'Brush Script MT', cursive;
         }
 
 
