@@ -24,6 +24,7 @@
 
         .link {
             background-color: rgb(255, 238, 0);
+            border : 5px solid rgb(53, 21, 128);
         }
         
         a {
@@ -57,6 +58,9 @@
             text-align: center;
             color: green;
             font-family: 'Brush Script MT', cursive;
+            padding: 67px;
+            border: dashed 9px blue;
+            margin: 30px;
         }
 
 
