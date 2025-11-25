@@ -55,3 +55,9 @@
             text-align: center;
             color: green;
         }
+
+
+    td:hover, th:hover, caption:hover {
+    font-weight: bold;
+    color: rgb(171, 11, 11);
+}
