@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+   <title>Who wants Ice cream</title>
+   
+   <style>
+   
+   body{
+   background-color: pink;
+   }
+
+   select {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+}
+ 
+  </style>
+  <script>
+  </script>
+  
+  <script src="../js/validate.js"></script>
+  </head>
+  <body>
+
+    <form action="https://httpbin.org/post" method="post">
+        What is your name
+        <input type="text" name="your name">
+        <hr>
+        Email address
+        <input type="text" name="your email">
+        <hr>
+        How many people are you bringing with you
+        <input type="text" name="number of people">
+        <hr>
+        <p>What is your favorite flavor</p>
+        Chocolate
+        <input type="radio" name="Flavor">
+        <br>
+        Vanilla
+        <input type="radio" name="Flavor">
+        <br>
+        Almond
+        <input type="radio" name="Flavor">
+        <br>
+        Apple
+        <input type="radio" name="Flavor">
+        <br>
+        Banana
+        <input type="radio" name="Flavor">
+        <br>
+        Blackbarry
+        <input type="radio" name="Flavor">
+        <br>
+        Mango
+        <input type="radio" name="Flavor">
+        <br>
+        Cookies and Cream
+        <input type="radio" name="Flavor">
+        <hr>
+        <p>what topppings</p>
+        Sprinkles
+        <input type="checkbox" name="topping1" >
+        <hr>
+        <select id="country" name="country">
+  <option value="au">Balloon Animals</option>
+  <option value="ca">Clown</option>
+  <option value="usa">Bouncy House</option>
+  </select>
+        <hr>
+        <button type="submit">Submit</button>
+    </form>
+
+ </body>
+</html>
