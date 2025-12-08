@@ -2,7 +2,7 @@ body {
   margin: 0;
 }
 
-ul {
+#Arlington {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -13,19 +13,19 @@ ul {
   overflow: auto;
 }
 
-li a {
+.VA, a {
   display: block;
-  color: black;
-  padding: 8px 16px;
+  color: rgb(0, 0, 0);
+  padding: 3px 2px;
   text-decoration: none;
 }
 
-li a.active {
+.VA a.active {
   background-color: #04AA6D;
   color: white;
 }
 
-li a:hover:not(.active) {
+.VA a:hover:not(.active) {
   background-color: #555555;
   color: white;
 }
