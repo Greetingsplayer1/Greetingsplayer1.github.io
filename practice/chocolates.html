@@ -1,0 +1,164 @@
+ <html>
+    <head>
+        <style>
+            body{
+                background: linear-gradient(135deg, #1a2980, #26d0ce);
+                height: 100vh;
+            }
+            h1{
+                text-align: center;
+                font-family: Tahoma, sans-serif;
+                color: white;
+            }
+            .container {
+              display: grid;
+              width: 80vw;
+              height: 80vh;
+              margin: auto;
+              grid-template-columns: 1fr 1fr 1fr;
+              grid-template-rows: 1fr 1fr 1fr;
+              background-color: Thistle;
+              padding: 10px;
+              border-radius: 20px;
+              border: 8px solid red;
+            }
+
+            .heart {
+              height: 20vh; /* adjust to control the size */
+              aspect-ratio: 1;
+              --_m: radial-gradient(#000 69%,#0000 70%) 84.5%/50%;
+              -webkit-mask-box-image: var(--_m);
+                         mask-border: var(--_m);
+              clip-path: polygon(-41% 0,50% 91%, 141% 0);
+              background-color: chocolate;
+              margin: auto;
+            }
+            /* fallback until better support for mask-border */
+            @supports not (-webkit-mask-box-image: var(--_m)) { 
+              .heart {
+                mask:
+                 radial-gradient(at 70% 31%,#000 29%,#0000 30%),
+                 radial-gradient(at 30% 31%,#000 29%,#0000 30%),
+                 conic-gradient(#000 0 0) bottom/100% 50% no-repeat;
+              }
+            }
+            #chocolateheart{
+                grid-column-start: 3;
+                grid-row-start:2;
+            }
+
+            /* Individual chocolate shapes */
+            .diamond-chocolate {
+              grid-column-start: 1;
+              grid-row-start: 2;
+              width: 11vh;
+              height: 11vh;
+              background-color: #8B4513;
+              transform: rotate(45deg);
+              margin: auto;
+            }
+
+            .hexagon-chocolate {
+              grid-column-start: 1;
+              grid-row-start: 3;
+              width: 10vh;
+              height: 10vh;
+              background-color: #A0522D;
+              clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+              margin: auto;
+            }
+
+            .round-chocolate {
+              grid-column-start: 2;
+              grid-row-start: 1;
+              width: 10vh;
+              height: 10vh;
+              background-color: #8B4513;
+              border-radius: 50%;
+              margin: auto;
+            }
+
+            .pentagon-chocolate {
+              grid-column-start: 2;
+              grid-row-start: 2;
+              width: 9vh;
+              height: 9vh;
+              background-color: #A0522D;
+              clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+              margin: auto;
+            }
+
+            .triangle-chocolate {
+              grid-column-start: 2;
+              grid-row-start: 3;
+              width: 0;
+              height: 0;
+              border-left: 4vh solid transparent;
+              border-right: 4vh solid transparent;
+              border-bottom: 8vh solid #D2691E;
+              margin: auto;
+            }
+
+            .star-chocolate {
+              grid-column-start: 3;
+              grid-row-start: 1;
+              width: 12vh;
+              height: 12vh;
+              background-color: #D2691E;
+              clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+              margin: auto;
+            }
+
+            .octagon-chocolate {
+              grid-column-start: 3;
+              grid-row-start: 3;
+              width: 9vh;
+              height: 9vh;
+              background-color: #CD853F;
+              clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+              margin: auto;
+            }
+            .lilbits{
+                grid-column-start: 1;
+                grid-row-start: 1;
+                display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              grid-template-rows: 1fr 1fr 1fr;
+            }
+            #mnm{
+                grid-column-start:1;
+                grid-row-start:1;
+                width:10vh;
+                height:10vh;
+                background-color:red;
+                border-radius:50%;
+                margin: auto;
+                display: grid;
+                place-items: center;
+                font-size: 1.5em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Here, I got you some chocolates &lt;3</h1>
+
+
+
+
+        <div class="container">
+            <div class="diamond-chocolate"></div>
+            <div class="hexagon-chocolate"></div>
+            <div class="heart" id="chocolateheart"></div>
+            <div class="round-chocolate"></div>
+            <div class="pentagon-chocolate"></div>
+            <div class="triangle-chocolate"></div>
+            <div class="star-chocolate"></div>
+            <div class="octagon-chocolate"></div>
+            <div class="lilbits">
+                <div id="mnm">
+                  mnm
+                </div>
+            </div> 
+        </div>
+    </body>
+</html> 
