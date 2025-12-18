@@ -125,6 +125,7 @@
               grid-template-columns: 1fr 1fr 1fr;
               grid-template-rows: 1fr 1fr 1fr;
             }
+
             #mnm{
                 grid-column-start:1;
                 grid-row-start:1;
@@ -136,6 +137,88 @@
                 display: grid;
                 place-items: center;
                 font-size: 1.5em;
+            }
+
+            /* Lilbits chocolate shapes */
+            .lilbit-square {
+              grid-column-start: 2;
+              grid-row-start: 1;
+              width: 7vh;
+              height: 7vh;
+              background-color: #8B4513;
+              margin: auto;
+              border-radius: 2px;
+            }
+
+            .lilbit-circle {
+              grid-column-start: 3;
+              grid-row-start: 1;
+              width: 6vh;
+              height: 6vh;
+              background-color: #D2691E;
+              border-radius: 50%;
+              margin: auto;
+            }
+
+            .lilbit-diamond {
+              grid-column-start: 1;
+              grid-row-start: 2;
+              width: 6vh;
+              height: 6vh;
+              background-color: #A0522D;
+              transform: rotate(45deg);
+              margin: auto;
+            }
+
+            .lilbit-hexagon {
+              grid-column-start: 2;
+              grid-row-start: 2;
+              width: 6vh;
+              height: 6vh;
+              background-color: #CD853F;
+              clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+              margin: auto;
+            }
+
+            .lilbit-triangle {
+              grid-column-start: 3;
+              grid-row-start: 2;
+              width: 0;
+              height: 0;
+              border-left: 3vh solid transparent;
+              border-right: 3vh solid transparent;
+              border-bottom: 6vh solid #DEB887;
+              margin: auto;
+            }
+
+            .lilbit-pentagon {
+              grid-column-start: 1;
+              grid-row-start: 3;
+              width: 6vh;
+              height: 6vh;
+              background-color: #BC8F8F;
+              clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+              margin: auto;
+            }
+
+            .lilbit-star {
+              grid-column-start: 2;
+              grid-row-start: 3;
+              width: 6vh;
+              height: 6vh;
+              background-color: #DAA520;
+              clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+              margin: auto;
+            }
+
+            .lilbit-octagon {
+              grid-column-start: 3;
+              grid-row-start: 3;
+              width: 5vh;
+              height: 5vh;
+              background-color: #D2B48C;
+              clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+              margin: auto;
             }
         </style>
     </head>
@@ -154,11 +237,20 @@
             <div class="triangle-chocolate"></div>
             <div class="star-chocolate"></div>
             <div class="octagon-chocolate"></div>
+
             <div class="lilbits">
                 <div id="mnm">
                   mnm
                 </div>
-            </div> 
+                <div class="lilbit-square"></div>
+                <div class="lilbit-circle"></div>
+                <div class="lilbit-diamond"></div>
+                <div class="lilbit-hexagon"></div>
+                <div class="lilbit-triangle"></div>
+                <div class="lilbit-pentagon"></div>
+                <div class="lilbit-star"></div>
+                <div class="lilbit-octagon"></div>
+            </div>
         </div>
     </body>
 </html> 
