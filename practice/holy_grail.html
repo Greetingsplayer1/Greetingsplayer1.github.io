@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Behold the Holy Grail!</title>
+
+<style>
+    .grid {
+  display: grid;
+  height: 100vh;
+  gap: 10px;
+  grid:
+    'head  head head' 1fr
+    'side1  main side2' 3fr
+    'foot  foot foot' 2fr
+    /200px 1fr;
+}
+    #main {
+  grid-area: main;
+  background-color: rgb(9, 153, 29);
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  text-align: center;
+}
+#head {
+  grid-area: head;
+  background-color: rgb(9, 153, 29);
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  text-align: center;
+}
+#foot {
+  grid-area: foot;
+  background-color: rgb(9, 153, 29);
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  text-align: center;
+}
+#side1 {
+  grid-area: side1;
+  background-color: rgb(9, 153, 29);
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  text-align: center;
+}
+#side2 {
+  grid-area: side2;
+  background-color: rgb(9, 153, 29);
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  text-align: center;
+}
+    </style>
+</head>
+<body>
+<div class="grid">
+<div id="main">Main</div>
+<div id="head">Header</div>
+<div id="foot">Footer</div>
+<div id="side1">Sidebar 1</div>
+<div id="side2">Sidebar 2</div>
+</div>
+</body>
+</html>
+
