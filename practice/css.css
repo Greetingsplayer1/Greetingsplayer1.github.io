@@ -147,6 +147,7 @@ body {
   border-radius: 20px;
   margin: 20px auto;
   max-width: 300px;
+  cursor: progress;
 }
 
 /* Cards container */
@@ -176,7 +177,7 @@ body {
 }
 
 .card h2 {
-  font-size: 60px;
+  font-size: 50px;
   margin: 20px 0;
 }
 
