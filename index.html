@@ -8,10 +8,98 @@
 <style>
 
 body{
-color: purple;
-background-color: cyan;
+color: #D4AF37;
+background-color: #002147;
 font-weight: bold;
 }
+
+.grid-container {
+  display: grid;
+  grid:
+    'head' auto
+    'main' 1fr
+    /150px 1fr;
+  min-height: 100vh;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #002147;
+  grid-area: head;
+  border: solid 2px
+}
+
+.sidebar {
+  grid-area: side;
+  padding: 15px;
+}
+
+.main-content {
+  grid-area: main;
+  padding: 15px;
+}
+
+.main-content h1 {
+  text-align: center;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: #ffffff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: #ffffff;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #D4AF37;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
 
 </style>
 
@@ -19,11 +107,29 @@ font-weight: bold;
 
 </head>
 <body>
-<h1>Welcome</h1>
-<p>This is my home page</p>
-<p>Hi if you don't know my name is Kyle Medina and this year im going to be 
-using this site to make a portfolio and add stuff about me</p>
-<p>Also I think i am loving this class its fun and chalanging</p>
+
+    <div class="navbar">
+  <a href="draft1.html">Homepage</a>
+  <a href="draftpage2.html">Core Classes</a>
+  <a href="draftpage3.html">Electives</a>
+  <div class="dropdown">
+    <button class="dropbtn">Links To Help Build This
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="https://careercenter.apsva.us/academic-advising-course-selection/"> Course Request Page</a>
+      <a href="https://arlingtontech.apsva.us/arlington-tech-academics/">Acedemics</a>
+      <a href="https://arlingtontech.apsva.us/wp-content/uploads/sites/58/sites/58/2024/12/Arlington-Tech-Academic-Pathways.pdf 
+">Classes Page</a>
+    </div>
+  </div>
+</div>
+
+<h1>Welcome This is my portfolio about what I do, and some about me</h1>
+<hr>
+<h3>Intrest</h3>
+<div>As a student that love technolyg I have a perosnal love for technology I love to take it apart buil it, and work with it.</div>
+<div>One of my biggest intrest is in coding, there are two coding laguages I know. I know some C#, and I know quite a bit of html.</div>
 <!--I took this photo myself-->
  <img src="images/BorisandNatasha.jpg"
      alt="Boris and Natasha"
@@ -33,19 +139,6 @@ using this site to make a portfolio and add stuff about me</p>
      sizes="(max-width: 480px) 95vw,
             (max-width: 800px) 45vw,
             30vw">
- <p><q>Glücklich ist, wer vergisst, was nicht mehr zu ändern ist</q>
-- Random German Dude</p>
-<a href="https://greetingsplayer1.github.io/practice/minimal.html">
-	practice thingie</a>
- <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ ">
-	 jazz music</a>
- <a href="https://greetingsplayer1.github.io/practice/terminal.html">
-	 lesson plan you asked for</a>
-         <hr>
-         <img src="CAT.jpg" usemap="#image-map">
-
-<map name="image-map">
-    <area alt="67" title="67" coords="64,131,84,119" shape="rect" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-</map>
+</body>
 </html>
 
