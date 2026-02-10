@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Canvas Practice</title>  
+<style>
+    #sean{
+        border: black solid 2px;
+    }
+</style>
+</head>
+<body>
+<h1>Canvas Practice</h1>
+<canvas id="sean" width="800" height="900">
+</canvas>
+<script>
+    //MAGIC
+    const canvas = document.getElementById('sean');
+    const ctx = canvas.getContext('2d');
+
+    //background
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //draw a green rectanlge
+    ctx.fillStyle = 'green';
+    ctx.fillRect(50, 200, 200, 400);
+
+    //draw a red square
+    ctx.fillStyle = 'red';
+    ctx.fillRect(300, 100, 200, 200);
+    
+    //purple circle
+    ctx.fillStyle = 'purple';
+    ctx.strokeStyle = 'green';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(500, 500, 100, 0, Math.PI * 1.382);
+    ctx.fill();
+    ctx.stroke();
+
+    //yellow oval
+    ctx.fillStyle = 'yellow';
+    ctx.beginPath();
+    ctx.ellipse(200, 700, 100, 50, 1, 0, Math.PI * 2);
+    ctx.fill();
+
+    //white triangle
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.moveTo(400, 700);
+    ctx.lineTo(500, 700);
+    ctx.lineTo(450, 600);
+    ctx.closePath();
+    ctx.fill();
+
+
+</script>
+</body>
