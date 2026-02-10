@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Canvas Practice</title>  
+<style>
+    #sean{
+        border: black solid 2px;
+    }
+</style>
+</head>
+<body>
+<h1>Self Portriat</h1>
+<canvas id="sean" width="800" height="1200">
+</canvas>
+<script>
+    //MAGIC
+    const canvas = document.getElementById('sean');
+    const ctx = canvas.getContext('2d');
+
+    //background
+    ctx.fillStyle = 'gray';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //big circle in the middle tan
+    ctx.fillStyle = 'tan';
+    ctx.beginPath();
+    ctx.arc(400, 250, 200, 0, Math.PI * 2);
+    ctx.fill();
+
+    //left eye ellipse white
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.ellipse(300, 200, 50, 30, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    //right eye ellipse white
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.ellipse(500, 200, 50, 30, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    //left eye pupil black
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(300, 200, 25, 0, Math.PI * 2);
+    ctx.fill();
+
+    //right eye pupil black
+    ctx.beginPath();
+    ctx.arc(500, 200, 25, 0, Math.PI * 2);
+    ctx.fill();
+
+    //mouth red
+    ctx.fillStyle = 'red';
+    ctx.beginPath();
+    ctx.arc(400, 310, 100, 0, Math.PI);
+    ctx.fill();
+
+    //hair brown arch from elipse short with border 2px black
+    ctx.fillStyle = 'brown';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(400, 150, 170, 100, 0, Math.PI, 0);
+    ctx.fill();
+    ctx.stroke();
+
+    //neck tan rectanlge width 80 height 100
+    ctx.fillStyle = 'tan';
+    ctx.fillRect(360, 400, 80, 100);
+
+    //body ellipse tan with border 2px black
+    ctx.fillStyle = 'tan';
+    ctx.beginPath();
+    ctx.ellipse(400, 760, 200, 300, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+//shirt ellipse cover the body
+    ctx.fillStyle = 'blue';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(400, 760, 200, 300, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    
+</script>
+</body>
