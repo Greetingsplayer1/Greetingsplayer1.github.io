@@ -93,13 +93,13 @@
     ctx.arc(415, 250, 5, 0, Math.PI * 2);
     ctx.fill();
 
-        //ears two tan ellipses on the sides of the head
+    //ears two tan ellipses on the sides of the head
     ctx.fillStyle = 'tan';
     ctx.beginPath();
-    ctx.ellipse(200, 250, 50, 80, 0, 0, Math.PI * 2);
+    ctx.ellipse(200, 250, 40, 60, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.beginPath();
-    ctx.ellipse(600, 250, 50, 80, 0, 0, Math.PI * 2);
+    ctx.ellipse(600, 250, 40, 60, 0, 0, Math.PI * 2);
     ctx.fill();
 
     //ear holes two black circles in the middle of the ears
@@ -112,7 +112,7 @@
     ctx.fill();
 
     //hair part 1 brown hollow arch on top of head
-    ctx.strokeStyle = 'brown';
+    ctx.strokeStyle = 'saddleBrown';
     ctx.lineWidth = 5;
     ctx.beginPath();
     ctx.arc(400, 250, 200, Math.PI, 0);
@@ -144,13 +144,98 @@
     ctx.stroke();
 
     //ellipses hair part 6 bangs small ellipses brown on forehead
-    ctx.fillStyle = 'brown';
+    ctx.fillStyle = 'saddlebrown';
     ctx.beginPath();
     ctx.ellipse(400, 110, 110, 40, 0, 0, Math.PI * 2);
     ctx.fill();
 
+    //lips dark reed line across mout bottom and top
+    ctx.strokeStyle = 'darkred';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(300, 310);
+    ctx.lineTo(500, 310);
+    ctx.stroke();
 
+
+    //lips sub part 1 dark reed hollow arch across mouth bottom
+    ctx.beginPath();
+    ctx.arc(400, 310, 100, 0, Math.PI);
+    ctx.stroke();
+
+    //goofy dude in backgrougnd an ellipses with a face on it
+    ctx.fillStyle = 'tan';
+    ctx.beginPath();
+    ctx.ellipse(700, 100, 50, 50, 0,    0, Math.PI * 2);
+    ctx.fill();
+
+    //face on goofy dude two black dots for eyes and a red line for a mouth
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(690, 90, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(710, 90, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(690, 110);
+    ctx.lineTo(710, 110);
+    ctx.stroke();
  
+    //glasses for goofy dude two black circles around the eyes and a line connecting them
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(690, 90, 10, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(710, 90, 10, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(680, 90);
+    ctx.lineTo(720, 90);
+    ctx.stroke();
 
+    //goofy dude hair a brown line across the top of the head
+    ctx.strokeStyle = 'saddlebrown';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(690, 50);
+    ctx.lineTo(720, 50);
+    ctx.stroke();
+
+    //glasses side lines two black lines from the glasses to the ears
+    ctx.strokeStyle = 'black';
+    ctx.beginPath();
+    ctx.moveTo(680, 90);
+    ctx.lineTo(653, 80);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(720, 90);
+    ctx.lineTo(748, 80);
+    ctx.stroke();
+
+    //goofy dude text bubbl ellipse with text in it that says text bubble
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.ellipse(600, 50, 50, 30, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'black';
+    ctx.font = '12px Arial';
+    ctx.fillText('Text Bubble', 565, 55);
+
+    //ears for goofy dude two tan ellipses on the sides of the head
+    ctx.fillStyle = 'tan';
+    ctx.beginPath();
+    ctx.ellipse(650, 100, 9, 13, -3.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(750, 100, 9, 13, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    //ear holes for goofy dude two black circles in the middle of the ears small
+    
 </script>
 </body>
