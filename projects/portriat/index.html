@@ -220,11 +220,11 @@
     //goofy dude text bubbl ellipse with text in it that says text bubble
     ctx.fillStyle = 'white';
     ctx.beginPath();
-    ctx.ellipse(600, 50, 50, 30, 0, 0, Math.PI * 2);
+    ctx.ellipse(600, 50, 60, 30, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = 'black';
     ctx.font = '12px Arial';
-    ctx.fillText('Text Bubble', 565, 55);
+    ctx.fillText('Hi I am sebastian', 545, 55);
 
     //ears for goofy dude two tan ellipses on the sides of the head
     ctx.fillStyle = 'tan';
@@ -235,7 +235,22 @@
     ctx.ellipse(750, 100, 9, 13, 3.5, 0, Math.PI * 2);
     ctx.fill();
 
-    //ear holes for goofy dude two black circles in the middle of the ears small
-    
+        //ear hole on goofy dude two black dots for eyes and a red line for a mouth
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(648, 100, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(710, 90, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    //ear hole on goofy dude two black dots for eyes and a red line for a mouth
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(753, 100, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(710, 90, 5, 0, Math.PI * 2);
+    ctx.fill();
 </script>
 </body>
