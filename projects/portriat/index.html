@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>Self Portriat</h1>
-<canvas id="sean" width="800" height="1200">
+<canvas id="sean" width="800" height="700">
 </canvas>
 <script>
     //MAGIC
@@ -39,15 +39,15 @@
     ctx.ellipse(500, 200, 50, 30, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    //left eye pupil black
+    //left pupil elipses black wide
     ctx.fillStyle = 'black';
     ctx.beginPath();
-    ctx.arc(300, 200, 25, 0, Math.PI * 2);
+    ctx.ellipse(300, 200, 20, 20, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    //right eye pupil black
+    //right pupil elipses black
     ctx.beginPath();
-    ctx.arc(500, 200, 25, 0, Math.PI * 2);
+    ctx.ellipse(500, 200, 20, 20, 0, 0, Math.PI * 2);
     ctx.fill();
 
     //mouth red
@@ -56,23 +56,14 @@
     ctx.arc(400, 310, 100, 0, Math.PI);
     ctx.fill();
 
-    //hair brown arch from elipse short with border 2px black
-    ctx.fillStyle = 'brown';
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.ellipse(400, 150, 170, 100, 0, Math.PI, 0);
-    ctx.fill();
-    ctx.stroke();
-
     //neck tan rectanlge width 80 height 100
     ctx.fillStyle = 'tan';
-    ctx.fillRect(360, 400, 80, 100);
+    ctx.fillRect(360, 430, 70, 60);
 
     //body ellipse tan with border 2px black
     ctx.fillStyle = 'tan';
     ctx.beginPath();
-    ctx.ellipse(400, 760, 200, 300, 0, 0, Math.PI * 2);
+    ctx.ellipse(400, 760, 300, 200, 0, 0, Math.PI * 2);
     ctx.fill();
 
 //shirt ellipse cover the body
@@ -80,10 +71,86 @@
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.ellipse(400, 760, 200, 300, 0, 0, Math.PI * 2);
+    ctx.ellipse(400, 760, 300, 300, 3.14, 0, Math.PI * 1);
     ctx.fill();
     ctx.stroke();
 
-    
+    //nose triangle dark tan in middle of face
+    ctx.fillStyle = 'peru';
+    ctx.beginPath();
+    ctx.moveTo(400, 220);
+    ctx.lineTo(370, 260);
+    ctx.lineTo(430, 260);
+    ctx.closePath();
+    ctx.fill();
+
+    //nostrils two black dots on the nose
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(385, 250, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(415, 250, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+        //ears two tan ellipses on the sides of the head
+    ctx.fillStyle = 'tan';
+    ctx.beginPath();
+    ctx.ellipse(200, 250, 50, 80, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(600, 250, 50, 80, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    //ear holes two black circles in the middle of the ears
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(200, 250, 15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(600, 250, 15, 0, Math.PI * 2);
+    ctx.fill();
+
+    //hair part 1 brown hollow arch on top of head
+    ctx.strokeStyle = 'brown';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(400, 250, 200, Math.PI, 0);
+    ctx.stroke();
+
+    //hair sub part 1.5 brown hollow arch on top of head but smaller
+    ctx.beginPath();
+    ctx.arc(400, 250, 195, Math.PI, 0);
+    ctx.stroke();
+
+    //hair part 2 anothe rbrown hollow arch on top of head but smaller
+    ctx.beginPath();
+    ctx.arc(400, 250, 190, Math.PI, 0);
+    ctx.stroke();
+
+    //hair sub part 2.5 brown hollow arch on top of head but smaller
+    ctx.beginPath();
+    ctx.arc(400, 250, 185, Math.PI, 0);
+    ctx.stroke();
+
+    //hair part 3 anothe rbrown hollow arch on top of head but smaller
+    ctx.beginPath();
+    ctx.arc(400, 250, 180, Math.PI, 0);
+    ctx.stroke();
+
+    //hair sub part 3.5 brown hollow arch on top of head but smaller
+    ctx.beginPath();
+    ctx.arc(400, 250, 175, Math.PI, 0);
+    ctx.stroke();
+
+    //ellipses hair part 6 bangs small ellipses brown on forehead
+    ctx.fillStyle = 'brown';
+    ctx.beginPath();
+    ctx.ellipse(400, 110, 110, 40, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+
+ 
+
 </script>
 </body>
