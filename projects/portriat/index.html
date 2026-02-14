@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>Self Portriat</h1>
-<canvas id="sean" width="800" height="700">
+<canvas id="sean" width="840" height="700">
 </canvas>
 <script>
     //MAGIC
@@ -210,7 +210,7 @@
     ctx.strokeStyle = 'black';
     ctx.beginPath();
     ctx.moveTo(680, 90);
-    ctx.lineTo(653, 80);
+    ctx.lineTo(653,80);
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(720, 90);
@@ -253,9 +253,45 @@
     ctx.arc(710, 90, 5, 0, Math.PI * 2);
     ctx.fill();
 
-    //arm waving hi ellipse
-    ctx.fillStyle = "blue"
+    //arm waving hi ellipses
+    ctx.fillStyle = 'blue';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2; 
     ctx.beginPath();
-    ctx.ellipse()
+    ctx.ellipse(680, 540, 50, 150, .5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    //hand circle
+    ctx.fillStyle = "tan"
+    ctx.beginPath();
+    ctx.arc(730, 450, 70, 0, Math.PI * 2)
+    ctx.fill();
+
+//finger 1
+ctx.fillStyle = "tan"
+ctx.beginPath();
+ctx.ellipse(660,430, 20, 40, Math.PI / -4, 0, Math.PI * 2);
+ctx.fill();
+
+//finger 1
+ctx.fillStyle = "tan"
+ctx.beginPath();
+ctx.ellipse(700, 380, 20, 40, 0, 0, Math.PI * 2);
+ctx.fill();
+
+//finger 1
+ctx.fillStyle = "tan"
+ctx.beginPath();
+ctx.ellipse(750, 380, 20, 40, 0, 0, Math.PI * 2);
+ctx.fill();
+
+//finger 1
+ctx.fillStyle = "tan"
+ctx.beginPath();
+ctx.ellipse(790, 410, 20, 40, .4, 0, Math.PI * 2);
+ctx.fill();
+
+
 </script>
 </body>
