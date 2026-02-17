@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Canvas with Functions</title>
+</head>
+<body>
+    <h1>Canvas with functions</h1>
+    <canvas width="800" height="800" id="myCanvas">
+    </canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillRect(100, 100, 100, 100)
+
+        //fill rect with color 
+        //just like fill rect but with color
+        function fillRectWithColor(x, y, width,height,color){
+        ctx.fillStyle= color;
+        ctx.fillRect(x, y, width, height);
+        }
+
+        fillRectWithColor(0,0,800,800,"blue");
+        fillRectWithColor(600,600,100,100,"#A0C573");
+
+        //fillCircleWithColor
+        function fillCircleWithColor(x,y,r,color){
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x,y,r,0,2*Math.PI);
+            ctx.fill();
+        }
+
+        fillCircleWithColor(50,50,25,"green");
+                fillCircleWithColor(750,750,25,"lemonChiffon");
+
+        function drawSnowman(x,y,){
+fillCircleWithColor(x,y-70,20,"white");
+fillCircleWithColor(x,y,50,"white");
+fillCircleWithColor(x,y+125,75,"white");
+        }
+
+        drawSnowman(400,400);
+    </script>
+</body>
