@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Animate</title>
+        <style>
+            canvas { border: 1px solid black; }
+        </style>
+    </head>
+    <body>
+        <h2>Hello animations</h2>
+        <canvas id="myCanvas" width="1000" height="500"></canvas>
+
+        <script>
+            console.log("hi")
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+
+// 1. Create a variable to track position
+let posX = 0; 
+let posY = 0;
+let speedX = 5;
+let speedY = 5;
+let radius = 5;
+let particles = [];
+let keys = {};
+
+const mapObjects = [
+    { x: 800, y: 100, w: 100, h: 200, color: 'blue' },   // A tall blue building
+    { x: -500, y: 300, w: 200, h: 50, color: 'green' }, // A long green platform
+    { x: 1200, y: 800, w: 300, h: 300, color: 'red' }   // A giant red square
+];
+
+
+    // Clear the whole canvas before drawing the new position
+function drawRect(x, y) {
+    
+    ctx.fillStyle = 'tan';
+    ctx.fillRect(x, y, 30, 30);
+
+    ctx.fillStyle = 'tan';
+    ctx.fillRect(x+10, y+-30, 10, 30);
+
+ctx.fillStyle = 'tan';
+ctx.beginPath();
+ctx.arc(x + 15, y + -40, 29, 0, 2 * Math.PI); 
+ctx.fill();
+
+ctx.fillStyle = 'white';
+ctx.beginPath();
+ctx.arc(x + 35, y + -40, radius, 0, 2 * Math.PI); 
+ctx.fill();
+
+ctx.fillStyle = 'white';
+ctx.beginPath();
+ctx.arc(x + -5, y + -40, radius, 0, 2 * Math.PI); 
+ctx.fill();
+
+    ctx.fillStyle = 'tan';
+    ctx.fillRect(x, y+30, 10, 30);
+    
+    ctx.fillStyle = 'tan';
+    ctx.fillRect(x+20, y+30, 10, 30);
+
+    ctx.fillStyle = 'tan';
+    ctx.fillRect(x+35, y, 10, 40,);
+
+    ctx.fillStyle = 'tan';
+    ctx.fillRect(x+-15, y, 10, 40,);
+}
+
+
+
+function animate() {  
+    // 1. Calculate camera position (center of screen minus player position)
+    // 300 and 200 are half of your canvas width/height
+    let cameraX = posX - 300 + 30; // +30 to center the 60px body
+    let cameraY = posY - 200 + 30;
+
+    // 2. Clear canvas and SAVE state
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform to clear properly
+    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+
+    // 3. APPLY camera movement
+    ctx.translate(-cameraX, -cameraY);
+
+    // 4. Update player position (your existing key logic)
+    if (keys['ArrowRight']) posX += 5;
+    if (keys['ArrowLeft'])  posX -= 5;
+    if (keys['ArrowUp'])    posY -= 5;
+    if (keys['ArrowDown'])  posY += 5;
+
+    // 5. Draw the world (Draw a floor so you can actually see the movement!)
+    ctx.fillStyle = "#e0e0e0";
+    for(let i = -1000; i < 2000; i += 100) {
+        ctx.fillRect(i, 300, 2, 1000); // Grid lines to see movement
+        ctx.fillRect(-1000, i, 3000, 2);
+    }
+
+       // DRAW THE WORLD OBJECTS
+    mapObjects.forEach(obj => {
+        ctx.fillStyle = obj.color;
+        ctx.fillRect(obj.x, obj.y, obj.w, obj.h);
+        
+        // Add a little label so you know where you are
+        ctx.fillStyle = "black";
+        ctx.fillText(`Cords: ${obj.x}, ${obj.y}`, obj.x, obj.y - 10);
+    });
+
+
+    // 6. Draw player
+    drawRect(posX, posY);
+
+    requestAnimationFrame(animate);
+}
+
+// Start the loop
+animate();
+window.addEventListener('keydown', (e) => { keys[e.key] = true; });
+window.addEventListener('keyup', (e) => { keys[e.key] = false; });
+        </script>
+    </body>
+</html>

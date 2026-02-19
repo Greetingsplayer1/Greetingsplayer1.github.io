@@ -17,13 +17,16 @@ const ctx = canvas.getContext("2d");
 
 // 1. Create a variable to track position
 let posX = 50; 
-let speed = 2; // How many pixels to move per frame
+let posY = 100;
+let speedX = 5;
+let speedY = 5;
 let radius = 5;
+let particles = [];
+let keys = {};
 
 
     // Clear the whole canvas before drawing the new position
 function drawRect(x, y) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); 
     
     ctx.fillStyle = 'tan';
     ctx.fillRect(x, y, 60, 60);
@@ -59,24 +62,25 @@ ctx.fill();
     ctx.fillRect(x+-30, y, 20, 50,);
 }
 
-function animate() {
 
-    // 2. Update the position variable
-    posX += speed;
 
-    // 3. Reset position if it goes off screen
-if (posX + 90 > canvas.width || posX < 0) {
-            speed *= -1; // Reverse the speed
-        }
+function animate() {  
+    ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
-    // 4. Draw at the NEW position
-    drawRect(posX, 150);
+    // Move only if the key is currently held down
+    if (keys['ArrowRight']) posX += 5;
+    if (keys['ArrowLeft'])  posX -= 5;
+    if (keys['ArrowUp'])    posY -= 5;
+    if (keys['ArrowDown'])  posY += 10; // Making down slightly faster
 
-requestAnimationFrame(animate)
+    drawRect(posX, posY);
+    requestAnimationFrame(animate);
 }
 
 // Start the loop
 animate();
+window.addEventListener('keydown', (e) => { keys[e.key] = true; });
+window.addEventListener('keyup', (e) => { keys[e.key] = false; });
         </script>
     </body>
 </html>

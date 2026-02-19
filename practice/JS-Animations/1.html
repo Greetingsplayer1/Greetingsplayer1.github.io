@@ -17,7 +17,8 @@ const ctx = canvas.getContext("2d");
 
 // 1. Create a variable to track position
 let posX = 50; 
-let speed = 2; // How many pixels to move per frame
+let speedX = 5;
+let speedY = 5;
 let radius = 5;
 
 
@@ -62,11 +63,13 @@ ctx.fill();
 function animate() {
 
     // 2. Update the position variable
-    posX += speed;
+    posX += speedX;
 
     // 3. Reset position if it goes off screen
 if (posX + 90 > canvas.width || posX < 0) {
-            speed *= -1; // Reverse the speed
+    speedX = (posX < 0 ? 1 : -1) * (Math.random() * 5 + 2); 
+
+        speedY = (Math.random() - 0.5) * 10; 
         }
 
     // 4. Draw at the NEW position
