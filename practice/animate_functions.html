@@ -2,36 +2,50 @@
 <html lang="en">
     <head>
         <title>Animate</title>
+        <style>
+            canvas { border: 1px solid black; }
+        </style>
     </head>
     <body>
-        <h2>Hello aniamtions</h2>
-        <canva id="myCanvas"></canvas>
+        <h2>Hello animations</h2>
+        <!-- Fixed typo: canva -> canvas -->
+        <canvas id="myCanvas" width="600" height="400"></canvas>
+
         <script>
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
+// 1. Create a variable to track position
+let posX = 50; 
+let speed = 2; // How many pixels to move per frame
 
-//define functions
-function drawRect(x,y) {
-    console.log("drawing rect");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Clear the whole canvas before drawing the new position
+function drawRect(x, y) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    
     ctx.fillStyle = 'blue';
-    ctx.fillRect(x,y,50,50);
-    ctx.fill();
+    ctx.fillRect(x, y, 50, 50);
 }
 
 function animate() {
-    drawRect(50,50);
 
-    // TODO: Add some code here 
-    //  that will change the rectangle's position
+    // 2. Update the position variable
+    posX += speed;
+
+    // 3. Reset position if it goes off screen
+    if (posX > canvas.width) {
+        posX = -50; 
+    }
+
+    // 4. Draw at the NEW position
+    drawRect(posX, 150);
 
     requestAnimationFrame(animate);
 }
 
-//call our function
+// Start the loop
 animate();
-
         </script>
     </body>
 </html>
