@@ -8,7 +8,7 @@
     </head>
     <body>
         <h2>Hello animations</h2>
-        <canvas id="myCanvas" width="1000" height="500"></canvas>
+        <canvas id="myCanvas" width="800" height="800"></canvas>
 
         <script>
             console.log("hi")
@@ -25,10 +25,13 @@ let particles = [];
 let keys = {};
 
 const mapObjects = [
-    { x: 800, y: 100, w: 100, h: 200, color: 'blue' },   // A tall blue building
-    { x: -500, y: 300, w: 200, h: 50, color: 'green' }, // A long green platform
-    { x: 1200, y: 800, w: 300, h: 300, color: 'red' }   // A giant red square
+    {x: -130, y: -240, w: 300, h: 300, color: 'purple'}, // Painted first (Background)
+    {x: -25, y: -90, w: 80, h: 150, color: 'saddlebrown'}, // Painted second (Foreground)
+    {x: 800, y: 100, w: 100, h: 200, color: 'blue' },
+    {x: -500, y: 300, w: 200, h: 50, color: 'green'},
+    {x: 1200, y: 800, w: 300, h: 300, color: 'red'}
 ];
+
 
 
     // Clear the whole canvas before drawing the new position
@@ -73,28 +76,48 @@ ctx.fill();
 function animate() {  
     // 1. Calculate camera position (center of screen minus player position)
     // 300 and 200 are half of your canvas width/height
-    let cameraX = posX - 300 + 30; // +30 to center the 60px body
-    let cameraY = posY - 200 + 30;
+   let cameraX = posX - (canvas.width / 2) + 15; 
+    let cameraY = posY - (canvas.height / 2) + 15;
 
-    // 2. Clear canvas and SAVE state
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform to clear properly
+    // 2. Reset and Clear...
+    ctx.setTransform(1, 0, 0, 1, 0, 0); 
     ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
-    // 3. APPLY camera movement
+    // 3. Apply Camera...
     ctx.translate(-cameraX, -cameraY);
 
     // 4. Update player position (your existing key logic)
-    if (keys['ArrowRight']) posX += 5;
-    if (keys['ArrowLeft'])  posX -= 5;
-    if (keys['ArrowUp'])    posY -= 5;
-    if (keys['ArrowDown'])  posY += 5;
+    if (keys['ArrowRight']) posX += 10;
+    if (keys['ArrowLeft'])  posX -= 10;
+    if (keys['ArrowUp'])    posY -= 10;
+    if (keys['ArrowDown'])  posY += 10;
 
-    // 5. Draw the world (Draw a floor so you can actually see the movement!)
-    ctx.fillStyle = "#e0e0e0";
-    for(let i = -1000; i < 2000; i += 100) {
-        ctx.fillRect(i, 300, 2, 1000); // Grid lines to see movement
-        ctx.fillRect(-1000, i, 3000, 2);
-    }
+// 5. Draw the world (Infinite Grid)
+ctx.strokeStyle = "#e0e0e0"; // Using stroke for thinner lines
+ctx.lineWidth = 1;
+
+let gridSize = 100;
+
+// Calculate where the grid should start drawing relative to the camera
+// Math.floor(cameraX / gridSize) * gridSize find the nearest grid intersection
+let startX = Math.floor(cameraX / gridSize) * gridSize;
+let startY = Math.floor(cameraY / gridSize) * gridSize;
+
+// Draw vertical lines across the width of the canvas + one extra buffer
+for (let x = startX; x < startX + canvas.width + gridSize; x += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, cameraY);
+    ctx.lineTo(x, cameraY + canvas.height);
+    ctx.stroke();
+}
+
+// Draw horizontal lines across the height of the canvas + one extra buffer
+for (let y = startY; y < startY + canvas.height + gridSize; y += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(cameraX, y);
+    ctx.lineTo(cameraX + canvas.width, y);
+    ctx.stroke();
+}
 
        // DRAW THE WORLD OBJECTS
     mapObjects.forEach(obj => {
