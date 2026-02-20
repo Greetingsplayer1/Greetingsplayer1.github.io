@@ -16,7 +16,7 @@
 
         // 1. Variables
         let posX = -10; 
-        let posY = 1300;
+        let posY = 1500;
         let keys = {};
         let stealthActive = false;
         let bladeActive = false;
@@ -27,17 +27,45 @@ let isGameOver = false; // Tracks if the player is dead
 const playerSize = 30;  // Used for collision math
 
         const mapObjects = [
-            {x: -1500, y: -1400, w: 3000, h: 2500, color: '#006994'}, 
-            {x: -1000, y: -1200, w: 2000, h: 2000, color: '#2d8a2d'}, 
-            {x: -200, y: -400, w: 400, h: 1600, color: '#a89968'},    
-            {x: -200, y: -300, w: 400, h: 200, color: '#5d4037'},     
-            {x: -200, y: -250, w: 400, h: 10, color: '#3e2723'},      
-            {x: -800, y: -900, w: 1600, h: 600, color: '#808080'},   
-            {x: -800, y: -1100, w: 250, h: 800, color: '#666'},      
-            {x: 550, y: -1100, w: 250, h: 800, color: '#666'},       
-            {x: -250, y: -950, w: 500, h: 650, color: '#555'},  
-            {x: -150, y: -600, w: 300, h: 300, color: '#3e2723', isGate: true},
+            // MOAT SECTIONS (Solid borders)
+    {x: -1500, y: -1400, w: 3000, h: 200, color: '#006994', isSolid: true},  // Top
+    {x: -1500, y: -1200, w: 500,  h: 2300, color: '#006994', isSolid: true}, // Left
+    {x: 1000,  y: -1200, w: 500,  h: 2300, color: '#006994', isSolid: true}, // Right
+    {x: -1500, y: 1100,  w: 1300, h: 200,  color: '#006994', isSolid: true}, // Bottom Left
+    {x: 200,   y: 1100,  w: 1300, h: 200,  color: '#006994', isSolid: true}, // Bottom Right (Gap in middle)
+
+    // THE PATH / ISLAND (Walkable
+    {x: -1000, y: -1200, w: 2000, h: 2300, color: '#2d8a2d', isSolid: false}, 
+    
+    // BUILDINGS (Solid)
+    {x: -200, y: -400, w: 400, h: 1600, color: '#a89968', isSolid: false},
+            {x: -1000, y: -1200, w: 2000, h: 2000, color: '#2d8a2d', isSolid: false}, 
+            {x: -200, y: -400, w: 400, h: 1600, color: '#a89968', isSolid: false},    
+            {x: -200, y: -300, w: 400, h: 200, color: '#5d4037', isSolid: false},     
+            {x: -200, y: -250, w: 400, h: 10, color: '#3e2723', isSolid: false},      
+            {x: -800, y: -900, w: 1600, h: 600, color: '#808080',isSolid: false},   
+            {x: -800, y: -1100, w: 250, h: 800, color: '#666',isSolid: false},      
+            {x: 550, y: -1100, w: 250, h: 800, color: '#666',isSolid: false},       
+            {x: -250, y: -950, w: 500, h: 650, color: '#555',isSolid: false},  
+            {x: -150, y: -600, w: 300, h: 300, color: '#3e2723', isGate: true,isSolid: false},
     ];
+
+    function isSpaceBlocked(newX, newY) {
+    for (let obj of mapObjects) {
+        // ONLY check collision if the object is marked as solid
+        if (obj.isSolid) { 
+            if (newX < obj.x + obj.w &&
+                newX + playerSize > obj.x &&
+                newY < obj.y + obj.h &&
+                newY + playerSize > obj.y) {
+                return true; // Collision detected with a solid object
+            }
+        }
+    }
+    return false; // Path is clear or object is walkable
+}
+
+
 
 
         //this is guards that patrol need normal players
@@ -45,7 +73,7 @@ const playerSize = 30;  // Used for collision math
     { 
         x: 300, y: 300, 
         homeX: 300, homeY: 300, 
-        patrolX: 300, patrolY: 760, // The "other end" of their walk
+        patrolX: 300, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
         isDead: false, respawnTimer: 0, scaredTimer: 0,
         angle: 0,
@@ -54,7 +82,7 @@ const playerSize = 30;  // Used for collision math
     { 
         x: -400, y: 300, 
         homeX: -400, homeY: 300, 
-        patrolX: -400, patrolY: 760, // The "other end" of their walk
+        patrolX: -400, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
         isDead: false, respawnTimer: 0, scaredTimer: 0,
         angle: 0,
@@ -123,10 +151,13 @@ if (!isGameOver) {
     let baseSpeed = stealthActive ? 4 : 10;
     let currentSpeed = baseSpeed * speedMultiplier;
 
-    if (keys['d']) posX += currentSpeed;
-    if (keys['a']) posX -= currentSpeed;
-    if (keys['w']) posY -= currentSpeed;
-    if (keys['s']) posY += currentSpeed;
+    // Check Horizontal movement
+    if (keys['d'] && !isSpaceBlocked(posX + currentSpeed, posY)) posX += currentSpeed;
+    if (keys['a'] && !isSpaceBlocked(posX - currentSpeed, posY)) posX -= currentSpeed;
+
+    // Check Vertical movement
+    if (keys['w'] && !isSpaceBlocked(posX, posY - currentSpeed)) posY -= currentSpeed;
+    if (keys['s'] && !isSpaceBlocked(posX, posY + currentSpeed)) posY += currentSpeed;
 }
 
     // Blade Animation
@@ -158,21 +189,30 @@ if (!isGameOver) {
         let angleToPlayer = Math.atan2(dy, dx);
         let angleDiff = Math.abs((enemy.angle || 0) - angleToPlayer);
         if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
-        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 3 && !stealthActive);
+        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 2 && !stealthActive && bladeActive);
+        let tooClose = (distance < 50 && !stealthActive && bladeActive);
 
-        if (canSeePlayer || distance < 50 && !stealthActive || (bladeActive && !stealthActive && distance < 400)) {
-            enemy.scaredTimer = 120;
-        }
+// 2. Trigger the Chase:
+// The guard only gets "scared" (aggressive) if one of those is true
+if (canSeePlayer || tooClose) {
+    enemy.scaredTimer = 120;
+}
 
         if ((enemy.scaredTimer || 0) > 0) {
-            enemy.scaredTimer--;
-            enemy.color = 'yellow';
-            let angleAway = Math.atan2(dy, dx);
-            enemy.x += Math.cos(angleAway) * 4;
-            enemy.y += Math.sin(angleAway) * 4;
-            enemy.angle = angleAway + Math.PI; 
-                enemy.angle = angleToPlayer; 
-        } else {
+    enemy.scaredTimer--;
+    enemy.color = 'yellow';
+    let angleToPlayer = Math.atan2(dy, dx);
+    
+    // Calculate intended next step
+    let nextX = enemy.x + Math.cos(angleToPlayer) * 4;
+    let nextY = enemy.y + Math.sin(angleToPlayer) * 4;
+
+    // Only move if the NEW space is not blocked
+    if (!isSpaceBlocked(nextX, enemy.y)) enemy.x = nextX;
+    if (!isSpaceBlocked(enemy.x, nextY)) enemy.y = nextY;
+
+    enemy.angle = angleToPlayer; 
+} else {
             enemy.color = 'tan';
             let destX = enemy.movingToPatrol ? enemy.patrolX : enemy.homeX;
             let destY = enemy.movingToPatrol ? enemy.patrolY : enemy.homeY;
@@ -182,8 +222,8 @@ if (!isGameOver) {
 
             if (distToDest > 5) {
                 let aMove = Math.atan2(hDy, hDx);
-                enemy.x += Math.cos(aMove) * 2;
-                enemy.y += Math.sin(aMove) * 2;
+                enemy.x += Math.cos(aMove) * 4;
+                enemy.y += Math.sin(aMove) * 4;
                 enemy.angle = aMove; 
             } else {
                 enemy.movingToPatrol = !enemy.movingToPatrol;
@@ -209,7 +249,7 @@ if (isColliding && !enemy.isDead) {
         ctx.fillStyle = "rgba(255, 255, 0, 0.15)";
         ctx.beginPath();
         ctx.moveTo(0,0);
-        ctx.arc(0, 0, 400, -Math.PI/3, Math.PI/3);
+        ctx.arc(0, 0, 400, -Math.PI/2, Math.PI/2);
         ctx.fill();
         ctx.restore();
 
