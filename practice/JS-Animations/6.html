@@ -76,7 +76,7 @@ const mapObjects = [
 ];
 
 let enemies = [
-    { x: 500, y: 500, homeX: 500, homeY: 500, size: 40, color: 'white', alert: false, scaredTimer: 0 }
+    { x: 300, y: 300, homeX: 300, homeY: 300, size: 40, color: 'white', isDead: false, respawnTimer: 0 }
 ];
 
 
@@ -168,60 +168,57 @@ if (keys['s']) posY += currentSpeed;
     });
 
 enemies.forEach(enemy => {
+    // 1. THE INVISIBLE TIMER (What you selected)
+    if (enemy.isDead) {
+        enemy.respawnTimer--;
+        if (enemy.respawnTimer <= 0) {
+            enemy.isDead = false;
+            enemy.x = enemy.homeX; 
+            enemy.y = enemy.homeY;
+            enemy.scaredTimer = 0;
+        }
+        return; // Stop here so we don't draw dead people
+    }
+
+    // 2. THE SENSES (Calculating distance)
     let dx = posX - enemy.x;
     let dy = posY - enemy.y;
     let distance = Math.sqrt(dx * dx + dy * dy);
 
-    // Default: Everything is peaceful
-    let isThreatened = false;
+    // 3. THE REACTION (Fear logic)
+    let isThreatened = (bladeActive && !stealthActive && distance < 400) || 
+                      (stealthActive && distance < 80) || 
+                      (distance < 30);
 
-    // --- ONLY THESE 3 THINGS STARTLE THEM ---
-    
-    // 1. Blade out while visible
-    if (bladeActive && !stealthActive && distance < 400) {
-        isThreatened = true;
-    }
-
-    // 2. Sneaking too close (Looking suspicious)
-    if (stealthActive && distance < 80) {
-        isThreatened = true;
-    }
-
-    // 3. Physical Collision
-    if (distance < 30) {
-        isThreatened = true;
-    }
-
-    // --- STATE UPDATE ---
     if (isThreatened) {
-        enemy.scaredTimer = 120; // 2 seconds of running
+        enemy.scaredTimer = 120;
         enemy.alert = true;
     }
 
-    // --- THE ACTION ---
+    // 4. THE MOVEMENT (Running away vs Going home)
     if (enemy.scaredTimer > 0) {
         enemy.scaredTimer--;
         enemy.color = 'yellow';
         let angle = Math.atan2(dy, dx);
-        enemy.x -= Math.cos(angle) * 6; // FLEE
+        enemy.x -= Math.cos(angle) * 6;
         enemy.y -= Math.sin(angle) * 6;
     } else {
-        // RESET: No longer scared, turn white and GO HOME
         enemy.alert = false;
         enemy.color = 'white';
-
         let hDx = enemy.homeX - enemy.x;
         let hDy = enemy.homeY - enemy.y;
-        if (Math.sqrt(hDx**2 + hDy**2) > 2) {
+        if (Math.sqrt(hDx**2 + hDy**2) > 5) {
             let aHome = Math.atan2(hDy, hDx);
             enemy.x += Math.cos(aHome) * 3;
             enemy.y += Math.sin(aHome) * 3;
         }
     }
-    
+
+    // 5. THE DRAWING (Making them appear on screen)
     ctx.fillStyle = enemy.color;
     ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
 });
+
 
 
 
@@ -235,30 +232,22 @@ window.addEventListener('keydown', (e) => {
     keys[key] = true;
 
     // --- LONG RANGE TAKEDOWN ---
-    if (key === ' ') { // Spacebar
-        if (bladeActive) {
-            // Find if any enemy is within range
-            let targetFound = false;
+  if (key === ' ') {
+    if (bladeActive) {
+        enemies.forEach(enemy => {
+            let dx = posX - enemy.x;
+            let dy = posY - enemy.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
 
-            enemies = enemies.filter(enemy => {
-                let dx = posX - enemy.x;
-                let dy = posY - enemy.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-
-                // INCREASED DISTANCE: 200 pixels
-                if (distance < 100) {
-                    targetFound = true;
-                    return false; // This "deletes" the enemy
-                }
-                return true; // This "keeps" the enemy
-            });
-
-            // OPTIONAL: Teleport player to the target for a "dash" feel
-            if (targetFound) {
-                console.log("Takedown successful!");
+            // If close enough and not already dead
+            if (distance < 200 && !enemy.isDead) {
+                enemy.isDead = true;
+                enemy.respawnTimer = 300; // 5 seconds (60 frames * 5)
             }
-        }
+        });
     }
+}
+
     if (key === 'f') speedMultiplier = 2;
     if (key === 'q') bladeActive = !bladeActive;
     if (key === 'e') stealthActive = !stealthActive;
