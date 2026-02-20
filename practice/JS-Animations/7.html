@@ -7,7 +7,7 @@
     </style>
 </head>
 <body>
-    <h2>Stealth Game - Press 'E' for Stealth, 'Space' to Attack, 'Shift' to Sprint</h2>
+    <h2>Stealth Game - Press 'E' for Stealth, 'Space' to Attack, 'Shift' to Sprint, 'f' to engadge swrod, 'Shift f' to sheathe it.</h2>
     <canvas id="myCanvas" width="1000" height="800"></canvas>
 
     <script>
@@ -26,8 +26,18 @@
 let isGameOver = false; // Tracks if the player is dead
 const playerSize = 30;  // Used for collision math
 let swordEquipped = false; // Is the sword drawn?
-let isAttacking = false;   // Is the player currently swinging?
-let attackTimer = 0;       // How long the swing lasts
+let isSwinging = false;    // Is the player currently attacking?
+let swingTimer = 0;        // Animation duration
+let isAttacking = false; // Add this to stop the error!
+let bladeCooldown = 0; //makes hidden blade have a cooldown
+let swordCooldown = 0; // 0 means ready to swing
+const SWORD_COOLDOWN_TIME = 60; // 60 frames = 1 second at 60FPS
+let playerHP = 100;
+const playerMaxHP = 100;
+let damageCooldown = 0; // Prevents losing all health in one frame
+
+
+
 
         const mapObjects = [
             // MOAT SECTIONS (Solid borders)
@@ -71,6 +81,7 @@ let attackTimer = 0;       // How long the swing lasts
         let enemies = [
     { 
         x: 300, y: 300, 
+           hp: 100, maxHp: 100, // <--- New Health Variables
         homeX: 300, homeY: 300, 
         patrolX: 300, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
@@ -80,6 +91,7 @@ let attackTimer = 0;       // How long the swing lasts
     },
     { 
         x: -400, y: 300, 
+           hp: 100, maxHp: 100, // <--- New Health Variables
         homeX: -400, homeY: 300, 
         patrolX: -400, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
@@ -91,7 +103,13 @@ let attackTimer = 0;       // How long the swing lasts
 
         function drawRect(x, y) {
             ctx.save();
-            if (stealthActive) ctx.globalAlpha = 0.5;
+
+
+           if (stealthActive) {
+        ctx.globalAlpha = 0.5; 
+    } else {
+        ctx.globalAlpha = 1.0;
+    }
 
             // Cloak
             ctx.fillStyle = '#1a1a1a'; 
@@ -125,6 +143,8 @@ let attackTimer = 0;       // How long the swing lasts
             ctx.fillRect(x + 6, y - 12, 7, 2); 
             ctx.fillRect(x + 17, y - 12, 7, 2);
 
+            
+
             // Blade
             if (bladeHeight > 0) {
                 ctx.fillStyle = 'silver';
@@ -141,8 +161,25 @@ let attackTimer = 0;       // How long the swing lasts
                 }
             }
             //sword
-            ctx.restore();
-        }
+            if (swordEquipped) {
+        ctx.save();
+        ctx.translate(x + 15, y + 40); // Centered on player
+        
+        if (isSwinging) ctx.rotate(Math.PI / 2); 
+        else ctx.rotate(-Math.PI / 4); 
+
+        ctx.fillStyle = "silver";
+        ctx.fillRect(0, -5, 60, 10); 
+        ctx.fillStyle = "gold";
+        ctx.fillRect(5, -15, 5, 30);
+        ctx.fillStyle = "brown";
+        ctx.fillRect(-10, -3, 15, 6);
+
+      ctx.restore();
+    }
+      ctx.restore();
+} ;
+            
 
         function animate() {  
     let cameraX = posX - (canvas.width / 2) + 15; 
@@ -182,7 +219,7 @@ if (!isGameOver) {
 
 
     // --- ENEMY LOGIC ---
-    enemies.forEach(enemy => {
+                     enemies.forEach(enemy => {
         if (enemy.isDead) {
             enemy.respawnTimer--;
             if (enemy.respawnTimer <= 0) {
@@ -198,9 +235,9 @@ if (!isGameOver) {
         let distance = Math.sqrt(dx * dx + dy * dy);
         let angleToPlayer = Math.atan2(dy, dx);
         let angleDiff = Math.abs((enemy.angle || 0) - angleToPlayer);
-        if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
-        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 2 && !stealthActive && bladeActive);
-        let tooClose = (distance < 40 && !stealthActive && bladeActive);
+        if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;  
+        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 2 && !stealthActive && (bladeActive || swordEquipped));
+        let tooClose = (distance < 40 && !stealthActive && (bladeActive || swordEquipped));
 
 // 2. Trigger the Chase:
 // The guard only gets "scared" (aggressive) if one of those is true
@@ -214,8 +251,8 @@ if (canSeePlayer || tooClose) {
     let angleToPlayer = Math.atan2(dy, dx);
     
     // Calculate intended next step
-    let nextX = enemy.x + Math.cos(angleToPlayer) * 4;
-    let nextY = enemy.y + Math.sin(angleToPlayer) * 4;
+    let nextX = enemy.x + Math.cos(angleToPlayer) * 7;
+    let nextY = enemy.y + Math.sin(angleToPlayer) * 7;
 
     // Only move if the NEW space is not blocked
     if (!isSpaceBlocked(nextX, enemy.y)) enemy.x = nextX;
@@ -247,8 +284,15 @@ let isColliding =
     enemy.y + enemy.size > posY;
 
 // If touching and enemy isn't already dead, trigger Game Over
-if (isColliding && !enemy.isDead) {
-    isGameOver = true;
+// --- Inside enemies.forEach ---
+if (isColliding && !enemy.isDead && damageCooldown === 0) {
+    playerHP -= 10;      // Lose 10 health per hit
+    damageCooldown = 30; // Wait 0.5 seconds before taking damage again
+    
+    if (playerHP <= 0) {
+        playerHP = 0;
+        isGameOver = true;
+    }
 }
 
 
@@ -271,35 +315,76 @@ if (isColliding && !enemy.isDead) {
         ctx.fillRect(enemy.x, enemy.y + 45, 10, 25);
         ctx.fillRect(enemy.x + 30, enemy.y + 45, 10, 25);
         ctx.fillRect(enemy.x - 0, enemy.y - 40, 40, 35);
+
+        if (!enemy.isDead) {
+    let barWidth = 50;
+    let barHeight = 6;
+    let barX = enemy.x + (enemy.size / 2) - (barWidth / 2);
+    let barY = enemy.y - 55; // 15 pixels above their head
+
+    // 1. Background (Red - Missing Health)
+    ctx.fillStyle = "red";
+    ctx.fillRect(barX, barY, barWidth, barHeight);
+
+    // 2. Foreground (Green - Current Health)
+    let currentHealthWidth = (enemy.hp / enemy.maxHp) * barWidth;
+    ctx.fillStyle = "lime";
+    ctx.fillRect(barX, barY, currentHealthWidth, barHeight);
+}
         
     });
 
     // --- DRAW PLAYER ---
     drawRect(posX, posY);
 
+// --- 1. RESET TRANSFORM FOR UI ---
+// This moves the "pen" back to the top-left of your screen, ignoring the camera
+ctx.setTransform(1, 0, 0, 1, 0, 0); 
+
+// --- 2. DRAW PLAYER HEALTH BAR ---
+ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; // Background
+ctx.fillRect(20, 20, 200, 25);
+
+ctx.fillStyle = playerHP > 30 ? "lime" : "red"; // Turns red when low!
+let healthWidth = (playerHP / 100) * 200;
+ctx.fillRect(20, 20, healthWidth, 25);
+
+ctx.strokeStyle = "white";
+ctx.strokeRect(20, 20, 200, 25);
+
+// --- 3. DRAW DEATH SCREEN ---
 if (isGameOver) {
-    // Reset camera to draw on top of the screen
-    ctx.setTransform(1, 0, 0, 1, 0, 0); 
-    
-    // Dark overlay
     ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Death Text
     ctx.fillStyle = "red";
-    ctx.font = "bold 50px sans-serif";
+    ctx.font = "bold 60px sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("ELIMINATED", canvas.width / 2, canvas.height / 2);
     
     ctx.fillStyle = "white";
     ctx.font = "20px sans-serif";
-    ctx.fillText("Press 'R' to Restart", canvas.width / 2, canvas.height / 2 + 50);
-
-        ctx.fillStyle = "white";
-    ctx.font = "20px sans-serif";
-    ctx.fillText("Remeber to use Stealth", canvas.width / 2, canvas.height / 2 + 100);
-
+    ctx.fillText("Press 'R' to Restart", canvas.width / 2, canvas.height / 2 + 60);
 }
+
+
+if (isSwinging) {
+    swingTimer--;
+    if (swingTimer <= 0) isSwinging = false;
+}
+
+if (bladeCooldown > 0) {
+bladeCooldown--;
+}
+
+if (swordCooldown > 0) {
+    swordCooldown--;
+}
+
+if (damageCooldown > 0) damageCooldown--;
+
+
+
         requestAnimationFrame(animate)
 
         }   
@@ -312,28 +397,77 @@ if (isGameOver) {
             keys[key] = true;
             if (key === 'e') stealthActive = !stealthActive;
             if (key === 'shift') speedMultiplier = sprintSpeed;
-            if (key === ' ') {
-                bladeActive = true;
-                enemies.forEach(enemy => {
-                    let d = Math.sqrt((posX-enemy.x)**2 + (posY-enemy.y)**2);
-                    if (d < 100) enemy.isDead = true; enemy.respawnTimer = 300;
-                });
-            }
-           if (e.key.toLowerCase() === 'r' && isGameOver) {
-    // Reset Player
+            if (key === ' ' && bladeCooldown === 0) { // Only attack if cooldown is 0
+    bladeActive = true;
+    bladeCooldown = 300; // Set cooldown (1 second at 60fps)
+
+     enemies.forEach(enemy => {
+                let d = Math.sqrt((posX - enemy.x)**2 + (posY - enemy.y)**2);
+                // Inside your 'keydown' listener for 'f' or Space
+                //sets space you can atack form
+if (d < 130 && !enemy.isDead) { 
+    enemy.hp -= 100; // Take 3 hits to kill
+    if (enemy.hp <= 0) {
+        enemy.isDead = true; 
+        enemy.respawnTimer = 400; 
+        enemy.hp = enemy.maxHp; // Reset health for when they respawn
+    }
+}
+
+            });
+}
+           if (key === 'r' && isGameOver) {
+    // 1. Reset Player Stats
     posX = -10; 
     posY = 1300;
+    playerHP = 100; // Reset health to full
     isGameOver = false;
 
-    // Reset All Enemies
+    // 2. Reset All Enemies
     enemies.forEach(enemy => {
-        enemy.x = enemy.homeX; // Move back to start X
-        enemy.y = enemy.homeY; // Move back to start Y
-        enemy.scaredTimer = 0; // Stop chasing
-        enemy.isDead = false;  // Bring back to life if they were dead
-        enemy.color = 'white'; // Reset color
+        enemy.x = enemy.homeX;
+        enemy.y = enemy.homeY;
+        enemy.hp = 100; // Reset enemy health too
+        enemy.scaredTimer = 0;
+        enemy.isDead = false;
+        enemy.color = 'white';
     });
 }
+
+if (key === 'f') {
+        if (keys['shift']) {
+            swordEquipped = false; // Hold Shift + F to sheathe
+            isSwinging = false;
+        } else if (!swordEquipped) {
+            swordEquipped = true;  // Press F to draw sword
+        } else {
+            isSwinging = true;     // Press F while drawn to swing
+            swingTimer = 15;
+            
+            if (key === 'f') {
+    if (!swordEquipped) {
+        swordEquipped = true; 
+    } else if (swordCooldown === 0) { // <--- ONLY swing if cooldown is 0
+        isSwinging = true;
+        swingTimer = 15;
+        swordCooldown = SWORD_COOLDOWN_TIME; // <--- Start the 1-second timer
+
+        enemies.forEach(enemy => {
+            let d = Math.sqrt((posX - enemy.x)**2 + (posY - enemy.y)**2);
+            //sets the distance and enemy can ataack form
+            if (d < 330 && !enemy.isDead) { 
+                enemy.hp -= 34; // Using the health bars we talked about!
+                if (enemy.hp <= 0) {
+                    enemy.isDead = true;
+                    enemy.respawnTimer = 400;
+                    enemy.hp = 100; 
+                }
+            }
+        });
+    }
+}
+        }
+    }
 
         });
 
