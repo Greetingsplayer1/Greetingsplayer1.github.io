@@ -35,9 +35,9 @@ const playerSize = 30;  // Used for collision math
             {x: -800, y: -900, w: 1600, h: 600, color: '#808080'},   
             {x: -800, y: -1100, w: 250, h: 800, color: '#666'},      
             {x: 550, y: -1100, w: 250, h: 800, color: '#666'},       
-            {x: -250, y: -950, w: 500, h: 650, color: '#555'},       
-            {x: -150, y: -600, w: 300, h: 300, color: '#3e2723', isGate: true}
-        ];
+            {x: -250, y: -950, w: 500, h: 650, color: '#555'},  
+            {x: -150, y: -600, w: 300, h: 300, color: '#3e2723', isGate: true},
+    ];
 
 
         //this is guards that patrol need normal players
@@ -46,6 +46,15 @@ const playerSize = 30;  // Used for collision math
         x: 300, y: 300, 
         homeX: 300, homeY: 300, 
         patrolX: 300, patrolY: 760, // The "other end" of their walk
+        size: 40, color: 'white', 
+        isDead: false, respawnTimer: 0, scaredTimer: 0,
+        angle: 0,
+        movingToPatrol: true // To track which way they are walking
+    },
+    { 
+        x: -400, y: 300, 
+        homeX: -400, homeY: 300, 
+        patrolX: -400, patrolY: 760, // The "other end" of their walk
         size: 40, color: 'white', 
         isDead: false, respawnTimer: 0, scaredTimer: 0,
         angle: 0,
@@ -149,12 +158,11 @@ if (!isGameOver) {
         let angleToPlayer = Math.atan2(dy, dx);
         let angleDiff = Math.abs((enemy.angle || 0) - angleToPlayer);
         if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
-        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 4 && !stealthActive);
+        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 3 && !stealthActive);
 
-// Update this condition: Ensure distance detection only works if NOT in stealth
-if ((canSeePlayer || (distance < 50 && !stealthActive)) || (bladeActive && !stealthActive && distance < 400)) {
-    enemy.scaredTimer = 120;
-}
+        if (canSeePlayer || distance < 50 && !stealthActive || (bladeActive && !stealthActive && distance < 400)) {
+            enemy.scaredTimer = 120;
+        }
 
         if ((enemy.scaredTimer || 0) > 0) {
             enemy.scaredTimer--;
@@ -165,7 +173,7 @@ if ((canSeePlayer || (distance < 50 && !stealthActive)) || (bladeActive && !stea
             enemy.angle = angleAway + Math.PI; 
                 enemy.angle = angleToPlayer; 
         } else {
-            enemy.color = 'white';
+            enemy.color = 'tan';
             let destX = enemy.movingToPatrol ? enemy.patrolX : enemy.homeX;
             let destY = enemy.movingToPatrol ? enemy.patrolY : enemy.homeY;
             let hDx = destX - enemy.x;
@@ -201,16 +209,18 @@ if (isColliding && !enemy.isDead) {
         ctx.fillStyle = "rgba(255, 255, 0, 0.15)";
         ctx.beginPath();
         ctx.moveTo(0,0);
-        ctx.arc(0, 0, 400, -Math.PI/4, Math.PI/4);
+        ctx.arc(0, 0, 400, -Math.PI/3, Math.PI/3);
         ctx.fill();
         ctx.restore();
 
         // Draw Enemy
         ctx.fillStyle = enemy.color;
         ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
-        ctx.fillStyle = "black";
-        ctx.fillRect(enemy.x + 5, enemy.y + 5, 10, 10);
-        ctx.fillRect(enemy.x + enemy.size - 15, enemy.y + 5, 10, 10);
+        ctx.fillRect(enemy.x + -12, enemy.y + 5, 10, 25);
+        ctx.fillRect(enemy.x + 42, enemy.y + 5, 10, 25);
+        ctx.fillRect(enemy.x, enemy.y + 45, 10, 25);
+        ctx.fillRect(enemy.x + 30, enemy.y + 45, 10, 25);
+        ctx.fillRect(enemy.x - 0, enemy.y - 40, 40, 35);
         
     });
 
@@ -234,13 +244,17 @@ if (isGameOver) {
     ctx.fillStyle = "white";
     ctx.font = "20px sans-serif";
     ctx.fillText("Press 'R' to Restart", canvas.width / 2, canvas.height / 2 + 50);
-}
 
-    requestAnimationFrame(animate);
-}
-       
+        ctx.fillStyle = "white";
+    ctx.font = "20px sans-serif";
+    ctx.fillText("Remeber to use Stealth", canvas.width / 2, canvas.height / 2 + 100);
 
-        animate();
+}
+        requestAnimationFrame(animate)
+
+        }   
+
+   animate();
 
         // Keyboard Controls
         window.addEventListener('keydown', (e) => {
