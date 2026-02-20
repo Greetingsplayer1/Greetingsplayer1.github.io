@@ -39,11 +39,15 @@
 
         let enemies = [
     { 
-        x: 300, y: 300, homeX: 300, homeY: 300, size: 40, color: 'white', 
+        x: 300, y: 300, 
+        homeX: 300, homeY: 300, 
+        patrolX: 300, patrolY: 760, // The "other end" of their walk
+        size: 40, color: 'white', 
         isDead: false, respawnTimer: 0, scaredTimer: 0,
-        angle: 0 // 0 is facing Right, Math.PI is facing Left
+        angle: 0,
+        movingToPatrol: true // To track which way they are walking
     }
-];;
+];
 
         function drawRect(x, y) {
             ctx.save();
@@ -90,135 +94,124 @@
         }
 
         function animate() {  
-            let cameraX = posX - (canvas.width / 2) + 15; 
-            let cameraY = posY - (canvas.height / 2) + 15;
+    let cameraX = posX - (canvas.width / 2) + 15; 
+    let cameraY = posY - (canvas.height / 2) + 15;
 
-            ctx.setTransform(1, 0, 0, 1, 0, 0); 
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    ctx.setTransform(1, 0, 0, 1, 0, 0); 
+    ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
-            ctx.fillStyle = "#2d8a2d"; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height); 
-            
-            ctx.translate(-cameraX, -cameraY);
-
-            // Movement
-            let baseSpeed = stealthActive ? 4 : 10;
-            let currentSpeed = baseSpeed * speedMultiplier;
-
-            if (keys['d']) posX += currentSpeed;
-            if (keys['a']) posX -= currentSpeed;
-            if (keys['w']) posY -= currentSpeed;
-            if (keys['s']) posY += currentSpeed;
-
-            // Blade Animation
-            if (bladeActive && bladeHeight < 25) bladeHeight += 5;
-            if (!bladeActive && bladeHeight > 0) bladeHeight -= 5;
-
-            // Draw World
-            mapObjects.forEach(obj => {
-                ctx.fillStyle = obj.color;
-                ctx.fillRect(obj.x, obj.y, obj.w, obj.h);
-            });
-
-            // Enemy Logic
-           // --- FIXED ENEMY LOOP ---
-enemies.forEach(enemy => {
-    // 1. RESPOND TO DEATH
-    if (enemy.isDead) {
-        enemy.respawnTimer--;
-        if (enemy.respawnTimer <= 0) {
-            enemy.isDead = false;
-            enemy.x = enemy.homeX; 
-            enemy.y = enemy.homeY;
-        }
-        return; 
-    }
-
-    // 2. CALCULATE DISTANCE (MUST BE FIRST)
-    let dx = posX - enemy.x;
-    let dy = posY - enemy.y;
-    let distance = Math.sqrt(dx * dx + dy * dy);
-
-    // 3. VISION CONE MATH
-    let angleToPlayer = Math.atan2(dy, dx);
-    let angleDiff = Math.abs((enemy.angle || 0) - angleToPlayer);
-    if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
-
-    let fov = Math.PI / 4; 
-    let canSeePlayer = (distance < 400 && angleDiff < fov);
-
-    // 4. TRIGGER PANIC (Combines vision and blade/proximity)
-    let isThreatened = (bladeActive && !stealthActive && distance < 400) || 
-                       (distance < 50) || 
-                       (canSeePlayer);
-
-    if (isThreatened) {
-        enemy.scaredTimer = 120; 
-    }
-
-    // 5. ROTATION & MOVEMENT LOGIC
-    if (enemy.scaredTimer > 0) {
-        enemy.scaredTimer--;
-        enemy.color = 'yellow';
-        
-        let angle = Math.atan2(dy, dx);
-        enemy.x -= Math.cos(angle) * 7; 
-        enemy.y -= Math.sin(angle) * 7;
-        enemy.angle = angle + Math.PI; // Face away while running
-    } else {
-        enemy.color = 'white';
-        enemy.angle = (enemy.angle || 0) + 0.01; // Slowly spin radar
-
-        let hDx = (enemy.homeX || 0) - enemy.x;
-        let hDy = (enemy.homeY || 0) - enemy.y;
-        let distToHome = Math.sqrt(hDx * hDx + hDy * hDy);
-        
-        if (distToHome > 5) {
-            let aHome = Math.atan2(hDy, hDx);
-            enemy.x += Math.cos(aHome) * 3;
-            enemy.y += Math.sin(aHome) * 3;
-        }
-    }
-
-    // 6. DRAWING THE VISION CONE
-    ctx.save();
-    ctx.translate(enemy.x + enemy.size/2, enemy.y + enemy.size/2);
-    ctx.rotate(enemy.angle);
-    ctx.fillStyle = "rgba(255, 255, 0, 0.15)"; 
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.arc(0, 0, 400, -fov, fov); 
-    ctx.fill();
-    ctx.restore();
-
-    // 7. DRAWING THE ENEMY
-    ctx.fillStyle = enemy.color;
-    ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+    ctx.fillStyle = "#2d8a2d"; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height); 
     
-    ctx.fillStyle = "black";
-    ctx.fillRect(enemy.x + 5, enemy.y + 5, 10, 10); 
-    ctx.fillRect(enemy.x + enemy.size - 15, enemy.y + 5, 10, 10);
-});
-        drawRect(posX, posY);
+    ctx.translate(-cameraX, -cameraY);
 
-            // --- HUD (FIXED BRACKETS) ---
-            ctx.setTransform(1, 0, 0, 1, 0, 0); 
-            if (stealthActive) {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-                ctx.fillRect(20, 20, 240, 90);
-                ctx.strokeStyle = bladeActive ? "cyan" : "red"; 
-                ctx.lineWidth = 3;
-                ctx.strokeRect(20, 20, 240, 90);
+    // Movement
+    let baseSpeed = stealthActive ? 4 : 10;
+    let currentSpeed = baseSpeed * speedMultiplier;
 
-                ctx.fillStyle = "white";
-                ctx.font = "bold 14px monospace";
-                ctx.fillText("» STEALTH ACTIVE", 40, 45);
-                ctx.fillText("» BLADE: " + (bladeActive ? "READY" : "HIDDEN"), 40, 70);
+    if (keys['d']) posX += currentSpeed;
+    if (keys['a']) posX -= currentSpeed;
+    if (keys['w']) posY -= currentSpeed;
+    if (keys['s']) posY += currentSpeed;
+
+    // Blade Animation
+    if (bladeActive && bladeHeight < 25) bladeHeight += 5;
+    if (!bladeActive && bladeHeight > 0) bladeHeight -= 5;
+
+    // Draw World
+    mapObjects.forEach(obj => {
+        ctx.fillStyle = obj.color;
+        ctx.fillRect(obj.x, obj.y, obj.w, obj.h);
+    });
+
+    // --- ENEMY LOGIC ---
+    enemies.forEach(enemy => {
+        if (enemy.isDead) {
+            enemy.respawnTimer--;
+            if (enemy.respawnTimer <= 0) {
+                enemy.isDead = false;
+                enemy.x = enemy.homeX; 
+                enemy.y = enemy.homeY;
             }
+            return; 
+        }
 
-            requestAnimationFrame(animate);
-        };
-        
+        let dx = posX - enemy.x;
+        let dy = posY - enemy.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let angleToPlayer = Math.atan2(dy, dx);
+        let angleDiff = Math.abs((enemy.angle || 0) - angleToPlayer);
+        if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
+        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 4);
+
+        if (canSeePlayer || distance < 50 || (bladeActive && !stealthActive && distance < 400)) {
+            enemy.scaredTimer = 120;
+        }
+
+        if ((enemy.scaredTimer || 0) > 0) {
+            enemy.scaredTimer--;
+            enemy.color = 'yellow';
+            let angleAway = Math.atan2(dy, dx);
+            enemy.x -= Math.cos(angleAway) * 4;
+            enemy.y -= Math.sin(angleAway) * 4;
+            enemy.angle = angleAway + Math.PI; 
+        } else {
+            enemy.color = 'white';
+            let destX = enemy.movingToPatrol ? enemy.patrolX : enemy.homeX;
+            let destY = enemy.movingToPatrol ? enemy.patrolY : enemy.homeY;
+            let hDx = destX - enemy.x;
+            let hDy = destY - enemy.y;
+            let distToDest = Math.sqrt(hDx * hDx + hDy * hDy);
+
+            if (distToDest > 5) {
+                let aMove = Math.atan2(hDy, hDx);
+                enemy.x += Math.cos(aMove) * 2;
+                enemy.y += Math.sin(aMove) * 2;
+                enemy.angle = aMove; 
+            } else {
+                enemy.movingToPatrol = !enemy.movingToPatrol;
+            }
+        }
+
+        // Draw Vision Cone
+        ctx.save();
+        ctx.translate(enemy.x + 20, enemy.y + 20);
+        ctx.rotate(enemy.angle || 0);
+        ctx.fillStyle = "rgba(255, 255, 0, 0.15)";
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.arc(0, 0, 400, -Math.PI/4, Math.PI/4);
+        ctx.fill();
+        ctx.restore();
+
+        // Draw Enemy
+        ctx.fillStyle = enemy.color;
+        ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+        ctx.fillStyle = "black";
+        ctx.fillRect(enemy.x + 5, enemy.y + 5, 10, 10);
+        ctx.fillRect(enemy.x + enemy.size - 15, enemy.y + 5, 10, 10);
+    });
+
+    // --- DRAW PLAYER ---
+    drawRect(posX, posY);
+
+    // --- DRAW HUD ---
+    ctx.setTransform(1, 0, 0, 1, 0, 0); 
+    if (stealthActive) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+        ctx.fillRect(20, 20, 240, 90);
+        ctx.strokeStyle = bladeActive ? "cyan" : "red"; 
+        ctx.lineWidth = 3;
+        ctx.strokeRect(20, 20, 240, 90);
+        ctx.fillStyle = "white";
+        ctx.font = "bold 14px monospace";
+        ctx.fillText("» STEALTH ACTIVE", 40, 45);
+        ctx.fillText("» BLADE: " + (bladeActive ? "READY" : "HIDDEN"), 40, 70);
+    }
+
+    requestAnimationFrame(animate);
+}
+       
 
         animate();
 
