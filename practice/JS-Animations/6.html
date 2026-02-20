@@ -149,11 +149,12 @@ if (!isGameOver) {
         let angleToPlayer = Math.atan2(dy, dx);
         let angleDiff = Math.abs((enemy.angle || 0) - angleToPlayer);
         if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
-        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 4);
+        let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 4 && !stealthActive);
 
-        if (canSeePlayer || distance < 50 || (bladeActive && !stealthActive && distance < 400)) {
-            enemy.scaredTimer = 120;
-        }
+// Update this condition: Ensure distance detection only works if NOT in stealth
+if ((canSeePlayer || (distance < 50 && !stealthActive)) || (bladeActive && !stealthActive && distance < 400)) {
+    enemy.scaredTimer = 120;
+}
 
         if ((enemy.scaredTimer || 0) > 0) {
             enemy.scaredTimer--;
