@@ -25,6 +25,9 @@
         const sprintSpeed = 2; 
 let isGameOver = false; // Tracks if the player is dead
 const playerSize = 30;  // Used for collision math
+let swordEquipped = false; // Is the sword drawn?
+let isAttacking = false;   // Is the player currently swinging?
+let attackTimer = 0;       // How long the swing lasts
 
         const mapObjects = [
             // MOAT SECTIONS (Solid borders)
@@ -33,21 +36,17 @@ const playerSize = 30;  // Used for collision math
     {x: 1000,  y: -1200, w: 500,  h: 2300, color: '#006994', isSolid: true}, // Right
     {x: -1500, y: 1100,  w: 1300, h: 200,  color: '#006994', isSolid: true}, // Bottom Left
     {x: 200,   y: 1100,  w: 1300, h: 200,  color: '#006994', isSolid: true}, // Bottom Right (Gap in middle)
-
-    // THE PATH / ISLAND (Walkable
-    {x: -1000, y: -1200, w: 2000, h: 2300, color: '#2d8a2d', isSolid: false}, 
-    
     // BUILDINGS (Solid)
     {x: -200, y: -400, w: 400, h: 1600, color: '#a89968', isSolid: false},
             {x: -1000, y: -1200, w: 2000, h: 2000, color: '#2d8a2d', isSolid: false}, 
             {x: -200, y: -400, w: 400, h: 1600, color: '#a89968', isSolid: false},    
             {x: -200, y: -300, w: 400, h: 200, color: '#5d4037', isSolid: false},     
             {x: -200, y: -250, w: 400, h: 10, color: '#3e2723', isSolid: false},      
-            {x: -800, y: -900, w: 1600, h: 600, color: '#808080',isSolid: false},   
-            {x: -800, y: -1100, w: 250, h: 800, color: '#666',isSolid: false},      
-            {x: 550, y: -1100, w: 250, h: 800, color: '#666',isSolid: false},       
+            {x: -800, y: -900, w: 1600, h: 600, color: '#808080',isSolid: true},   
+            {x: -800, y: -1100, w: 250, h: 800, color: '#666',isSolid: true},      
+            {x: 550, y: -1100, w: 250, h: 800, color: '#666',isSolid: true},       
             {x: -250, y: -950, w: 500, h: 650, color: '#555',isSolid: false},  
-            {x: -150, y: -600, w: 300, h: 300, color: '#3e2723', isGate: true,isSolid: false},
+            {x: -150, y: -600, w: 300, h: 300, color: '#3e2723', isGate: true,isSolid: true},
     ];
 
     function isSpaceBlocked(newX, newY) {
@@ -131,6 +130,17 @@ const playerSize = 30;  // Used for collision math
                 ctx.fillStyle = 'silver';
                 ctx.fillRect(x - 14, y + 65, 4, bladeHeight); 
             }
+            
+            if (swordEquipped) {
+                ctx.fillStyle = "silver";
+                ctx.fillRect(x + 30, y + 20, 5, 40); 
+
+                if (isAttacking) {
+                    ctx.fillStyle="white"
+                    ctx.fillRect(x + 35, y + 10, 40, 5); // Slash effect
+                }
+            }
+            //sword
             ctx.restore();
         }
 
@@ -190,7 +200,7 @@ if (!isGameOver) {
         let angleDiff = Math.abs((enemy.angle || 0) - angleToPlayer);
         if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
         let canSeePlayer = (distance < 400 && angleDiff < Math.PI / 2 && !stealthActive && bladeActive);
-        let tooClose = (distance < 50 && !stealthActive && bladeActive);
+        let tooClose = (distance < 40 && !stealthActive && bladeActive);
 
 // 2. Trigger the Chase:
 // The guard only gets "scared" (aggressive) if one of those is true
@@ -324,6 +334,7 @@ if (isGameOver) {
         enemy.color = 'white'; // Reset color
     });
 }
+
         });
 
         window.addEventListener('keyup', (e) => {
