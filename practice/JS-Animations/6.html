@@ -22,6 +22,8 @@ let keys = {};
 let stealthActive = false;
 let bladeActive = false;
 let bladeHeight = 0; 
+let speedMultiplier = 1; // Default speed
+const sprintSpeed = 2;   // Multiplier when sprinting
 
 const mapObjects = [
     // --- 1. THE MASSIVE WORLD (Moat pulled in closer) ---
@@ -73,10 +75,10 @@ const mapObjects = [
     {x: 550,  y: -980, w: 100, h: 80, color: '#444'}
 ];
 
-const enemies = [
-    { x: 300, y: 300, homeX: 300, homeY: 300, size: 40, color: 'white', alert: false, scaredTimer: 0 },
-    { x: 300, y: 300, homeX: 200, homeY: 350, size: 40, color: 'white', alert: false, scaredTimer: 0 }
+let enemies = [
+    { x: 500, y: 500, homeX: 500, homeY: 500, size: 40, color: 'white', alert: false, scaredTimer: 0 }
 ];
+
 
 
 
@@ -149,11 +151,13 @@ function animate() {
     
     ctx.translate(-cameraX, -cameraY);
 
-    let currentSpeed = stealthActive ? 4 : 10;
-    if (keys['d']) posX += currentSpeed;
-    if (keys['a']) posX -= currentSpeed;
-    if (keys['w']) posY -= currentSpeed;
-    if (keys['s']) posY += currentSpeed;
+let baseSpeed = stealthActive ? 4 : 10;
+let currentSpeed = baseSpeed * speedMultiplier; // Uses the global variable
+
+if (keys['d']) posX += currentSpeed;
+if (keys['a']) posX -= currentSpeed;
+if (keys['w']) posY -= currentSpeed;
+if (keys['s']) posY += currentSpeed;
 
     if (bladeActive && bladeHeight < 25) bladeHeight += 15;
     if (!bladeActive && bladeHeight > 0) bladeHeight -= 15;
@@ -168,44 +172,59 @@ enemies.forEach(enemy => {
     let dy = posY - enemy.y;
     let distance = Math.sqrt(dx * dx + dy * dy);
 
-    // 1. Detection
-    let scaredOfBlade = (distance < 400 && bladeActive);
-    let scaredOfGhost = (distance < 80 && stealthActive);
+    // Default: Everything is peaceful
+    let isThreatened = false;
 
-    if (scaredOfBlade || scaredOfGhost) {
-        enemy.alert = true;
-        enemy.scaredTimer = 120; // Stay scared for 120 frames (approx 2 seconds)
+    // --- ONLY THESE 3 THINGS STARTLE THEM ---
+    
+    // 1. Blade out while visible
+    if (bladeActive && !stealthActive && distance < 400) {
+        isThreatened = true;
     }
 
-    // 2. State Management
+    // 2. Sneaking too close (Looking suspicious)
+    if (stealthActive && distance < 80) {
+        isThreatened = true;
+    }
+
+    // 3. Physical Collision
+    if (distance < 30) {
+        isThreatened = true;
+    }
+
+    // --- STATE UPDATE ---
+    if (isThreatened) {
+        enemy.scaredTimer = 120; // 2 seconds of running
+        enemy.alert = true;
+    }
+
+    // --- THE ACTION ---
     if (enemy.scaredTimer > 0) {
-        enemy.scaredTimer--; // Tick down the timer
+        enemy.scaredTimer--;
         enemy.color = 'yellow';
-        
-        // FLEE: Move away from player
         let angle = Math.atan2(dy, dx);
-        enemy.x -= Math.cos(angle) * 5;
-        enemy.y -= Math.sin(angle) * 5;
+        enemy.x -= Math.cos(angle) * 6; // FLEE
+        enemy.y -= Math.sin(angle) * 6;
     } else {
+        // RESET: No longer scared, turn white and GO HOME
         enemy.alert = false;
         enemy.color = 'white';
 
-        // RETURN HOME: Only if not scared anymore
-        let homeDx = enemy.homeX - enemy.x;
-        let homeDy = enemy.homeY - enemy.y;
-        let distToHome = Math.sqrt(homeDx * homeDx + homeDy * homeDy);
-
-        if (distToHome > 5) {
-            let angleToHome = Math.atan2(homeDy, homeDx);
-            enemy.x += Math.cos(angleToHome) * 5;
-            enemy.y += Math.sin(angleToHome) * 5;
+        let hDx = enemy.homeX - enemy.x;
+        let hDy = enemy.homeY - enemy.y;
+        if (Math.sqrt(hDx**2 + hDy**2) > 2) {
+            let aHome = Math.atan2(hDy, hDx);
+            enemy.x += Math.cos(aHome) * 3;
+            enemy.y += Math.sin(aHome) * 3;
         }
     }
-
-    // 3. Draw
+    
     ctx.fillStyle = enemy.color;
     ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
 });
+
+
+
 
     drawRect(posX, posY);
     requestAnimationFrame(animate);
@@ -215,20 +234,41 @@ window.addEventListener('keydown', (e) => {
     const key = e.key.toLowerCase();
     keys[key] = true;
 
-    // Toggle Blade (Q)
-    if (key === 'q') {
-        bladeActive = !bladeActive;
-    }
+    // --- LONG RANGE TAKEDOWN ---
+    if (key === ' ') { // Spacebar
+        if (bladeActive) {
+            // Find if any enemy is within range
+            let targetFound = false;
 
-    // Toggle Stealth (E)
-    if (key === 'e') {
-        stealthActive = !stealthActive;
-    }
+            enemies = enemies.filter(enemy => {
+                let dx = posX - enemy.x;
+                let dy = posY - enemy.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
 
-    
+                // INCREASED DISTANCE: 200 pixels
+                if (distance < 100) {
+                    targetFound = true;
+                    return false; // This "deletes" the enemy
+                }
+                return true; // This "keeps" the enemy
+            });
+
+            // OPTIONAL: Teleport player to the target for a "dash" feel
+            if (targetFound) {
+                console.log("Takedown successful!");
+            }
+        }
+    }
+    if (key === 'f') speedMultiplier = 2;
+    if (key === 'q') bladeActive = !bladeActive;
+    if (key === 'e') stealthActive = !stealthActive;
 });
+
 window.addEventListener('keyup', (e) => { 
-    keys[e.key.toLowerCase()] = false; 
+    const key = e.key.toLowerCase();
+    keys[key] = false; 
+
+    if (key === 'f') speedMultiplier = 1; // Flip switch OFF
 });
         </script>
     </body>
