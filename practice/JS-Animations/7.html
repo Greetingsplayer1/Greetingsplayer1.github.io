@@ -435,6 +435,12 @@ if (d < 150 && !enemy.isDead) {
 }
 
 if (key === 'f') {
+    
+    if (stealthActive) {
+        console.log("Cannot use sword while in stealth!");
+        return; // Exit early so nothing happens
+    }
+    
         if (keys['shift']) {
             swordEquipped = false; // Hold Shift + F to sheathe
             isSwinging = false;
