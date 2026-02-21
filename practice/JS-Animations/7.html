@@ -405,8 +405,8 @@ if (damageCooldown > 0) damageCooldown--;
                 let d = Math.sqrt((posX - enemy.x)**2 + (posY - enemy.y)**2);
                 // Inside your 'keydown' listener for 'f' or Space
                 //sets space you can atack form
-if (d < 130 && !enemy.isDead) { 
-    enemy.hp -= 100; // Take 3 hits to kill
+if (d < 150 && !enemy.isDead) { 
+    enemy.hp -= 100; // Take 1 hits to kill
     if (enemy.hp <= 0) {
         enemy.isDead = true; 
         enemy.respawnTimer = 400; 
