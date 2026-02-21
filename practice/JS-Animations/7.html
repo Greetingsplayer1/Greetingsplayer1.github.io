@@ -7,7 +7,7 @@
     </style>
 </head>
 <body>
-    <h2>Stealth Game - Press 'E' for Stealth, 'Space' to Attack, 'Shift' to Sprint, 'f' to engadge swrod, 'Shift f' to sheathe it.</h2>
+    <h2>Stealth Game - Press 'E' for Stealth, 'Space' to Attack, 'Shift' to Sprint, 'f' to engadge swrod (cant use whils in stealth), 'Shift f' to sheathe it.</h2>
     <canvas id="myCanvas" width="1000" height="800"></canvas>
 
     <script>
@@ -440,7 +440,7 @@ if (key === 'f') {
         console.log("Cannot use sword while in stealth!");
         return; // Exit early so nothing happens
     }
-    
+
         if (keys['shift']) {
             swordEquipped = false; // Hold Shift + F to sheathe
             isSwinging = false;
