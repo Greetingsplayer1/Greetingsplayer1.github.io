@@ -35,6 +35,7 @@ const SWORD_COOLDOWN_TIME = 60; // 60 frames = 1 second at 60FPS
 let playerHP = 100;
 const playerMaxHP = 100;
 let damageCooldown = 0; // Prevents losing all health in one frame
+let collectibles = [];
 
 
 
@@ -100,6 +101,23 @@ let damageCooldown = 0; // Prevents losing all health in one frame
         movingToPatrol: true // To track which way they are walking
     }
 ];
+
+let civilians = [
+    { x: 100, y: 100, homeX : 100, homeY: 500, size: 35, color: 'cyan', isScared: false, scaredTimer: 0,angle: 0, wanderTimer:0, returnHomeCooldown: 0, hp : 100, maxHp: 100, isDead: false},
+    { x: -600, y: 200, homeX : -600, homeY: 200, size: 35, color: 'cyan', isScared: false, scaredTimer: 0,angle: 0, wanderTimer:0, returnHomeCooldown: 0, hp : 50, maxHp: 50, isDead: false}
+];
+
+
+function spawnItem(newX, newY) {
+    let item = {x: newX, y: newY, size: 10};
+    collectibles.push(item);
+}
+
+spawnItem(200, 300);
+spawnItem(-400, 100);
+spawnItem(500, 500);
+
+
 
         function drawRect(x, y) {
             ctx.save();
@@ -247,7 +265,7 @@ if (canSeePlayer || tooClose) {
 
         if ((enemy.scaredTimer || 0) > 0) {
     enemy.scaredTimer--;
-    enemy.color = 'yellow';
+    enemy.color = 'red';
     let angleToPlayer = Math.atan2(dy, dx);
     
     // Calculate intended next step
@@ -334,6 +352,94 @@ if (isColliding && !enemy.isDead && damageCooldown === 0) {
         
     });
 
+    civilians.forEach(civ => {
+        if (civ.isDead) return;
+        let dx = posX - civ.x;
+        let dy = posY - civ.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 300 && (bladeActive || swordEquipped) && !stealthActive) {
+            civ.isScared = true;
+            civ.scaredTimer = 300;
+        }
+
+        if (civ.scaredTimer > 0) {
+            civ.scaredTimer--;
+            civ.color = 'pink';
+            let angleAway = Math.atan2(dy, dx) + Math.PI;
+
+            let nextX = civ.x + Math.cos(angleAway) * 5;
+        let nextY = civ.y + Math.sin(angleAway) * 5;
+
+        if (!isSpaceBlocked(nextX, civ.y)) civ.x = nextX;
+        if (!isSpaceBlocked(civ.x, nextY)) civ.y = nextY;
+
+            if (civ.scaredTimer === 0) civ.isScared = false;
+        }   else {
+            // 1. MUST HAVE: Tick down the timer
+            if (!civ.returnHomeCooldown) civ.returnHomeCooldown = 0; 
+            if (civ.returnHomeCooldown > 0) civ.returnHomeCooldown--;
+
+            let destX = civ.homeX;
+            let destY = civ.homeY;
+            let distToHome = Math.sqrt((destX - civ.x)**2 + (destY - civ.y)**2);
+
+            // 2. UNIFIED LOGIC: One check for moving home
+            if (distToHome > 100 || civ.returnHomeCooldown > 0) {
+                
+                // Set the lock if they just went out of bounds
+                if (distToHome > 100 && civ.returnHomeCooldown <= 0) {
+                    civ.returnHomeCooldown = 60; 
+                }
+
+                let angleHome = Math.atan2(destY - civ.y, destX - civ.x);
+                civ.x += Math.cos(angleHome) * 2;
+                civ.y += Math.sin(angleHome) * 2;
+                civ.color = 'cyan';
+
+            } else {
+                // 3. WANDER: Runs only when close AND timer is 0
+                civ.wanderTimer--;
+                if (civ.wanderTimer <= 0) {
+                    civ.angle = Math.random() * Math.PI * 2;
+                    civ.wanderTimer = 60 + Math.random() * 120;
+                }
+                let nextX = civ.x + Math.cos(civ.angle) * 1;
+                let nextY = civ.y + Math.sin(civ.angle) * 1;
+
+                if (!isSpaceBlocked(nextX, nextY)) {
+                    civ.x = nextX;
+                    civ.y = nextY;
+                }
+            }
+        } // This bracket closes the "else" (not scared) block
+
+        //setting dimesions for health
+        let barWidth = 40; //sets width
+        let barHeight = 6; //sets height
+        let barX = civ.x + (civ.size / 2) - (barWidth / 2); //centers above head
+        let barY = civ.y -15 //determians pixles above head
+
+        ctx.fillStyle = "red";
+        ctx.fillRect(barX, barY, barWidth, barHeight)
+
+        let healthPercent = civ.hp / civ.maxHp;
+        ctx.fillStyle = "lime";
+ctx.fillRect(barX, barY, barWidth * healthPercent, barHeight);
+
+        // Draw Civilian
+        ctx.fillStyle = civ.color;
+        ctx.fillRect(civ.x, civ.y, civ.size, civ.size);
+    }); // This bracket closes the civilians.forEach
+
+collectibles.forEach(col => {
+    ctx.fillStyle = 'gold'; // 1. Pick a color (like gold for coins!)
+    
+    // 2. Draw the rectangle using the item's x, y, and size
+    ctx.fillRect(col.x, col.y, col.size, col.size); 
+});
+
+
     // --- DRAW PLAYER ---
     drawRect(posX, posY);
 
@@ -417,6 +523,14 @@ if (d < 150 && !enemy.isDead) {
             });
 }
            if (key === 'r' && isGameOver) {
+
+
+            civilians.forEach(civ => {
+    civ.x = civ.homeX;
+    civ.y = civ.homeY;
+    civ.isScared = false;
+});
+
     // 1. Reset Player Stats
     posX = -10; 
     posY = 1300;
@@ -436,12 +550,8 @@ if (d < 150 && !enemy.isDead) {
 
 if (key === 'f') {
     
-    if (stealthActive) {
-        console.log("Cannot use sword while in stealth!");
-        return; // Exit early so nothing happens
-    }
-
-        if (keys['shift']) {
+      if (stealthActive) stealthActive = false;
+      if (keys['shift']) {
             swordEquipped = false; // Hold Shift + F to sheathe
             isSwinging = false;
         } else if (!swordEquipped) {
@@ -470,12 +580,27 @@ if (key === 'f') {
                 }
             }
         });
+
+         civilians.forEach(civ => {
+            let d = Math.sqrt((posX - civ.x)**2 + (posY - civ.y)**2);
+            //sets the distance and enemy can ataack form
+            if (d < 330 && !civ.isDead) { 
+                civ.hp -= 34; // Using the health bars we talked about!
+                if (civ.hp <= 0) {
+                    civ.isDead = true;
+                    civ.respawnTimer = 400;
+                    civ.hp = 50; 
+                }
+            }
+        });
     }
 }
         }
     }
 
-        });
+        }); 
+
+        
 
         window.addEventListener('keyup', (e) => {
             const key = e.key.toLowerCase();
