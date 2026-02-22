@@ -120,48 +120,67 @@ spawnItem(500, 500);
 
 
         function drawRect(x, y) {
-            ctx.save();
-
+        ctx.save();
 
            if (stealthActive) {
         ctx.globalAlpha = 0.5; 
     } else {
         ctx.globalAlpha = 1.0;
     }
+                   // 1. Stealth Check
+    ctx.globalAlpha = stealthActive ? 0.5 : 1.0;
 
-            // Cloak
-            ctx.fillStyle = '#1a1a1a'; 
-            ctx.beginPath();
-            ctx.moveTo(x - 10, y + 20);
-            ctx.lineTo(x - 20, y + 100);
-            ctx.lineTo(x + 50, y + 100);
-            ctx.lineTo(x + 40, y + 20);
-            ctx.fill();
+    // --- LEGS (Short & Wide for a sturdy look) ---
+    ctx.fillStyle = '#111';
+    ctx.fillRect(x + 2, y + 65, 12, 25);
+    ctx.fillRect(x + 22, y + 65, 12, 25);
 
-            // Legs
-            ctx.fillStyle = '#111';
-            ctx.fillRect(x + 4, y + 60, 10, 35);
-            ctx.fillRect(x + 16, y + 60, 10, 35);
-            
-            // Body
-            ctx.fillStyle = '#2c2c2c';
-            ctx.fillRect(x - 2, y + 5, 34, 70); 
+    // --- CAPE / CLOAK BACK (The base layer) ---
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.moveTo(x - 15, y + 20);
+    ctx.lineTo(x + 50, y + 20);
+    ctx.lineTo(x + 60, y + 90); // 90px height limit
+    ctx.lineTo(x - 25, y + 90);
+    ctx.fill();
 
-            // Hood
-            ctx.beginPath();
-            ctx.arc(x + 15, y - 10, 35, 0, Math.PI * 2);
-            ctx.fill();
+    // --- BROAD SHOULDERED TORSO (The 'V' Shape) ---
+    ctx.fillStyle = '#2c2c2c';
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y + 15); // Left Shoulder
+    ctx.lineTo(x + 45, y + 15); // Right Shoulder
+    ctx.lineTo(x + 30, y + 70); // Waist
+    ctx.lineTo(x + 5, y + 70);  // Waist
+    ctx.closePath();
+    ctx.fill();
 
-            // Face/Eyes
-            ctx.fillStyle = '#000';
-            ctx.beginPath();
-            ctx.arc(x + 15, y - 5, 24, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(x + 6, y - 12, 7, 2); 
-            ctx.fillRect(x + 17, y - 12, 7, 2);
+    // --- ARMOR PADS (Adds complexity) ---
+    ctx.fillStyle = '#3d3d3d';
+    ctx.fillRect(x - 12, y + 15, 15, 10); // Left pad
+    ctx.fillRect(x + 32, y + 15, 15, 10); // Right pad
 
-            
+    // --- THE HOOD (Deep & Shadowed) ---
+    // Outer Hood
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.arc(x + 18, y + 5, 28, Math.PI, 0); // Arched top
+    ctx.lineTo(x + 46, y + 25);
+    ctx.lineTo(x - 10, y + 25);
+    ctx.fill();
+
+    // Face Opening (Shadow)
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.ellipse(x + 18, y + 12, 18, 22, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // GLOWING EYES (The 'Assassin' Look)
+    ctx.fillStyle = '#fff';
+    ctx.shadowBlur = 5;
+    ctx.shadowColor = "white"; // Makes them glow
+    ctx.fillRect(x + 10, y + 5, 6, 2); 
+    ctx.fillRect(x + 22, y + 5, 6, 2);
+    ctx.shadowBlur = 0; // Reset glow
 
             // Blade
             if (bladeHeight > 0) {
@@ -169,15 +188,6 @@ spawnItem(500, 500);
                 ctx.fillRect(x - 14, y + 65, 4, bladeHeight); 
             }
             
-            if (swordEquipped) {
-                ctx.fillStyle = "silver";
-                ctx.fillRect(x + 30, y + 20, 5, 40); 
-
-                if (isAttacking) {
-                    ctx.fillStyle="white"
-                    ctx.fillRect(x + 35, y + 10, 40, 5); // Slash effect
-                }
-            }
             //sword
             if (swordEquipped) {
         ctx.save();
@@ -503,24 +513,22 @@ if (damageCooldown > 0) damageCooldown--;
             keys[key] = true;
             if (key === 'e') stealthActive = !stealthActive;
             if (key === 'shift') speedMultiplier = sprintSpeed;
-            if (key === ' ' && bladeCooldown === 0) { // Only attack if cooldown is 0
+            if (key === ' ' && bladeCooldown === 0) {
     bladeActive = true;
-    bladeCooldown = 300; // Set cooldown (1 second at 60fps)
+    bladeCooldown = 300; 
 
-     enemies.forEach(enemy => {
-                let d = Math.sqrt((posX - enemy.x)**2 + (posY - enemy.y)**2);
-                // Inside your 'keydown' listener for 'f' or Space
-                //sets space you can atack form
-if (d < 150 && !enemy.isDead) { 
-    enemy.hp -= 100; // Take 1 hits to kill
-    if (enemy.hp <= 0) {
-        enemy.isDead = true; 
-        enemy.respawnTimer = 400; 
-        enemy.hp = enemy.maxHp; // Reset health for when they respawn
-    }
-}
-
-            });
+    // 1. Attack Enemies
+    enemies.forEach(enemy => {
+        let d = Math.sqrt((posX - enemy.x)**2 + (posY - enemy.y)**2);
+        if (d < 150 && !enemy.isDead) { 
+            enemy.hp -= 100; // Instant kill
+            if (enemy.hp <= 0) {
+                enemy.isDead = true; 
+                enemy.respawnTimer = 400; 
+                enemy.hp = enemy.maxHp;
+            }
+        }
+    }); // This correctly cldwoses the enemy loop 
 }
            if (key === 'r' && isGameOver) {
 
@@ -531,7 +539,7 @@ if (d < 150 && !enemy.isDead) {
     civ.isScared = false;
 });
 
-    // 1. Reset Player Stats
+    // 1. Reset Player Stat
     posX = -10; 
     posY = 1300;
     playerHP = 100; // Reset health to full
