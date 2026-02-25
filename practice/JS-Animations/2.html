@@ -8,7 +8,7 @@
     </head>
     <body>
         <h2>Hello animations</h2>
-        <canvas id="myCanvas" width="1699" height="800"></canvas>
+        <canvas id="myCanvas" width="1600" height="800"></canvas>
 
         <script>
             console.log("hi")
@@ -22,39 +22,49 @@ let speedX = 5;
 let speedY = 5;
 let radius = 5;
 let particles = [];
+let angle = 0;
+let rotationSpeed = 0.1;
+
 
 
     // Clear the whole canvas before drawing the new position
 function drawRect(x, y) {
+    ctx.save(); // Save current state
+    ctx.translate(x, y); // 2. Move origin to the object center
+    ctx.rotate(angle);
+
+
     // 1. The Main Disc (Silver/Grey)
     ctx.fillStyle = '#9D00FF'; 
     ctx.beginPath();
-    ctx.arc(x, y, 40, 0, 2 * Math.PI);
+    ctx.arc(0, 0, 40, 0, 2 * Math.PI);
     ctx.fill();
 
     // 2. The Iridescent Reflection (A subtle gradient or simple arc)
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 10;
     ctx.beginPath();
-    ctx.arc(x, y, 30, 0.5 * Math.PI, 1.2 * Math.PI); // A curved highlight
+    ctx.arc(0, 0, 30, 0.5 * Math.PI, 1.2 * Math.PI); // A curved highlight
     ctx.stroke();
 
     // 3. The Inner Clear Plastic Ring
     ctx.fillStyle = 'black';
     ctx.beginPath();
-    ctx.arc(x, y, 10, 0, 2 * Math.PI);
+    ctx.arc(0, 0, 10, 0, 2 * Math.PI);
     ctx.fill();
 
     // 4. The Center Hole (Matching the background)
     ctx.fillStyle = 'white'; // Change this to match your canvas background color
     ctx.beginPath();
-    ctx.arc(x, y, 6, 0, 2 * Math.PI);
+    ctx.arc(0, 0, 6, 0, 2 * Math.PI);
     ctx.fill();
     
     // 5. The Outer Edge Outline
     ctx.strokeStyle = 'green';
     ctx.lineWidth = 2;
     ctx.stroke();
+
+    ctx.restore();
 }
 
 function animate() {  
@@ -63,6 +73,7 @@ function animate() {
     // 1. Update positions
     posX += speedX;
     posY += speedY;
+    angle += rotationSpeed;
 
     if (posX + 40 > canvas.width || posX < 40) {
         speedX *= -1;
