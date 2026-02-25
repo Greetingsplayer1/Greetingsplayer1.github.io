@@ -26,39 +26,35 @@ let particles = [];
 
     // Clear the whole canvas before drawing the new position
 function drawRect(x, y) {
+    // 1. The Main Disc (Silver/Grey)
+    ctx.fillStyle = '#9D00FF'; 
+    ctx.beginPath();
+    ctx.arc(x, y, 60, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 2. The Iridescent Reflection (A subtle gradient or simple arc)
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.arc(x, y, 40, 0.5 * Math.PI, 1.2 * Math.PI); // A curved highlight
+    ctx.stroke();
+
+    // 3. The Inner Clear Plastic Ring
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(x, y, 15, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // 4. The Center Hole (Matching the background)
+    ctx.fillStyle = 'white'; // Change this to match your canvas background color
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, 2 * Math.PI);
+    ctx.fill();
     
-    ctx.fillStyle = 'tan';
-    ctx.fillRect(x, y, 60, 60);
-
-    ctx.fillStyle = 'tan';
-    ctx.fillRect(x+20, y+-30, 20, 40);
-
-ctx.fillStyle = 'tan';
-ctx.beginPath();
-ctx.arc(x + 30, y + -50, 35, 0, 2 * Math.PI); 
-ctx.fill();
-
-ctx.fillStyle = 'white';
-ctx.beginPath();
-ctx.arc(x + 50, y + -50, radius, 0, 2 * Math.PI); 
-ctx.fill();
-
-ctx.fillStyle = 'white';
-ctx.beginPath();
-ctx.arc(x + 10, y + -50, radius, 0, 2 * Math.PI); 
-ctx.fill();
-
-    ctx.fillStyle = 'tan';
-    ctx.fillRect(x, y+60, 20, 40);
-    
-    ctx.fillStyle = 'tan';
-    ctx.fillRect(x+40, y+60, 20, 40);
-
-    ctx.fillStyle = 'tan';
-    ctx.fillRect(x+70, y, 20, 50,);
-
-    ctx.fillStyle = 'tan';
-    ctx.fillRect(x+-30, y, 20, 50,);
+    // 5. The Outer Edge Outline
+    ctx.strokeStyle = 'green';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 }
 
 function animate() {  
