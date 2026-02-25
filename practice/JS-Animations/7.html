@@ -270,7 +270,7 @@ if (!isGameOver) {
 // 2. Trigger the Chase:
 // The guard only gets "scared" (aggressive) if one of those is true
 if (canSeePlayer || tooClose) {
-    enemy.scaredTimer = 120;
+    enemy.scaredTimer = 800;
 }
 
         if ((enemy.scaredTimer || 0) > 0) {
