@@ -8,7 +8,7 @@
     </head>
     <body>
         <h2>Hello animations</h2>
-        <canvas id="myCanvas" width="160" height="800"></canvas>
+        <canvas id="myCanvas" width="1699" height="800"></canvas>
 
         <script>
             console.log("hi")
@@ -64,11 +64,11 @@ function animate() {
     posX += speedX;
     posY += speedY;
 
-    if (posX + 60 > canvas.width || posX < 55) {
+    if (posX + 40 > canvas.width || posX < 40) {
         speedX *= -1;
     }
 
-    if (posY + 60 > canvas.height || posY < 60) {
+    if (posY + 40 > canvas.height || posY < 40) {
         speedY *= -1;
     }
 
