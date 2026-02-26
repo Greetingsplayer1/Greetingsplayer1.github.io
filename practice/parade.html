@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<head>
+    <style>
+            canvas { border: 1px solid black; }
+        </style>
+    <title>Having a cool parade</title>
+</head>
+<body>
+            <h1>Cool parade</h1>
+            <canvas id="myCanvas" width="1690" height="800" border></canvas>
+            <script>
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+
+let posX = 100;
+let posY = 100;
+let speedX = 5;
+let speedY = 5;
+let time = 0;
+
+function drawBackground() {
+    // 1. The Sky
+    ctx.fillStyle = "#87CEEB"; // Sky blue
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 2. The City Skyline (Distant Buildings)
+    ctx.fillStyle = "#4a4e69"; // Muted blue-grey
+    ctx.fillRect(50, 400, 80, 250);   // Building 1
+    ctx.fillRect(150, 350, 100, 300); // Building 2
+    ctx.fillRect(300, 450, 60, 200);  // Building 3
+    ctx.fillRect(450, 300, 120, 350); // Building 4
+    // (Repeat or loop this to fill the width of the canvas)
+
+    // 3. The Sidewalk
+    ctx.fillStyle = "#bdc3c7"; // Light grey
+    ctx.fillRect(0, 650, canvas.width, 30);
+
+    // 4. The Road (Bottom of the screen)
+    ctx.fillStyle = "#333333"; // Dark asphalt
+    ctx.fillRect(0, 680, canvas.width, 120);
+
+    // 5. Yellow Road Lines
+    ctx.strokeStyle = "#f1c40f";
+    ctx.lineWidth = 5;
+    ctx.setLineDash([40, 20]); // Dashed line effect
+    ctx.beginPath();
+    ctx.moveTo(0, 740);
+    ctx.lineTo(canvas.width, 740);
+    ctx.stroke();
+    ctx.setLineDash([]); // Reset dash for other drawings
+}
+
+
+// 1. Classic Red Square
+// 1. Red Square with a Top Hat
+// 1. Blue Truck
+function drawBlueTruck(x, y, rider) {
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(x, y + 10, 80, 30); // Body
+    ctx.fillRect(x + 50, y - 10, 30, 20); // Cabin
+    drawWheels(x + 15, x + 65, y + 40);
+    if (rider) rider(x + 10, y - 10); // Place rider
+}
+
+// 2. Brown Trailer (Flatbed)
+function drawTrailer(x, y, rider) {
+    ctx.fillStyle = 'saddlebrown';
+    ctx.fillRect(x, y + 20, 90, 15);
+    drawWheels(x + 20, x + 70, y + 35);
+    if (rider) rider(x + 35, y);
+}
+
+// 3. Silver Limo
+function drawLimo(x, y, rider) {
+    ctx.fillStyle = 'silver';
+    ctx.fillRect(x, y + 10, 140, 30);
+    drawWheels(x + 20, x + 120, y + 40);
+    if (rider) rider(x + 60, y - 10);
+}
+
+// 4. Red Sports Car
+function drawSportsCar(x, y, rider) {
+    ctx.fillStyle = 'red';
+    ctx.beginPath();
+    ctx.moveTo(x, y + 40);
+    ctx.lineTo(x + 80, y + 40);
+    ctx.lineTo(x + 70, y + 10);
+    ctx.lineTo(x + 10, y + 10);
+    ctx.fill();
+    drawWheels(x + 15, x + 65, y + 40);
+    if (rider) rider(x + 30, y - 10);
+}
+
+// 5. Green Tractor
+function drawTractor(x, y, rider) {
+    ctx.fillStyle = 'green';
+    ctx.fillRect(x + 30, y, 40, 40); // Engine
+    ctx.fillRect(x, y + 20, 30, 20); // Front
+    drawWheels(x + 10, x + 50, y + 40); // Big back wheel, small front
+    if (rider) rider(x + 40, y - 20);
+}
+
+// 6. Yellow School Bus
+function drawBus(x, y, rider) {
+    ctx.fillStyle = 'gold';
+    ctx.fillRect(x, y, 100, 50);
+    ctx.fillStyle = 'lightblue'; // Windows
+    ctx.fillRect(x + 10, y + 10, 20, 15);
+    ctx.fillRect(x + 40, y + 10, 20, 15);
+    drawWheels(x + 20, x + 80, y + 50);
+    if (rider) rider(x + 70, y + 10);
+}
+
+// 7. Purple Float (Fancy Platform)
+function drawPurpleFloat(x, y, rider) {
+    ctx.fillStyle = 'rebeccapurple';
+    ctx.beginPath();
+    ctx.moveTo(x, y + 40);
+    ctx.lineTo(x + 100, y + 40);
+    ctx.lineTo(x + 80, y + 10);
+    ctx.lineTo(x + 20, y + 10);
+    ctx.fill();
+    if (rider) rider(x + 40, y - 10);
+}
+
+// 8. Orange Scooter
+function drawScooter(x, y, rider) {
+    ctx.strokeStyle = 'orange';
+    ctx.lineWidth = 5;
+    ctx.strokeRect(x, y + 35, 40, 2); // Base
+    drawWheels(x + 5, x + 35, y + 40);
+    if (rider) rider(x + 10, y + 15);
+}
+
+// 9. Black Van
+function drawBlackVan(x, y, rider) {
+    ctx.fillStyle = 'black';
+    ctx.fillRect(x, y, 90, 45);
+    drawWheels(x + 20, x + 70, y + 45);
+    if (rider) rider(x + 10, y + 10);
+}
+
+// 10. Pink Carriage
+function drawCarriage(x, y, rider) {
+    ctx.strokeStyle = 'hotpink';
+    ctx.strokeRect(x, y, 60, 40);
+    drawWheels(x + 10, x + 50, y + 45);
+    if (rider) rider(x + 20, y + 10);
+}
+
+// HELPER: To draw wheels easily
+function drawWheels(x1, x2, y) {
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(x1, y, 8, 0, Math.PI * 2);
+    ctx.arc(x2, y, 8, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+
+
+function drawAll(x, y) {
+    drawBlueTruck(x, y + 580);
+    drawTrailer(x + 150, y + 580);
+    drawLimo(x + 300, y + 580);
+    drawSportsCar(x + 500, y + 580);
+    drawTractor(x + 650, y + 580);
+    drawBus(x + 800, y + 580);
+    drawPurpleFloat(x + 950, y + 580);
+    drawScooter(x + 1100, y + 580);
+    drawBlackVan(x + 1200, y + 580);
+    drawCarriage(x + 1350, y + 580);
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the screen
+
+    drawBackground();
+
+    posX += speedX;
+
+        if (posX > 1300) {
+        posX = -490;
+    }
+    
+    drawAll(posX, posY);
+    
+    requestAnimationFrame(animate);
+}
+animate();
+            </script>
+</body>
