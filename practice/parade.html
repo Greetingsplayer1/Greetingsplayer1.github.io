@@ -50,36 +50,51 @@ function drawBackground() {
     ctx.setLineDash([]); // Reset dash for other drawings
 }
 
-
-// 1. Classic Red Square
-// 1. Red Square with a Top Hat
-// 1. Blue Truck
-function drawBlueTruck(x, y, rider) {
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(x, y + 10, 80, 30); // Body
-    ctx.fillRect(x + 50, y - 10, 30, 20); // Cabin
-    drawWheels(x + 15, x + 65, y + 40);
-    if (rider) rider(x + 10, y - 10); // Place rider
+// 1. Party Bus (with 3 passengers and streamers)
+function drawAll(x, y) {
+    const roadY = y + 580;
+    drawBlueTruck(x, roadY);
+    drawTrailer(x + 150, roadY);
+    drawLimo(x + 300, roadY);
+    drawSportsCar(x + 500, roadY);
+    drawTractor(x + 650, roadY);
+    drawBus(x + 800, roadY);
+    drawPurpleFloat(x + 950, roadY);
+    drawScooter(x + 1100, roadY);
+    drawBlackVan(x + 1200, roadY);
+    drawCarriage(x + 1350, roadY);
 }
 
-// 2. Brown Trailer (Flatbed)
-function drawTrailer(x, y, rider) {
+// 1. Blue Truck with a Driver
+function drawBlueTruck(x, y) {
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(x, y + 10, 80, 30); 
+    ctx.fillRect(x + 50, y - 10, 30, 20); // Cabin
+    drawPerson(x + 55, y - 5, 'white'); // Driver in cabin
+    drawWheels(x + 15, x + 65, y + 40);
+}
+
+// 2. Brown Trailer with a Parade Performer
+function drawTrailer(x, y) {
     ctx.fillStyle = 'saddlebrown';
     ctx.fillRect(x, y + 20, 90, 15);
+    drawPerson(x + 40, y + 5, 'yellow'); // Performer standing on trailer
     drawWheels(x + 20, x + 70, y + 35);
-    if (rider) rider(x + 35, y);
 }
 
-// 3. Silver Limo
-function drawLimo(x, y, rider) {
+// 3. Silver Limo with two Party-goers
+function drawLimo(x, y) {
     ctx.fillStyle = 'silver';
     ctx.fillRect(x, y + 10, 140, 30);
+    ctx.fillStyle = 'black';
+    ctx.fillRect(x + 10, y + 15, 120, 10); // Tinted window strip
+    drawPerson(x + 40, y, 'pink'); // Passenger 1
+    drawPerson(x + 80, y, 'cyan'); // Passenger 2
     drawWheels(x + 20, x + 120, y + 40);
-    if (rider) rider(x + 60, y - 10);
 }
 
-// 4. Red Sports Car
-function drawSportsCar(x, y, rider) {
+// 4. Red Sports Car with a Racing Driver
+function drawSportsCar(x, y) {
     ctx.fillStyle = 'red';
     ctx.beginPath();
     ctx.moveTo(x, y + 40);
@@ -87,105 +102,108 @@ function drawSportsCar(x, y, rider) {
     ctx.lineTo(x + 70, y + 10);
     ctx.lineTo(x + 10, y + 10);
     ctx.fill();
+    drawPerson(x + 35, y + 5, 'red'); // Driver
     drawWheels(x + 15, x + 65, y + 40);
-    if (rider) rider(x + 30, y - 10);
 }
 
-// 5. Green Tractor
-function drawTractor(x, y, rider) {
+// 5. Green Tractor with a Farmer
+function drawTractor(x, y) {
     ctx.fillStyle = 'green';
     ctx.fillRect(x + 30, y, 40, 40); // Engine
     ctx.fillRect(x, y + 20, 30, 20); // Front
-    drawWheels(x + 10, x + 50, y + 40); // Big back wheel, small front
-    if (rider) rider(x + 40, y - 20);
+    drawPerson(x + 45, y - 10, 'blue'); // Farmer sitting high
+    drawWheels(x + 15, x + 55, y + 40);
 }
 
-// 6. Yellow School Bus
-function drawBus(x, y, rider) {
+// 6. Yellow School Bus with many Kids
+function drawBus(x, y) {
     ctx.fillStyle = 'gold';
     ctx.fillRect(x, y, 100, 50);
-    ctx.fillStyle = 'lightblue'; // Windows
-    ctx.fillRect(x + 10, y + 10, 20, 15);
-    ctx.fillRect(x + 40, y + 10, 20, 15);
+    // Draw three kids in windows
+    drawPerson(x + 20, y + 15, 'orange');
+    drawPerson(x + 50, y + 15, 'purple');
+    drawPerson(x + 80, y + 15, 'lime');
     drawWheels(x + 20, x + 80, y + 50);
-    if (rider) rider(x + 70, y + 10);
 }
 
-// 7. Purple Float (Fancy Platform)
-function drawPurpleFloat(x, y, rider) {
+// 7. Purple Float with a Queen/King and a Flag
+function drawPurpleFloat(x, y) {
     ctx.fillStyle = 'rebeccapurple';
-    ctx.beginPath();
-    ctx.moveTo(x, y + 40);
-    ctx.lineTo(x + 100, y + 40);
-    ctx.lineTo(x + 80, y + 10);
-    ctx.lineTo(x + 20, y + 10);
-    ctx.fill();
-    if (rider) rider(x + 40, y - 10);
+    ctx.fillRect(x, y + 20, 100, 20);
+    // Flag pole
+    ctx.strokeStyle = 'gold';
+    ctx.strokeRect(x + 10, y - 20, 2, 40);
+    drawPerson(x + 50, y + 5, 'gold'); // Royal person
+    drawWheels(x + 20, x + 80, y + 40);
 }
 
-// 8. Orange Scooter
-function drawScooter(x, y, rider) {
+// 8. Orange Scooter with a Rider
+function drawScooter(x, y) {
     ctx.strokeStyle = 'orange';
     ctx.lineWidth = 5;
-    ctx.strokeRect(x, y + 35, 40, 2); // Base
+    ctx.strokeRect(x, y + 35, 40, 2);
+    drawPerson(x + 15, y + 20, 'black'); // Scooter rider
     drawWheels(x + 5, x + 35, y + 40);
-    if (rider) rider(x + 10, y + 15);
 }
 
-// 9. Black Van
-function drawBlackVan(x, y, rider) {
+// 9. Black Van with a Driver
+function drawBlackVan(x, y) {
     ctx.fillStyle = 'black';
     ctx.fillRect(x, y, 90, 45);
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(x + 60, y + 5, 20, 15); // Windshield
+    drawPerson(x + 65, y + 10, 'white'); // Driver
     drawWheels(x + 20, x + 70, y + 45);
-    if (rider) rider(x + 10, y + 10);
 }
 
-// 10. Pink Carriage
-function drawCarriage(x, y, rider) {
+// 10. Pink Carriage with a Princess
+function drawCarriage(x, y) {
     ctx.strokeStyle = 'hotpink';
+    ctx.lineWidth = 3;
     ctx.strokeRect(x, y, 60, 40);
+    drawPerson(x + 30, y + 15, 'hotpink'); // Princess inside
     drawWheels(x + 10, x + 50, y + 45);
-    if (rider) rider(x + 20, y + 10);
 }
 
-// HELPER: To draw wheels easily
+// HELPER: To draw wheels with rims
 function drawWheels(x1, x2, y) {
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = '#333';
     ctx.beginPath();
     ctx.arc(x1, y, 8, 0, Math.PI * 2);
     ctx.arc(x2, y, 8, 0, Math.PI * 2);
     ctx.fill();
+    ctx.fillStyle = 'silver'; // Rim
+    ctx.beginPath();
+    ctx.arc(x1, y, 3, 0, Math.PI * 2);
+    ctx.arc(x2, y, 3, 0, Math.PI * 2);
+    ctx.fill();
 }
 
-
-
-function drawAll(x, y) {
-    drawBlueTruck(x, y + 580);
-    drawTrailer(x + 150, y + 580);
-    drawLimo(x + 300, y + 580);
-    drawSportsCar(x + 500, y + 580);
-    drawTractor(x + 650, y + 580);
-    drawBus(x + 800, y + 580);
-    drawPurpleFloat(x + 950, y + 580);
-    drawScooter(x + 1100, y + 580);
-    drawBlackVan(x + 1200, y + 580);
-    drawCarriage(x + 1350, y + 580);
+// HELPER: To draw a person
+function drawPerson(x, y, shirtColor) {
+    ctx.fillStyle = 'bisque'; // Skin
+    ctx.beginPath();
+    ctx.arc(x, y, 6, 0, Math.PI * 2); // Head
+    ctx.fill();
+    ctx.fillStyle = shirtColor;
+    ctx.fillRect(x - 4, y + 6, 8, 10); // Body/Shirt
 }
+
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the screen
 
-    drawBackground();
+    drawBackground(); //this draws the background
 
-    posX += speedX;
+    posX += speedX; //controls speed
 
         if (posX > 1700) {
-        posX = -1700;
+        posX = -1700; // controls wehre the cars and such reaspawn
     }
     
-    drawAll(posX, posY);
+    drawAll(posX, posY); // draws the cars make sure they are above the background
     
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animate); // animates ha
 }
 animate();
             </script>
