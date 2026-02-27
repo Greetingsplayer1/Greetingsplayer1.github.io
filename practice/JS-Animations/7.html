@@ -82,7 +82,7 @@ let collectibles = [];
         let enemies = [
     { 
         x: 300, y: 300, 
-           hp: 100, maxHp: 100, // <--- New Health Variables
+           hp: 200, maxHp: 200, // <--- New Health Variables
         homeX: 300, homeY: 300, 
         patrolX: 300, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
@@ -92,7 +92,7 @@ let collectibles = [];
     },
     { 
         x: -400, y: 300, 
-           hp: 100, maxHp: 100, // <--- New Health Variables
+           hp: 200, maxHp: 200, // <--- New Health Variables
         homeX: -400, homeY: 300, 
         patrolX: -400, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
@@ -103,7 +103,7 @@ let collectibles = [];
 ];
 
 let civilians = [
-    { x: 100, y: 100, homeX : 100, homeY: 500, size: 35, color: 'cyan', isScared: false, scaredTimer: 0,angle: 0, wanderTimer:0, returnHomeCooldown: 0, hp : 100, maxHp: 100, isDead: false},
+    { x: 100, y: 100, homeX : 100, homeY: 500, size: 35, color: 'cyan', isScared: false, scaredTimer: 0,angle: 0, wanderTimer:0, returnHomeCooldown: 0, hp : 50, maxHp: 50, isDead: false},
     { x: -600, y: 200, homeX : -600, homeY: 200, size: 35, color: 'cyan', isScared: false, scaredTimer: 0,angle: 0, wanderTimer:0, returnHomeCooldown: 0, hp : 50, maxHp: 50, isDead: false}
 ];
 
@@ -270,7 +270,7 @@ if (!isGameOver) {
 // 2. Trigger the Chase:
 // The guard only gets "scared" (aggressive) if one of those is true
 if (canSeePlayer || tooClose) {
-    enemy.scaredTimer = 800;
+    enemy.scaredTimer = 600;
 }
 
         if ((enemy.scaredTimer || 0) > 0) {
@@ -549,7 +549,7 @@ if (damageCooldown > 0) damageCooldown--;
     enemies.forEach(enemy => {
         enemy.x = enemy.homeX;
         enemy.y = enemy.homeY;
-        enemy.hp = 100; // Reset enemy health too
+        enemy.hp = 200; // Reset enemy health too
         enemy.scaredTimer = 0;
         enemy.isDead = false;
         enemy.color = 'white';
@@ -573,7 +573,7 @@ if (key === 'f') {
         swordEquipped = true; 
     } else if (swordCooldown === 0) { // <--- ONLY swing if cooldown is 0
         isSwinging = true;
-        swingTimer = 15;
+        swingTimer = 50;
         swordCooldown = SWORD_COOLDOWN_TIME; // <--- Start the 1-second timer
 
         enemies.forEach(enemy => {
@@ -584,7 +584,7 @@ if (key === 'f') {
                 if (enemy.hp <= 0) {
                     enemy.isDead = true;
                     enemy.respawnTimer = 400;
-                    enemy.hp = 100; 
+                    enemy.hp = 200; 
                 }
             }
         });
