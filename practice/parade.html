@@ -14,8 +14,6 @@ const ctx = canvas.getContext("2d");
 
 let posX = 100;
 let posY = 100;
-let speedX = 5;
-let speedY = 5;
 let time = 0;
 
 function drawBackground() {
@@ -189,21 +187,52 @@ function drawPerson(x, y, shirtColor) {
     ctx.fillRect(x - 4, y + 6, 8, 10); // Body/Shirt
 }
 
-
 function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the screen
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackground();
+    
+    let speed = 3; 
+    let startX = -200; // Hidden off-screen to the left
+    let roadY = 680;
 
-    drawBackground(); //this draws the background
+    // 1. Blue Truck: Starts immediately
+    if (time > 80) drawBlueTruck(startX + (time * speed), roadY);
 
-    posX += speedX; //controls speed
+    // 2. Trailer: Starts after 100 frames
+    if (time > 100) drawTrailer(startX + ((time - 100) * speed), roadY);
 
-        if (posX > 1700) {
-        posX = -1700; // controls wehre the cars and such reaspawn
+    // 3. Limo: Starts after 250 frames
+    if (time > 250) drawLimo(startX + ((time - 250) * speed), roadY);
+
+    // 4. Sports Car: Starts after 400 frames
+    if (time > 400) drawSportsCar(startX + ((time - 400) * speed), roadY);
+
+    // 5. Tractor: Starts after 550 frames
+    if (time > 550) drawTractor(startX + ((time - 550) * speed), roadY);
+
+    // 6. Bus: Starts after 700 frames
+    if (time > 700) drawBus(startX + ((time - 700) * speed), roadY);
+
+    // 7. Purple Float: Starts after 850 frames
+    if (time > 850) drawPurpleFloat(startX + ((time - 850) * speed), roadY);
+
+    // 8. Scooter: Starts after 1000 frames
+    if (time > 1000) drawScooter(startX + ((time - 1000) * speed), roadY);
+
+    // 9. Black Van: Starts after 1150 frames
+    if (time > 1150) drawBlackVan(startX + ((time - 1150) * speed), roadY);
+
+    // 10. Carriage: Starts after 1300 frames
+    if (time > 1300) drawCarriage(startX + ((time - 1300) * speed), roadY);
+
+    // RESTART LOGIC: If the last car (Carriage) is off-screen, reset time
+    // 2000 is a safe bet for a 1700px wide canvas
+    if (time > 2000) {
+        time = 0; 
     }
-    
-    drawAll(posX, posY); // draws the cars make sure they are above the background
-    
-    requestAnimationFrame(animate); // animates ha
+
+    time++; // Keep the clock ticking
+    requestAnimationFrame(animate);
 }
 animate();
             </script>
