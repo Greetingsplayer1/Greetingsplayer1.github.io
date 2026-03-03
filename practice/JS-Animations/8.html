@@ -82,7 +82,7 @@ let collectibles = [];
         let enemies = [
     { 
         x: 300, y: 300, 
-           hp: 200, maxHp: 200, // <--- New Health Variables
+           hp: 100, maxHp: 100, // <--- New Health Variables
         homeX: 300, homeY: 300, 
         patrolX: 300, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
@@ -92,7 +92,7 @@ let collectibles = [];
     },
     { 
         x: -400, y: 300, 
-           hp: 200, maxHp: 200, // <--- New Health Variables
+           hp: 100, maxHp: 100, // <--- New Health Variables
         homeX: -400, homeY: 300, 
         patrolX: -400, patrolY: 1020, // The "other end" of their walk
         size: 40, color: 'white', 
@@ -549,7 +549,7 @@ if (damageCooldown > 0) damageCooldown--;
     enemies.forEach(enemy => {
         enemy.x = enemy.homeX;
         enemy.y = enemy.homeY;
-        enemy.hp = 200; // Reset enemy health too
+        enemy.hp = 100; // Reset enemy health too
         enemy.scaredTimer = 0;
         enemy.isDead = false;
         enemy.color = 'white';
@@ -580,11 +580,11 @@ if (key === 'f') {
             let d = Math.sqrt((posX - enemy.x)**2 + (posY - enemy.y)**2);
             //sets the distance and enemy can ataack form
             if (d < 330 && !enemy.isDead) { 
-                enemy.hp -= 34; // Using the health bars we talked about!
+                enemy.hp -= 25; // Using the health bars we talked about!
                 if (enemy.hp <= 0) {
                     enemy.isDead = true;
                     enemy.respawnTimer = 400;
-                    enemy.hp = 200; 
+                    enemy.hp = 100; 
                 }
             }
         });
@@ -593,7 +593,7 @@ if (key === 'f') {
             let d = Math.sqrt((posX - civ.x)**2 + (posY - civ.y)**2);
             //sets the distance and enemy can ataack form
             if (d < 330 && !civ.isDead) { 
-                civ.hp -= 34; // Using the health bars we talked about!
+                civ.hp -= 25; // Using the health bars we talked about!
                 if (civ.hp <= 0) {
                     civ.isDead = true;
                     civ.respawnTimer = 400;
