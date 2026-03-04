@@ -53,38 +53,53 @@ const weatherDescriptions = {
 
 
 async function getArlingtonWeather() {
+  const UI = {
+    desc: document.getElementById("description"),
+    temp: document.getElementById("temp"),
+    wind: document.getElementById("wind"),
+    dir: document.getElementById("direction"),
+    dot: document.getElementById("status-dot")
+  };
+
   try {
     const lat = 38.88;
     const lon = -77.10;
 
-    // KEEPING YOUR ORIGINAL LINK
-   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&wind_speed_unit=mph`;
+    // THE CORRECTED URL (Notice 'current=...')
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day,apparent_temperature&temperature_unit=fahrenheit&wind_speed_unit=mph`;
     
     const response = await fetch(url);
     const data = await response.json();
     
-    // KEEPING YOUR ORIGINAL VARIABLE NAMES
-    const temp = data.current_weather.temperature;
-    const wind = data.current_weather.windspeed;
-    const direction = data.current_weather.winddirection;
-    const code = data.current_weather.weathercode;
-    
-    const description = weatherDescriptions[code] || "Conditions varying";
-    
-    // UPDATING THE HTML IDS (Matches the index.html below)
-    document.getElementById("description").textContent = description;
-    document.getElementById("temp").textContent = `${Math.round(temp)}°F`;
-    document.getElementById("wind").textContent = `${wind} mph`;
-    document.getElementById("direction").textContent = `${direction}°`;
-    
-  } catch (error) {
-    if(document.getElementById("description")) {
-        document.getElementById("description").textContent = "Link or connection error!";
-    }
-  }
+    // UPDATED VARIABLE PATHS (To match the new URL)
+    const current = data.current; 
+    const temp = current.temperature_2m;
+    const wind = current.wind_speed_10m;
+    const direction = current.wind_direction_10m;
+    const code = current.weather_code;
+    const isDay = current.is_day; // 1 = Day, 0 = Night
 
+    // Update UI text
+    UI.desc.textContent = weatherDescriptions[code] || "Conditions varying";
+    UI.temp.textContent = `${Math.round(temp)}°F`;
+    UI.wind.textContent = `${Math.round(wind)} mph`;
+    UI.dir.textContent = `${direction}°`;
+
+    // BONUS: Update background based on Day/Night
+    if (isDay === 0) {
+        document.body.style.background = "linear-gradient(135deg, #020617 0%, #0f172a 100%)"; // Darker Night Mode
+    } else {
+        document.body.style.background = "linear-gradient(0deg, #0a223aff 0%, #195bbcff 90%)"; // Original Professional Mode
+    }
+    
+    UI.dot.style.backgroundColor = "#22c55e"; // Success green
+
+  } catch (error) {
+    if(UI.desc) UI.desc.textContent = "Connection error!";
+    UI.dot.style.backgroundColor = "#ef4444"; // Error red
+  }
 }
 
+// Initial call and 10-minute interval
 getArlingtonWeather();
-
 setInterval(getArlingtonWeather, 600000);
