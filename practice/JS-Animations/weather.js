@@ -58,7 +58,8 @@ async function getArlingtonWeather() {
     temp: document.getElementById("temp"),
     wind: document.getElementById("wind"),
     dir: document.getElementById("direction"),
-    dot: document.getElementById("status-dot")
+    dot: document.getElementById("status-dot"),
+    feals: document.getElementById("feels-like")
   };
 
   try {
@@ -66,7 +67,7 @@ async function getArlingtonWeather() {
     const lon = -77.10;
 
     // THE CORRECTED URL (Notice 'current=...')
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day&temperature_unit=fahrenheit&wind_speed_unit=mph`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day,apparent_temperature&temperature_unit=fahrenheit&wind_speed_unit=mph`;
     
     const response = await fetch(url);
     const data = await response.json();
@@ -78,12 +79,14 @@ async function getArlingtonWeather() {
     const direction = current.wind_direction_10m;
     const code = current.weather_code;
     const isDay = current.is_day; // 1 = Day, 0 = Night
+    const feals = current.apparent_temperature;
 
     // Update UI text
     UI.desc.textContent = weatherDescriptions[code] || "Conditions varying";
     UI.temp.textContent = `${Math.round(temp)}°F`;
     UI.wind.textContent = `${Math.round(wind)} mph`;
     UI.dir.textContent = `${direction}°`;
+    UI.feals.textContent = `${Math.round(feals)}°F`;
 
         // logic: 1 = Day, 0 = Night
 if (isDay === 0) {
@@ -91,11 +94,10 @@ if (isDay === 0) {
         document.body.style.background = "linear-gradient(180deg, #1e293b 0%, #0f172a 40%, #020617 100%)";
         document.body.style.color = "#f8fafc"; // Off-white for easy reading
     } else {
-        // BETTER DAY: Bright sky top, clear middle for readability, warm sunrise bottom
-        // We use 'fixed' attachment so the gradient doesn't stretch weirdly if the page grows
-        document.body.style.background = "linear-gradient(180deg, #0ea5e9 0%, #bae6fd 50%, #ffedd5 100%)";
+        // SUNRISE DAY: Deep sky blue -> Soft Peach -> Golden Horizon
+        document.body.style.background = "linear-gradient(180deg, #075985 0%, #fbcfe8 45%, #ffedd5 70%, #fdba74 100%)";
         document.body.style.backgroundAttachment = "fixed";
-        document.body.style.color = "#0c4a6e"; // Dark blue text (easier on eyes than pure black)
+        document.body.style.color = "#0f172a"; 
     }
     
     UI.dot.style.backgroundColor = "#22c55e"; // Success green
@@ -105,7 +107,6 @@ if (isDay === 0) {
     UI.dot.style.backgroundColor = "#ef4444"; // Error red
   }
 }
-
 // Initial call and 10-minute interval
 getArlingtonWeather();
 setInterval(getArlingtonWeather, 600000);
