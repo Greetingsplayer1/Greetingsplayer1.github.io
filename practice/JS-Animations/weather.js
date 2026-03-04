@@ -82,10 +82,9 @@ async function getArlingtonWeather() {
         document.getElementById("description").textContent = "Link or connection error!";
     }
   }
+
 }
 
 getArlingtonWeather();
 
-
-// Run the function
-getArlingtonWeather();
+setInterval(getArlingtonWeather, 600000);
