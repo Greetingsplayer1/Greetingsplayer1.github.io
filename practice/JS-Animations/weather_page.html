@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arlington Weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+
+        .weather-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 { margin: 0; font-size: 1.5rem; opacity: 0.9; }
+        .desc { font-size: 1.2rem; margin: 10px 0; font-weight: bold; }
+        .temp { font-size: 4rem; margin: 10px 0; }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-item i { display: block; margin-bottom: 5px; color: #74ebd5; }
+    </style>
+</head>
+<body>
+
+    <div class="weather-card" id="card">
+        <h1>Arlington, VA</h1>
+        <div id="description" class="desc">Loading...</div>
+        <div id="temp" class="temp">--°</div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <i class="fas fa-wind"></i>
+                <span id="wind">-- mph</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-compass"></i>
+                <span id="direction">--°</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="weather.js"></script>
+</body>
+</html>
