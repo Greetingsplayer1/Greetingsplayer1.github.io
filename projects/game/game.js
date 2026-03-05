@@ -1,5 +1,7 @@
-let gameActive = true; //this variable is required. 
-                       //to stop the game, set it to false.
+let gameActive = true; //this variable is required.
+let haveGrapple = false;
+let haveForce = false;
+let haveBreakPoint = false;
 
 //Declare your other global variables here
 
@@ -8,22 +10,31 @@ let gameActive = true; //this variable is required.
 
 
 //Make one function for each location
-function locationA() {
+function mainPort() {
     clear();
-    print("\nYou are in location A!");
+    print("\nWow the break point worked you have telported to a main port");
     print("\nWhere do you want to go next? Say one of these choices:" +
         "\n\tlocationB" +
         "\n\tlocationC");
     
-    function processInput(input){
-        if (input.toLowerCase() === "locationB"  || "locationC") {
-            locationB();
-            locationC();
+function processInput(input) {
+        let choice = input.toLowerCase();
+
+        if (choice === "locationb" || choice === "locationc") {
+            if (haveBreakPoint === true) {
+                if (choice === "locationb") locationB();
+                if (choice === "locationc") locationC();
+            } else {
+                print("\nYou need the Break Point item to teleport!");
+                waitThenCall(mainPort); 
+            }
         } else {
             stayHere();
-            waitThenCall(locationA);
+            waitThenCall(mainPort);
         }
     }
+    
+    // This tells the game to wait for the user to type before running the logic above
     waitForInput(processInput);
 }
 
@@ -31,12 +42,12 @@ function locationB() {
     clear();
     print("\nYou are in location B!");
     print("\nWhere do you want to go next? Say one of these choices:" +
-        "\n\tlocationA" +
+        "\n\tmainPort" +
         "\n\tlocationC");
     
     function processInput(input){
-        if (input.toLowerCase() === "locationA" || "locationC") {
-            locationA();
+        if (input.toLowerCase() === "mainport" || "locationc") {
+            mainPort();
             locationC();
         } else {
             stayHere();
@@ -51,12 +62,12 @@ function locationC() {
     print("\nYou are in location C!");
     print("\nWhere do you want to go next? Say one of these choices:" +
         "\n\tlocationB" +
-        "\n\tlocationA");
+        "\n\tmainPort");
     
     function processInput(input){
-        if (input.toLowerCase() === "locationB" || "locationC") {
+        if (input.toLowerCase() === "locationb" || "mainport") {
             locationB();
-            locationA();
+            mainPort();
         } else {
             stayHere();
             waitThenCall(locationA);
@@ -68,31 +79,56 @@ function locationC() {
 function fix() {
     clear();
     print("\nYou have fixed the Breach Point yipeeeeeeeeeee");
-    print("\nWhere do you want to go? Say one of these choices:" +
-        "\n\tlocationA");
+    print("\nWhere do you want to go?" +
+        "\n\tmainPort");
     
     function processInput(input){
-        if (input.toLowerCase() === "locationA") {
-            locationA();
+        if (input.toLowerCase() === "mainport") {
+            mainPort();
         } else {
             stayHere();
-            waitThenCall(locationA);
         }
     }
+    haveBreakPoint = true;
     waitForInput(processInput);
 }
 
-function begining() {
+function noFix() {
     clear();
-    print("\nYou turn in circle the establishment your parents had worked so hard to build now burns in front of you");
-    print("\n add story here");
+    print("\nYou are are a faliur resart");
     
-    function processInput(input){
-        if (input.toLowerCase() === "locationA") {
-            locationA();
+function processInput(input) {
+        let choice = input.toLowerCase();
+
+        if (choice === "mainport") {
+            if (haveBreakPoint === true) {
+                if (choice === "mainport") mainPort();
+            } else {
+                print("\nYou need the Break Point item to teleport!");
+                waitThenCall(mainPort); 
+            }
         } else {
             stayHere();
-            waitThenCall(locationA);
+            waitThenCall(mainPort);
+        }
+    }
+    haveBreakPoint = false;
+    waitForInput(processInput);
+}
+
+
+function begin() {
+    clear();
+    print("\nstory");
+    print("\n add story here");
+        print("\n fix or nofix");
+    
+    function processInput(input){
+        if (input.toLowerCase() === "fix" || "nofix") {
+            fix();
+            noFix();
+        } else {
+            stayHere();
         }
     }
     waitForInput(processInput);
@@ -102,11 +138,15 @@ function begining() {
 //very start. For this simple example, any input will bring you
 //to locationA
 function start(){
-    print("Welcome to ecos of time enter ");
+    print("Welcome to echos of time");
+    print("Type begin to begin");
 
     function processInput(input){
-            begining();
-    }
-
+        if (input.toLowerCase() === "begin") {
+            begin();
+        } else {
+            stayHere();
+        }
+}
     waitForInput(processInput);
 }

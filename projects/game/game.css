@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 20px;
-    background-color: #0b9a2f;
+    background-color: #800b9a;
     font-family: 'Courier New', monospace;
     color: #000000;
     height: 100vh;
@@ -24,7 +24,7 @@ h1{
     flex-direction: column;
     max-width: 80%;
     margin: 0 auto;
-    border: 2px solid #00ff00;
+    border: 5px solid #d5d077;
     padding: 20px;
     background-color: #FFFDD0;
     overflow: hidden;
