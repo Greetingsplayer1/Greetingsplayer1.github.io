@@ -15,10 +15,14 @@ let loreForAll = 0;
 //Make one function for each location
 function mainPort() {
     clear();
-    print("\nWow the break point worked you have telported to a main port");
+    print("\nYou take the brdge you built as a youth across to the main island this is were many of the ports are bulit");
+    if (haveBreakPoint)  {
+        print("\nThe ports hum you now have acces to new paths");
+        print("\n\villageC")
+    }
     print("\nWhere do you want to go next? Say one of these choices:" +
-        "\n\tlocationB" +
-        "\n\tlocationC");
+        "\n\tlocationB")
+    
         
     
 function processInput(input) {
@@ -27,10 +31,10 @@ function processInput(input) {
     if (choice === "locationb") {
         // Location B is accessible to everyone
         locationB();
-    } else if (choice === "locationc") {
+    } else if (choice === "villagec") {
         // Location C requires the Break Point item
         if (haveBreakPoint === true) {
-            locationC();
+            villageC();
         } else {
             print("\nYou need the Break Point item to teleport to this location!");
             waitThenCall(mainPort);
@@ -51,19 +55,19 @@ function locationB() {
     print("\nYou are in location B!");
     print("\nWhere do you want to go next? Say one of these choices:" +
         "\n\tmainPort" +
-        "\n\tlocationC");
+        "\n\tvillageC");
     
     function processInput(input) {
         let choice = input.toLowerCase();
 
         if (choice === "mainport") {
             mainPort();
-        } else if (choice === "locationc") {
+        } else if (choice === "villagec") {
             // Check for the Break Point item specifically for Location C
             if (haveBreakPoint === true) {
-                locationC();
+                villageCC();
             } else {
-                print("\nYou need the Break Point item to teleport to Location C!");
+                print("\nYou need the Break Point item to teleport to village C!");
                 waitThenCall(locationB);
             }
         } else {
@@ -74,9 +78,9 @@ function locationB() {
     waitForInput(processInput);
 }
 
-function locationC() {
+function villageC() {
     clear();
-    print("\nYou are in Location C—the closest island to the fracture.");
+    print("\nYou are in village C—the closest island to the fracture.");
     print("\nThe air is thick with violet static. The **Absolute Point** looms ahead.");
     print("\nWhere do you want to go next? Say one of these choices:" +
         "\n\tlocationB" +
@@ -93,7 +97,7 @@ function locationC() {
             absolutePoint(); // Jump to the finale
         } else {
             stayHere();
-            waitThenCall(locationC);
+            waitThenCall(villageC);
         }
     }
     waitForInput(processInput);
