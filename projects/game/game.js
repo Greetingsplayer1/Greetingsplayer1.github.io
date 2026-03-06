@@ -3,6 +3,7 @@ let haveGrapple = false;
 let haveForce = false;
 let haveBreakPoint = false;
 let loreFound = 0;
+let loreForAll = 0;
 
 
 //Declare your other global variables here
@@ -240,14 +241,22 @@ function stayHere() {
 
     if (Math.random() < 0.001) { 
         print("\n[ULTRA RARE]: A child's laughter echoes from the absolute point between. It's not a memory and it's coming from the point. ");
+         loreFound++;
         return; 
     }
 
     if (Math.random() < 0.001 && haveBreakPoint === false) {
     print("\n[LUCK]: A rift opens and a cracked Break Point falls at your feet. The universe is cheating for you today, thief.");
+     loreFound++;
     haveBreakPoint = true;
     return;
 }
+
+if (Math.random() < .0001) { 
+        print("\n[The Truth]: The point is not just an object and neaither are you embrace it embrace it aciant magic within yourself"); //thsi is the final clue this is needed for the perfect ending it tells you to use your name
+        loreForAll++;
+        return; 
+    }
 
     // 1. Create a list (array) of your funny messages
     let responses = [
@@ -258,6 +267,11 @@ function stayHere() {
         "\nThe Absolute Point mocks your life choices. Pick a real direction."
     ];
 
+    if (loreForAll === 1) {
+        responses.push("\nThe purple sea feels... thinner. Like a veil you could reach through if you only knew the word.");
+        responses.push("\nYou don't feel like a thief anymore. You feel like a King waiting for his crown.");
+    }
+
     // 2. Pick a random number based on the length of the list
     let randomIndex = Math.floor(Math.random() * responses.length);
 
@@ -267,22 +281,74 @@ function stayHere() {
 
 function absolutePoint() {
     clear();
-    print("\nYou stand at the edge of existence. The Absolute Point hums before you, a jagged tear where your family is suspended in a frozen second.");
-    print("\nThis is the moment. Use your Ancient Magic to SHATTER the rift?");
+    print("\nYou stand at the edge of existence. The **Absolute Point** is a jagged, screaming tear in reality.");
+    print("\nThrough the shimmering violet light, you see your family. They are frozen in a single, silent second—neither inside nor outside of time.");
+    print("\nYour Ancient Magic burns in your hands. This is the moment. What will you do, thief?");
+    print("\nType **SHATTER** to break the rift and free them.");
+    print("\nType **ABSORB** to take the Ancient Magic for yourself.");
 
     function processInput(input) {
         let choice = input.toLowerCase();
 
         if (choice === "shatter") {
-            // THE ENDING LOGIC GOES HERE
+            clear();
+            // Check for Secret vs Normal Ending based on lore found
             if (loreFound >= 3) {
-                print("\n[SECRET ENDING]: Because you listened to the echoes of the world, you realize the Point isn't just a rift—it's a memory...");
-                // Add your victory text or credits here!
+                // --- SECRET ENDING: THE TRUE BRIDGE ---
+                print("<h1>[SECRET ENDING: THE TRUE BRIDGE]</h1>");
+                print("\nBecause you listened to the echoes of the world, you realize the Point isn't just a rift—it's a memory out of place.");
+                print("\nYou don't just break the magic; you *healed* it. The violet tides retreat, and for the first time in an age, the sea turns a brilliant, deep **BLUE**.");
+                print("\nYour family steps out of the light, untouched by the years. You are no longer Hassimon the thief; you are Aethel-Voss, the Restorer.");
             } else {
-                print("\n[NORMAL ENDING]: You shatter the Point. Your family is safe, but the world remains scarred...");
+                // --- NORMAL ENDING: THE SCARRED WORLD ---
+                print("<h1>[NORMAL ENDING: THE SCARRED WORLD]</h1>");
+                print("\nWith a roar of Ancient Magic, you shatter the Absolute Point. The explosion of energy throws you back as the rift collapses.");
+                print("\nYour family falls into your arms, safe at last, but the horizon remains a bruised purple. The magic is gone, but the world stays broken into islands. You have your family, but the blue sea is lost to history.");
             }
-            gameActive = false; // Ends the game
-        } else {
+            gameActive = false;
+
+        } else if (choice === "absorb") {
+            // --- BAD ENDING: THE HOLLOW KING ---
+            clear();
+            print("<h1>[BAD ENDING: THE HOLLOW KING]</h1>");
+            print("\nGreed or desperation takes hold. Instead of breaking the rift, you try to pull its ancient power into your own soul.");
+            print("\nThe magic is too much. You watch in horror as your family is pulled deeper into the violet void, their hands slipping from the glass as the rift collapses into a singularity.");
+            print("\nYou are left alone on a barren rock, overflowing with power but with no world left to rule and no family to return to. The purple sea has claimed everything.");
+            print("\n<h1>was it worth it</h1>");
+            gameActive = false;
+
+        }
+        else if (choice === "both") {
+            // --- HIDDEN ENDING: THE ONE ABOVE ALL ---
+            clear();
+            print("<h1>[HIDDEN ENDING: THE ONE ABOVE ALL]</h1>");
+            print("\nGreed and love collide. Instead of breaking the rift, you attempt the impossible: you pull the power in while reaching for your family.");
+            print("\nYou watch in horror as they slip away, but then you find a reservoir of strength inside you. You hear their voices calling out across the void.");
+            print("\nWith a final, desperate surge of Ancient Magic, you bend time itself, pulling your family back into your grasp just as the Absolute Point enters your body.");
+            print("\nThe world returns to normal—the sea turns blue—but the Point now lives inside you. You have your family, but you are the guardian of a power that could end the world at any second.");
+            gameActive = false;
+        }
+                else if (choice === "aethel-voss") {
+            // --- THE TRUE ASCENSION ENDING ---
+            if (loreFound >= 5 && loreForAll == 1) { // Requires finding almost all secrets
+            
+                clear();
+                print("<h1>[TRUE ENDING: THE ARCHITECT REBORN]</h1>");
+                print("\nYou do not say 'Shatter.' You do not say 'Absorb.' You speak your True Name into the violet wind.");
+                print("\nAt the sound of **AETHEL-VOSS**, the Absolute Point stops screaming. It begins to hum a harmony. The jagged tear in reality softens, turning from a wound into a doorway.");
+                print("\nYour family doesn't just fall out; they walk out, fully awake and smiling. You don't take the power into your body—you move the power back into the world's core where it belongs.");
+                print("\nThe islands gently descend, reconnecting into a single, vast continent. The sea turns a crystal, sparkling blue. No more Ports, no more rifts, no more hiding.");
+                print("\nYou are no longer a thief. You are the man who put the world back together.");
+                print("\n<b>The cycle is finally broken. You are home.</b>");
+                print("\nand not just that you feel the full power of the acient magic coursing through you giving you mroe power than ever before");
+                gameActive = false;
+            } else {
+                print("\nYou whisper the name, but the Ancient Magic doesn't recognize you yet. You haven't listened to enough of the world's echoes.");
+                waitThenCall(absolutePoint);
+            }
+        }
+
+         else {
             stayHere();
             waitThenCall(absolutePoint);
         }
