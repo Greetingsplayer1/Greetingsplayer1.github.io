@@ -54,9 +54,6 @@ function waitForInput(handlerFunction){
 }
 
 function waitThenCall(target){
-    setTimeout(target,2000);
+    setTimeout(target,200000);
 }
 
-function stayHere(){
-    print("\nSorry the thing you want to do is to stupid for you character to understand try something else");
-}
