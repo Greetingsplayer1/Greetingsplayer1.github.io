@@ -4,6 +4,12 @@ let haveForce = false;
 let haveBreakPoint = false;
 let loreFound = 0;
 let loreForAll = 0;
+let foundSecret1 = false;
+let foundSecret2 = false;
+let foundSecret3 = false;
+let foundSecret4 = false;
+let foundSecret5 = false;
+
 
 
 //Declare your other global variables here
@@ -18,7 +24,7 @@ function mainPort() {
     print("\nYou take the brdge you built as a youth across to the main island this is were many of the ports are bulit");
     if (haveBreakPoint)  {
         print("\nThe ports hum you now have acces to new paths");
-        print("\n\villageC")
+        print("\n\ villageC")
     }
     print("\nWhere do you want to go next? Say one of these choices:" +
         "\n\tlocationB")
@@ -225,63 +231,71 @@ function start(){
 }
 
 function stayHere() {
- if (Math.random() < 0.001) { 
-        print("\n[SECRET]: The Absolute Point shakes and a voice emerges from within and whispers your true name. Aethel-Voss. You feel a chill... but then all turns back to normal. Was it just you or did that sound like your sister");
+    let roll = Math.random();
+
+    // 1. THE TRUTH (The "loreForAll" requirement)
+    if (roll < 0.1 && loreForAll === 0) { 
+        print("\n[The Truth]: The point is not just an object and neither are you... embrace the ancient magic within.");
+        loreForAll = 1;
+        return; 
+    }
+
+    // 2. SECRET 1: Sister/True Name
+    if (roll < 0.2 && !foundSecret1) { 
+        print("\n[SECRET]: A voice whispers your true name: Aethel-Voss. Was that your sister?");
+        foundSecret1 = true;
         loreFound++;
-        return; // This stops the function so it doesn't print the normal message too
+        return; 
     }
 
-        if (Math.random() < 0.001) { 
-        print("\n[ECHO]: The violet tides ripple. You see a flash of your daughter's ribbon tangled in a gear... but it vanishes before you can grab it. Focus, thief!");
+    // 3. SECRET 2: Daughter's Ribbon
+    if (roll < 0.3 && !foundSecret2) { 
+        print("\n[ECHO]: You see a flash of your daughter's ribbon tangled in a gear...");
+        foundSecret2 = true;
         loreFound++;
         return; 
     }
 
-        if (Math.random() < 0.001) { 
-        print("\n[ULTRA RARE]: The Absolute Point pulses. For a split second, the sea turns blue again. You see your family's faces in the reflection before the violet tides return. Was it a dream?");
+    // 4. SECRET 3: Blue Sea Vision
+    if (roll < 0.4 && !foundSecret3) { 
+        print("\n[ULTRA RARE]: For a split second, the sea turns blue again.");
+        foundSecret3 = true;
         loreFound++;
         return; 
     }
 
-    if (Math.random() < 0.001) { 
-        print("\n[ULTRA RARE]: A child's laughter echoes from the absolute point between. It's not a memory and it's coming from the point. ");
-         loreFound++;
+    // 5. SECRET 4: Child's Laughter
+    if (roll < 0.5 && !foundSecret4) { 
+        print("\n[ULTRA RARE]: A child's laughter echoes from the point.");
+        foundSecret4 = true;
+        loreFound++;
         return; 
     }
 
-    if (Math.random() < 0.001 && haveBreakPoint === false) {
-    print("\n[LUCK]: A rift opens and a cracked Break Point falls at your feet. The universe is cheating for you today, thief.");
-     loreFound++;
-    haveBreakPoint = true;
-    return;
-}
-
-if (Math.random() < .0001) { 
-        print("\n[The Truth]: The point is not just an object and neaither are you embrace it embrace it aciant magic within yourself"); //thsi is the final clue this is needed for the perfect ending it tells you to use your name
-        loreForAll++;
-        return; 
+    // 6. SECRET 5: The Luck/Break Point
+    if (roll < 0.6 && !foundSecret5 && !haveBreakPoint) {
+        print("\n[LUCK]: A rift opens and a cracked Break Point falls at your feet.");
+        foundSecret5 = true;
+        loreFound++;
+        haveBreakPoint = true;
+        return;
     }
 
-    // 1. Create a list (array) of your funny messages
+    // NORMAL RESPONSES
     let responses = [
-        "\nSorry, that's too stupid for your character to understand.",
-        "\nYour character stares blankly into the purple sea, confused.",
-        "\nThat makes no sense in this reality. Try again.",
-        "\nYou try to do that, but you trip over a loose Port-gear instead.",
-        "\nThe Absolute Point mocks your life choices. Pick a real direction."
+        "\nThat makes no sense in this reality.",
+        "\nYou trip over a loose Port-gear.",
+        "\nThe Absolute Point mocks your life choices."
     ];
 
     if (loreForAll === 1) {
-        responses.push("\nThe purple sea feels... thinner. Like a veil you could reach through if you only knew the word.");
-        responses.push("\nYou don't feel like a thief anymore. You feel like a King waiting for his crown.");
+        responses.push("\nThe purple sea feels thinner... like a veil.");
     }
 
-    // 2. Pick a random number based on the length of the list
     let randomIndex = Math.floor(Math.random() * responses.length);
-
-    // 3. Print the random response
     print(responses[randomIndex]);
 }
+
 
 function absolutePoint() {
     clear();
