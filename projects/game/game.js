@@ -9,6 +9,7 @@ let foundSecret2 = false;
 let foundSecret3 = false;
 let foundSecret4 = false;
 let foundSecret5 = false;
+let haveKey = false; 
 
 
 
@@ -27,7 +28,7 @@ function mainPort() {
         print("\n\ villageC")
     }
     print("\nWhere do you want to go next? Say one of these choices:" +
-        "\n\tlocationB")
+        "\n\ villageb")
     
         
     
@@ -40,9 +41,9 @@ function processInput(input) {
         return; 
     }
 
-    if (choice === "locationb") {
+    if (choice === "villageb") {
         // Location B is accessible to everyone
-        locationB();
+        villageB();
     } else if (choice === "villagec") {
         // Location C requires the Break Point item
         if (haveBreakPoint === true) {
@@ -62,27 +63,24 @@ function processInput(input) {
 }
 
 
-function locationB() {
+function villageB() {
     clear();
-    print("\nYou are in location B!");
-    print("\nWhere do you want to go next? Say one of these choices:" +
-        "\n\tmainPort" +
-        "\n\tvillageC");
+    print("\nYou are in Village B!");
+    print("\nWhere to? mainPort, villageC, or villageD"); // Added Village D
     
     function processInput(input) {
         let choice = input.toLowerCase();
-
-            if (choice === "map") {
-        showMap();
-        waitThenCall(mainPort); // After showing the map, it brings them back here
-        return; 
-    }
+        if (choice === "map") { showMap(); waitThenCall(villageB); return; }
 
         if (choice === "mainport") {
             mainPort();
+        } else if (choice === "villagec") {
+            villageC();
+        } else if (choice === "villaged") {
+            villageD(); // Added logic to move forward
         } else {
             stayHere();
-            waitThenCall(locationB);
+            waitThenCall(villageB); // Fixed typo from villageBB to villageB
         }
     }
     waitForInput(processInput);
@@ -91,27 +89,18 @@ function locationB() {
 function villageC() {
     clear();
     print("\nYou are in village C—the closest island to the fracture.");
-    print("\nThe air is thick with violet static. The **Absolute Point** looms ahead.");
-    print("\nWhere do you want to go next? Say one of these choices:" +
-        "\n\tlocationB" +
-        "\n\tmainPort" +
-        "\n\tabsolutePoint"); // New choice added here
+    print("\nWhere to? villageB, mainPort, or villageD"); // Added Village D
     
     function processInput(input){
         let choice = input.toLowerCase();
+        if (choice === "map") { showMap(); waitThenCall(villageC); return; }
 
-            if (choice === "map") {
-        showMap();
-        waitThenCall(mainPort); // After showing the map, it brings them back here
-        return; 
-    }
-
-        if (choice === "locationb") {
-            locationB();
+        if (choice === "villageb") {
+            villageB();
         } else if (choice === "mainport") {
             mainPort();
-        } else if (choice === "absolutepoint") {
-            absolutePoint(); // Jump to the finale
+        } else if (choice === "villaged") {
+            villageD(); // Added logic to move forward
         } else {
             stayHere();
             waitThenCall(villageC);
@@ -120,6 +109,253 @@ function villageC() {
     waitForInput(processInput);
 }
 
+function villageD() {
+    clear();
+    print("\nYou are in Village D—the 'Garden of the Isles.' Flowers here bloom in neon hues.");
+    print("\nWhere to? villageC, villageE, or nectarSprings");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "villagec") { villageC(); }
+        else if (choice === "villagee") { villageE(); }
+        else if (choice === "nectarsprings") { nectarSprings(); }
+        else { stayHere(); waitThenCall(villageD); }
+    }
+    waitForInput(processInput);
+}
+
+function villageE() {
+    clear();
+    print("\nYou are in Village E—perched precariously on the cliffside.");
+    print("\nWhere to? villageD or villageF"); // Cleaned up choices
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "villaged") { villageD(); }
+        else if (choice === "villagef") { villageF(); }
+        else { stayHere(); waitThenCall(villageE); }
+    }
+    waitForInput(processInput);
+}
+
+function villageF() {
+    clear();
+    print("\nYou are in Village F—the final settlement before the Wildlands.");
+    print("\nWhere to? villageE, huntersCamp, or forgottenShrine");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "villagee") { villageE(); }
+        else if (choice === "hunterscamp") { huntersCamp(); }
+        else if (choice === "forgottenshrine") { forgottenShrine(); }
+        else { stayHere(); waitThenCall(villageF); }
+    }
+    waitForInput(processInput);
+}
+
+
+function nectarSprings() {
+    clear();
+    print("\nThe water here tastes sweet, but the bubbles defy gravity.");
+    if (!haveKey) {
+        print("\nYou notice something glinting near a guard's discarded helmet. It looks like a heavy iron key.");
+    }
+    print("\nWhere to? villageD, shimmeringBasin, or **search** the grass?");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "search" && !haveKey) {
+            haveKey = true;
+            print("\n[ITEM FOUND]: You picked up the **Iron Order Key**!");
+            waitThenCall(nectarSprings);
+        } else if (choice === "villaged") { villageD(); }
+        else if (choice === "shimmeringbasin") { shimmeringBasin(); }
+        else { stayHere(); waitThenCall(nectarSprings); }
+    }
+    waitForInput(processInput);
+}
+
+function theGreatBridge() {
+    clear();
+    print("\nA massive stone span crossing the 'Void Gap.' The wind howls below.");
+    print("\nWhere to? villageE or ironDocks");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "villagee") { villageE(); }
+        else if (choice === "irondocks") { ironDocks(); }
+        else { stayHere(); waitThenCall(theGreatBridge); }
+    }
+    waitForInput(processInput);
+}
+
+function huntersCamp() {
+    clear();
+    print("\nA small outpost for those brave enough to track the violet beasts.");
+    print("\nWhere to? villageF or shadowWoods");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "villagef") { villageF(); }
+        else if (choice === "shadowwoods") { shadowWoods(); }
+        else { stayHere(); waitThenCall(huntersCamp); }
+    }
+    waitForInput(processInput);
+}
+
+function forgottenShrine() {
+    clear();
+    print("\nAn ancient altar glowing with a soft, rhythmic light.");
+    print("\nWhere to? villageF or crystalCave");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "villagef") { villageF(); }
+        else if (choice === "crystalcave") { crystalCave(); }
+        else { stayHere(); waitThenCall(forgottenShrine); }
+    }
+    waitForInput(processInput);
+}
+
+function crystalCave() {
+    clear();
+    print("\nThe walls are jagged quartz. Your voice echoes three times.");
+    print("\nWhere to? forgottenShrine or obsidianPeak");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "forgottenshrine") { forgottenShrine(); }
+        else if (choice === "obsidianpeak") { obsidianPeak(); }
+        else { stayHere(); waitThenCall(crystalCave); }
+    }
+    waitForInput(processInput);
+}
+
+function obsidianPeak() {
+    clear();
+    print("\nThe highest point of the island. You can see the Absolute Point from here.");
+    print("\nWhere to? crystalCave or cloudPeaks");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "crystalcave") { crystalCave(); }
+        else if (choice === "cloudpeaks") { cloudPeaks(); }
+        else { stayHere(); waitThenCall(obsidianPeak); }
+    }
+    waitForInput(processInput);
+}
+
+function shimmeringBasin() {
+    clear();
+    if (!haveBreakPoint) {
+        print("\nA shimmering barrier blocks the path. You need a **Break Point** to pass.");
+        waitThenCall(nectarSprings);
+        return;
+    }
+    print("\nA shallow lake reflecting a sky that isn't yours.");
+    print("\nWhere to? nectarSprings or orderOfAether");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "nectarsprings") { nectarSprings(); }
+        else if (choice === "orderofaether") { orderOfAether(); }
+        else { stayHere(); waitThenCall(shimmeringBasin); }
+    }
+    waitForInput(processInput);
+}
+function echoCanyon() {
+    clear();
+    print("\nEvery footstep sounds like a thunderclap here.");
+    print("\nWhere to? obsidianPeak or villageC");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "obsidianpeak") { obsidianPeak(); }
+        else if (choice === "villagec") { villageC(); }
+        else { stayHere(); waitThenCall(echoCanyon); }
+    }
+    waitForInput(processInput);
+}
+
+function theSingingGate() {
+    clear();
+    print("\nA massive archway that vibrates when you speak.");
+    print("\nWhere to? huntersCamp or echoCanyon");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "hunterscamp") { huntersCamp(); }
+        else if (choice === "echocanyon") { echoCanyon(); }
+        else { stayHere(); waitThenCall(theSingingGate); }
+    }
+    waitForInput(processInput);
+}
+
+function orderOfAether() {
+    clear();
+    print("\n--- THE ORDER OF AETHER ---");
+    print("\nA soaring castle of white marble floating higher than the clouds.");
+    print("\nWhere to? shimmeringBasin or orderOfShadow");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "shimmeringbasin") { shimmeringBasin(); }
+        else if (choice === "orderofshadow") { orderOfShadow(); }
+        else { stayHere(); waitThenCall(orderOfAether); }
+    }
+    waitForInput(processInput);
+}
+
+function orderOfShadow() {
+    clear();
+    print("\n--- THE ORDER OF SHADOW ---");
+    print("\nA fortress carved into a jagged obsidian cliffside.");
+    print("\nWhere to? orderOfAether or orderOfIron");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "orderofaether") { orderOfAether(); }
+        else if (choice === "orderofiron") { orderOfIron(); }
+        else { stayHere(); waitThenCall(orderOfShadow); }
+    }
+    waitForInput(processInput);
+}
+
+function orderOfIron() {
+    clear();
+    if (!haveKey) {
+        print("\n--- THE ORDER OF IRON ---");
+        print("\nThe gates are locked. You need the **Iron Order Key** from the Springs.");
+        waitThenCall(orderOfShadow);
+        return;
+    }
+    print("\n--- THE ORDER OF IRON ---");
+    print("\nThe heavy gates creak open with your key. The forge fires roar.");
+    print("\nWhere to? orderOfShadow or theGreatBridge");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "orderofshadow") { orderOfShadow(); }
+        else if (choice === "thegreatbridge") { theGreatBridge(); }
+        else { stayHere(); waitThenCall(orderOfIron); }
+    }
+    waitForInput(processInput);
+}
+
+
+function theGreatBridge() {
+    clear();
+    print("\nA massive stone span crossing the 'Void Gap.' The Absolute Point is just ahead.");
+    print("\nWhere to? orderOfIron or absolutePoint");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "orderofiron") { orderOfIron(); }
+        else if (choice === "absolutepoint") { absolutePoint(); }
+        else { stayHere(); waitThenCall(theGreatBridge); }
+    }
+    waitForInput(processInput);
+}
 
 function fix() {
     clear();
