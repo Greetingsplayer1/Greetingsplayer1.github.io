@@ -108,67 +108,68 @@ function villageB() {
 function villageC() {
   clear();
   print("\n--- VILLAGE C ---");
-  print("\nThe Violet Tides are violent here, crashing against the cliffs with a strange, humming energy.");
-  if (!haveForce) {
-    print("\nThe path to the next island is blocked by a massive stone wall that has fallen over.");
-    print("\nWhere to? villageB or **focus** on the humming energy?");
-  } else {
-    print("\nThe air feels calm now. The path to Village D is clear.");
-    print("\nWhere to? villageB or villageD");
-  }
+  print("\nThe air hums. You can walk to Village B or Village D.");
+  print("\nThere is a port here leading to **Echo Canyon**.");
+  print("\nWhere to? villageB, villageD, or use the **portal**?");
 
   function processInput(input){
     let choice = input.toLowerCase();
-    if (choice === "focus" && !haveForce) {
-      print("\n[FORCE UNLOCKED]: You harmonize with the Tides. With a simple gesture, you blast the stone wall aside!");
-      haveForce = true;
-      waitThenCall(villageC);
-    } 
-    else if (choice === "villageb") { villageB(); }
+    if (choice === "villageb") { 
+    villageB(); }
     else if (choice === "villaged") {
-      if (haveForce) { villageD(); }
-      else { print("\nThe way is blocked. You need to find a way to move the heavy stones."); waitThenCall(villageC); }
-    }
-    else { stayHere(); waitThenCall(villageC); }
+    villageD(); }
+    else if (choice === "portal") {
+      if (haveBreakPoint) {
+        print("\n[TELEPORT]: You hold up the Break Point. The archway glows violet and pulls you into Echo Canyon!");
+        echoCanyon();
+      } else {
+        print("\nThe portal is cold and dark. You need a **Break Point** to activate this teleportation arch.");
+        waitThenCall(villageC);
+      }
+    } else { 
+        stayHere(); 
+        waitThenCall(villageC); }
   }
   waitForInput(processInput);
 }
+
 
 
 
 
 function villageD() {
   clear();
-  print("\n--You are in Village D--");
-  print("\n");
-  print("\nWhere to? villageC, nectarSprings, or use **grapple** to reach the cliffs of village E?");
+  print("\n--- VILLAGE D ---");
+  print("\nPaths lead to Village C and Village E.");
+  print("\nHigh above, you see the floating waterfalls of **Nectar Springs**.");
+  print("\nWhere to? villageC, villageE, or **grapple** up to the Springs?");
 
   function processInput(input){
     let choice = input.toLowerCase();
     if (choice === "villagec") {
-        if (haveBreakPoint) {
-        print("\nThe port hums at your presances and sends you to village C");
-        villageC();
-      } else {
-        print("\nYou have no way to reach village C it is to far");
-        waitThenCall(villageD);
-      }
-    }
-    else if (choice === "nectarsprings") { 
-        nectarSprings();}
+       if (haveBreakPoint) {
+       print("\nThe port hums at your presances and sends you to village C");
+       villageC();
+     } else {
+       print("\nYou have no way to reach village C it is to far");
+       waitThenCall(villageD);
+     }
+   }
+    else if (choice === "villagee") { 
+        villageE(); }
     else if (choice === "grapple") {
       if (haveGrapple) {
-        print("\nYou hook the cliff edge and zip upward!");
-        villageE();
+        print("\nYou fire your hook into the floating island's underside and haul yourself up to the Springs.");
+        nectarSprings();
       } else {
-        print("\nYou have nothing to reach the high ledges of Village E.");
+        print("\nThe Springs are floating too high. You'll need a **Grapple** to get up there.");
         waitThenCall(villageD);
       }
-    }
-    else { stayHere(); waitThenCall(villageD); }
+    } else { stayHere(); waitThenCall(villageD); }
   }
   waitForInput(processInput);
 }
+
 
 function villageE() {
   clear();
@@ -231,27 +232,40 @@ function villageF() {
 
 function nectarSprings() {
   clear();
-  print("\nThe water here tastes sweet, but the bubbles float going the oppisote way that gravity would wish gravity.");
+  print("\n--- NECTAR SPRINGS ---");
+  print("\nSweet-smelling water bubbles up. High atop a floating crystal spire, you see a glint of iron.");
+  
   if (!haveKey) {
-    print("\nYou see a heavy Iron Key stuck deep inside a crystalline rock formation.");
-    print("\nWhere to? villageD, shimmeringBasin, or use **Force** to break the crystal?");
+    print("\nThe **Iron Order Key** is snagged on a ledge 30 feet above the water.");
+    print("\nWhere to? villageD, shimmeringBasin, or **force** the crystal apart");
   } else {
-    print("\nThe crystal rock lies shattered. You have the key.");
+    print("\nThe shattared crystal remians stand before you. You already have the key.");
     print("\nWhere to? villageD or shimmeringBasin");
   }
 
   function processInput(input){
     let choice = input.toLowerCase();
     if (choice === "force" && !haveKey) {
-      haveKey = true;
-      print("\n[STRENGTH]: You shatter the crystal with your magic. The **Iron Order Key** is yours!");
-      waitThenCall(nectarSprings);
-    } else if (choice === "villaged") { villageD(); }
-    else if (choice === "shimmeringbasin") { shimmeringBasin(); }
-    else { stayHere(); waitThenCall(nectarSprings); }
+      if (haveForce) {
+        haveKey = true;
+        print("\n[SUCCESS]: You shatter the crystal with a pulse of magic and take the Key!");
+        waitThenCall(nectarSprings);
+      } else {
+        print("\nThe crystal is too strong for your bare hands. You need to use **Force**.");
+        waitThenCall(nectarSprings);
+      }
+    } 
+    else if (choice === "villaged") { 
+        villageD(); }
+    else if (choice === "shimmeringbasin") { 
+        shimmeringBasin(); }
+    else { 
+        stayHere(); 
+        waitThenCall(nectarSprings); }
   }
   waitForInput(processInput);
 }
+
 
 
 function theGreatBridge() {
@@ -372,9 +386,13 @@ function echoCanyon() {
     
     function processInput(input){
         let choice = input.toLowerCase();
-        if (choice === "obsidianpeak") { obsidianPeak(); }
-        else if (choice === "villagec") { villageC(); }
-        else { stayHere(); waitThenCall(echoCanyon); }
+        if (choice === "obsidianpeak") { 
+            obsidianPeak(); }
+        else if (choice === "villagec") { 
+            villageC(); }
+        else { 
+            stayHere(); 
+            waitThenCall(echoCanyon); }
     }
     waitForInput(processInput);
 }
@@ -386,9 +404,13 @@ function theSingingGate() {
     
     function processInput(input){
         let choice = input.toLowerCase();
-        if (choice === "hunterscamp") { huntersCamp(); }
-        else if (choice === "echocanyon") { echoCanyon(); }
-        else { stayHere(); waitThenCall(theSingingGate); }
+        if (choice === "hunterscamp") { 
+            huntersCamp(); }
+        else if (choice === "echocanyon") { 
+            echoCanyon(); }
+        else { 
+            stayHere(); 
+            waitThenCall(theSingingGate); }
     }
     waitForInput(processInput);
 }
@@ -554,6 +576,7 @@ function next() {
     clear();
     print("\n--- THE ANCIENT LIBRARIES ---");
     print("\nYou have spent years hidden in the World Between Worlds, a sanctuary protected from the 'Split.' Here, among thousands of glowing texts, you have begun to master your innate Ancient Magic.");
+    print("\nYou learn how to controll and direct your acient magic learing how to channel it becoming more and more powerfull");
     print("\nWhile studying a forgotten shelf, you find a cracked stone disk—a **Broken Break Point**. It hums with a fractured, dangerous energy that vibrates against your palms.");
     print("\nWhat will you do? You can **read** a book on ancient magic, try to **fix** the break point, or leave it and **nofix** it?");
 
@@ -663,7 +686,8 @@ function showMap() {
 function begin() {
     clear();
     print("\n Before the sky fractured, the oceans were blue and the horizon was a straight line. Then came the Split—a cataclysmic event at the world's center that tore the earth into floating islands and bled violet into the tides. None have reached the absolute point though it is said to be a point where neither chaos nor peace live. Peopel have tried reachign the point again and agin they calaim that they heard the voices of the ones they had lost. The absolute point is located on a large floating island in the middle of adense group of clouds. Hassimon is a thief who uses his vast knowledge of magic and the lands to navigate this torn world without getting caught. Hassimon uses ports, archways with figures inscribed upon them. These ports were built by the ancient societies who used ancient magic to build the port to which no one knows the true purpose behind them. Hassimon is one of the few people who were born with innate magic or ancient magic. While most people can only use magic learned by book and require a source to channel the magic like a staff or wand, people born with ancient or innate magic can directly channel their power through themselves. The rulers at the time did not understand this ancient magic so they regarded it as chaotic and wrong swearing to rid the world of this “chaotic magic”. Ancient magic according to the vast amount of books at the ancient library which is located in the world between worlds. These lands were mostly protected from the “split” due to the vast amounts of ancient protection magic that surrounded the place to keep people without the ancient blood out. The world between worlds are a few but large islands that house hundreds of texts on ancient magic and is a safe place for those born with ancient blood to study and learn to control their abilities. It exists between both time and reality which make it a perfect spot for Hassimon to live, and practice the ancient magic that was imbued within him at birth. This is where our story begins ");
-    
+    print("\nType next to continue");
+
     function processInput(input){
     let choice = input.toLowerCase();
     if (choice === "next") {
@@ -816,34 +840,34 @@ function absolutePoint() {
     print("\nType **SHATTER** to break the rift and free them.");
     print("\nType **ABSORB** to take the Ancient Magic for yourself.");
 printAscii(`
-.........................::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++xxxx+++++++++++++++++;;;;;;;;;;
-.........................:::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++++xxxxxxxxxxx+++++++++++++;;;++++
-:::::::::.............::::::::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;++;++++++++xXXX$Xxxxxxxxxxxx++++;++++++;;;;;;;;;
-:::::::::::::.........::::::::::::::::::::::::::::::::::;;;:;;:;;:;;;;;++++++++++Xxxxxxxxxxxxxxxxxxxxxx++++;;++;;+++;;+
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;;;;;;;;;;;;+++++++xxxxxxxxxxxxxxxxxxxxxxxx+xxxx+++++++++
-::::::::::::::::::::::::::::::::::::::;;;;;;;;;;;;;;;::;;::::;;;;;;;;;;;;++++++++xXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+++++;
-::::::::::::::::::::::::::::::;;:;;;;+++xx+++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;+++++xXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-;;;;;::::::::::::::::::;;;;;;;;;;x$$$$$$$XxxxXXX$$x;;;;+;;;;;;;;;+;;;;;;;;;;;;;+++x++x$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-::::::::::::::;;;:::::;;;;;;;+xXX$$$$XXXXXXxx+;;;;+x$X+;;++;;;;;;;;;;;;;;;;;++;;;++++xXXXxXXXXXxxxxxxxxxxxxxxxxxxxxxXXx
-;;;;;;;;;;;;;;;;;;;;;;;;;;++X$$$&&&&$$$$XXXXxxxxx+++++xXX+;;;;;;;;;;;;;;;;;+++;++x+++++xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-++;;;;;;;;;;;;;;;;;;;;;++xX$$$XxX$+++xX$$$$$$Xxx++++x$$x+xX++++x++++++++++++++++++++++++X$XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-+x;;;;;;;;;;;;;;;;;++++x$$$$Xx++X+::++;;;+XXXXXx+x+++;+X&X+xx++++++++++++++++++++++++++x$&XXXX$$$$$$$$$$$$$$$$$$$$$$$$X
-;;;++;;;;;;;;;;;;;++++X$$$$x+x+;+;;;x+xX$$$$$$$x+++++;;;+X&$xX++++x+++++++++++++++++xxxX&X$$$$$$$$$$$$$$$$$$$$$$$$XXXxx
-;;;;++++++;;;;;;;++++x$$$xx+++;++;x&$XxxX$$$$$$$$$XXXXx;;++X&$$++++x+++++++++++++++xX&XxxxXX$$$$$$$$$$$$$$$$$$$$XXXxXXx
-;;;++++++;;;;;;;;++++X$$$++x;x;++x+x+xxX$$XXXX$$$&$$$XXxxx++x$$$+++++++++++++++++x+xxXxxxxx$&$$$$$$$$$$$$$$$$$$$$$$$XXx
-;;;+++++;;;++;;;;+++x$$$$x+++;++;+;+;+++xXXXXX$$$&&&&$$$Xx;+;x$&X+++++xxx++++++++xxx+xxxxX$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-;;+++;;;;+++++++;;++x$$$$x+;;;;+;;;;;++;++xXX$$$$$&&&$$$XXx;+x$&&x+++++++X++++xxxXxxxxxxx$&&&$$&&&$$$$$$$$$$$$$$$$$$$$$
-;;;;;;;;;+;;;;;;;;++xXx$$Xx++;;+;;;+++xxxxxxX$$$$$&&&&$&$XX+++X&&X+++++++xX++xXXx$XxxxxxX&&$$$$$&&&&$$$$$$$$$$$$$$$$$$$
-;;;;;;;;;;;++;;++;++xXxx$$$Xx+;;;++++++xxxX$&&&&&$&&&$$$$XXXxX$&&Xx++++++xXxx+xxxXx++xxx$&&$$$$$$&&$$$$$$$$$$$$$$$$$$$$
-+;;;;;;;;;;+++++++++x$$$X$XXXXxXxx++xxXX$$&$$&&&&$&&&$xXX$$$$$&&&$xx+++++++xxx++xxxxxxxxxX$$$$$$$XX$$$$$$$$$$$$$$$$$$$$
-+;;;;;;;++++++++++++x$$XXXX$x$&&X$XX$$$$$&&&$$$XXXx$Xx+;x$&&$X$&&Xxx+++++++xXXXxxxxxxxxxxxxxxxxxxxxX$&&&&&&&&&&&&&&&&&&
-++++++++++++++++++++x$$$+++xXXX&X;;+++x;;;+++xxxxxX$xx;+x$&$$X&&&Xxxxxxx+x+++xxx+xxxxxxxxxxxxxxxxxxxX$$$$&&$$&&&&&&&&&&
-++++++++++++++++++++xXXXX+;;+X$$+:::;;;;+;;;;;;;++x+x+;;+X&XX$&&$xxx+++++++++xxx+++xxx+xxxxxxx+++xxxxxxXX$XxX$&&&&&&&&&
-+++++++++x+++++++x++xxx+++;:::;x$x;:.:;::;:;+++;+x++;;;++$x+X&&&xxxxxxx++++++++++++++++++++++++++++xxxxxxXxxxXX$&&&&&&&
-+++++++++++++++++++++++xx+;;;::::+xxx+;:;;:::.:;;:;:;+;;++x&&$$xxxxxxxxx+++++++++++++++++++++++++++xxxxxxxxxxxxxxxXXXXX
-++++++++++++++++++++++++X$x;;++::...;xX+++X$Xx+++++;;+;+$&$X$$xxxxxxxxx++++++++++++xxxxxxxxxxxxxxxxxxxxxXXXXXXXXXX$$$$$
-+++++++++++++++++++++++xxX$$Xx+x+;;;::;+X$$XXX$$$$XXx+x$XXX$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXX$$$$
-;;;::;;::++++xxxxxxxxxxxxxX$$$$xx++++;::;;++x$$$$$$$$$$$$$XxxxxxxxxxxxxxXXxXXxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXX$$$$$
+.........................::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++xxxx+++++++++++++++++;;;;;
+.........................:::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++++xxxxxxxxxxx+++++++++++++;;
+:::::::::.............::::::::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;++;++++++++xXXX$Xxxxxxxxxxxx++++;++++++;;;;
+:::::::::::::.........::::::::::::::::::::::::::::::::::;;;:;;:;;:;;;;;++++++++++Xxxxxxxxxxxxxxxxxxxxxx++++;;++;;+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;;;;;;;;;;;;+++++++xxxxxxxxxxxxxxxxxxxxxxxx+xxxx++++
+::::::::::::::::::::::::::::::::::::::;;;;;;;;;;;;;;;::;;::::;;;;;;;;;;;;++++++++xXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+
+::::::::::::::::::::::::::::::;;:;;;;+++xx+++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;+++++xXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+;;;;;::::::::::::::::::;;;;;;;;;;x$$$$$$$XxxxXXX$$x;;;;+;;;;;;;;;+;;;;;;;;;;;;;+++x++x$xxxxxxxxxxxxxxxxxxxxxxxxxxx
+::::::::::::::;;;:::::;;;;;;;+xXX$$$$XXXXXXxx+;;;;+x$X+;;++;;;;;;;;;;;;;;;;;++;;;++++xXXXxXXXXXxxxxxxxxxxxxxxxxxxx
+;;;;;;;;;;;;;;;;;;;;;;;;;;++X$$$&&&&$$$$XXXXxxxxx+++++xXX+;;;;;;;;;;;;;;;;;+++;++x+++++xXXXXXXXXXXXXXXXXXXXXXXXXXX
+++;;;;;;;;;;;;;;;;;;;;;++xX$$$XxX$+++xX$$$$$$Xxx++++x$$x+xX++++x++++++++++++++++++++++++X$XXXXXXXXXXXXXXXXXXXXXXXX
++x;;;;;;;;;;;;;;;;;++++x$$$$Xx++X+::++;;;+XXXXXx+x+++;+X&X+xx++++++++++++++++++++++++++x$&XXXX$$$$$$$$$$$$$$$$$$$$
+;;;++;;;;;;;;;;;;;++++X$$$$x+x+;+;;;x+xX$$$$$$$x+++++;;;+X&$xX++++x+++++++++++++++++xxxX&X$$$$$$$$$$$$$$$$$$$$$$$$
+;;;;++++++;;;;;;;++++x$$$xx+++;++;x&$XxxX$$$$$$$$$XXXXx;;++X&$$++++x+++++++++++++++xX&XxxxXX$$$$$$$$$$$$$$$$$$$$XX
+;;;++++++;;;;;;;;++++X$$$++x;x;++x+x+xxX$$XXXX$$$&$$$XXxxx++x$$$+++++++++++++++++x+xxXxxxxx$&$$$$$$$$$$$$$$$$$$$$$
+;;;+++++;;;++;;;;+++x$$$$x+++;++;+;+;+++xXXXXX$$$&&&&$$$Xx;+;x$&X+++++xxx++++++++xxx+xxxxX$$$$$$$$$$$$$$$$$$$$$$$$
+;;+++;;;;+++++++;;++x$$$$x+;;;;+;;;;;++;++xXX$$$$$&&&$$$XXx;+x$&&x+++++++X++++xxxXxxxxxxx$&&&$$&&&$$$$$$$$$$$$$$$$
+;;;;;;;;;+;;;;;;;;++xXx$$Xx++;;+;;;+++xxxxxxX$$$$$&&&&$&$XX+++X&&X+++++++xX++xXXx$XxxxxxX&&$$$$$&&&&$$$$$$$$$$$$$$
+;;;;;;;;;;;++;;++;++xXxx$$$Xx+;;;++++++xxxX$&&&&&$&&&$$$$XXXxX$&&Xx++++++xXxx+xxxXx++xxx$&&$$$$$$&&$$$$$$$$$$$$$$$
++;;;;;;;;;;+++++++++x$$$X$XXXXxXxx++xxXX$$&$$&&&&$&&&$xXX$$$$$&&&$xx+++++++xxx++xxxxxxxxxX$$$$$$$XX$$$$$$$$$$$$$$$
++;;;;;;;++++++++++++x$$XXXX$x$&&X$XX$$$$$&&&$$$XXXx$Xx+;x$&&$X$&&Xxx+++++++xXXXxxxxxxxxxxxxxxxxxxxxX$&&&&&&&&&&&&&
+++++++++++++++++++++x$$$+++xXXX&X;;+++x;;;+++xxxxxX$xx;+x$&$$X&&&Xxxxxxx+x+++xxx+xxxxxxxxxxxxxxxxxxxX$$$$&&$$&&&&&
+++++++++++++++++++++xXXXX+;;+X$$+:::;;;;+;;;;;;;++x+x+;;+X&XX$&&$xxx+++++++++xxx+++xxx+xxxxxxx+++xxxxxxXX$XxX$&&&&
++++++++++x+++++++x++xxx+++;:::;x$x;:.:;::;:;+++;+x++;;;++$x+X&&&xxxxxxx++++++++++++++++++++++++++++xxxxxxXxxxXX$&&
++++++++++++++++++++++++xx+;;;::::+xxx+;:;;:::.:;;:;:;+;;++x&&$$xxxxxxxxx+++++++++++++++++++++++++++xxxxxxxxxxxxxxx
+++++++++++++++++++++++++X$x;;++::...;xX+++X$Xx+++++;;+;+$&$X$$xxxxxxxxx++++++++++++xxxxxxxxxxxxxxxxxxxxxXXXXXXXXXX
++++++++++++++++++++++++xxX$$Xx+x+;;;::;+X$$XXX$$$$XXx+x$XXX$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXX
+;;;::;;::++++xxxxxxxxxxxxxX$$$$xx++++;::;;++x$$$$$$$$$$$$$XxxxxxxxxxxxxxXXxXXxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXX
 `);
 
     function processInput(input) {
