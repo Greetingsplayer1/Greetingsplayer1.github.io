@@ -22,6 +22,7 @@ let haveKey = false;
 //Make one function for each location
 function mainPort() {
     clear();
+    print("\n--MAIN PORT--");
     print("\nYou take the brdge you built as a youth across to reach the main island this a port hub that houses quite a few ports to travel to other land. While some are broken some are not.");
     if (haveBreakPoint)  {
         print("\nThe ports nearby hum you now have acces to new paths");
@@ -45,8 +46,7 @@ function processInput(input) {
         // Location B is accessible to everyone
         villageB();
     } else if (choice === "villagec") {
-        // Location C requires the Break Point item
-        if (haveBreakPoint === true) {
+            if (haveBreakPoint === true) {
             villageC();
         } else {
             print("\nYou need the Break Point item to teleport to this location!");
@@ -76,8 +76,10 @@ function villageB() {
     
     function processInput(input) {
         let choice = input.toLowerCase();
-        if (choice === "mainport") { mainPort(); }
-        else if (choice === "villagec") { villageC(); }
+        if (choice === "mainport") { 
+            mainPort(); }
+        else if (choice === "villagec") { 
+            villageC(); }
         else if (choice === "dig" && !haveGrapple) {
             haveGrapple = true;
             print("\n[ITEM FOUND]: You dug out a functional Grapple! You can now reach high places.");
@@ -107,8 +109,8 @@ function villageC() {
   function processInput(input){
     let choice = input.toLowerCase();
     if (choice === "focus" && !haveForce) {
-      haveForce = true;
       print("\n[FORCE UNLOCKED]: You harmonize with the Tides. With a simple gesture, you blast the stone wall aside!");
+      haveForce = true;
       waitThenCall(villageC);
     } 
     else if (choice === "villageb") { villageB(); }
@@ -126,13 +128,23 @@ function villageC() {
 
 function villageD() {
   clear();
-  print("\nYou are in Village D—the 'Garden of the Isles.'");
-  print("\nWhere to? villageC, nectarSprings, or use **grapple** to reach the cliffs?");
+  print("\n--You are in Village D--");
+  print("\n");
+  print("\nWhere to? villageC, nectarSprings, or use **grapple** to reach the cliffs of village E?");
 
   function processInput(input){
     let choice = input.toLowerCase();
-    if (choice === "villagec") { villageC(); }
-    else if (choice === "nectarsprings") { nectarSprings(); }
+    if (choice === "villagec") {
+        if (haveBreakPoint) {
+        print("\nYou channel you magic into the prot it hums at your presances and sends you to village C");
+        villageE();
+      } else {
+        print("\nYou have no way to reach village C it is to far");
+        waitThenCall(villageD);
+      }
+    }
+    else if (choice === "nectarsprings") { 
+        nectarSprings();}
     else if (choice === "grapple") {
       if (haveGrapple) {
         print("\nYou hook the cliff edge and zip upward!");
@@ -150,12 +162,13 @@ function villageD() {
 function villageE() {
   clear();
   print("\n--- VILLAGE E ---");
-  print("\nA precarious village built directly into the side of a massive cliff.");
-  print("\nWhere to? villageD or villageF"); 
+  print("\n");
+  print("\n"); 
 
   function processInput(input){
     let choice = input.toLowerCase();
-    if (choice === "villaged") { villageD(); } 
+    if (choice === "villaged") {
+         villageD(); } 
     else if (choice === "villagef") {
       if (haveForce) {
         print("\nA cluster of obsidian boulders blocks the ledge. You use **Force** to push them into the void.");
@@ -164,7 +177,9 @@ function villageE() {
         print("\nMassive obsidian rocks block the narrow path. You can't move them by hand.");
         waitThenCall(villageE);
       }
-    } else { stayHere(); waitThenCall(villageE); }
+    } else { 
+        stayHere(); 
+        waitThenCall(villageE); }
   }
   waitForInput(processInput);
 }
@@ -173,7 +188,7 @@ function villageE() {
 function villageF() {
   clear();
   print("\n--- VILLAGE F ---");
-  print("\nThe air is cold. The Wildlands start just past the village borders.");
+  print("\n");
   print("\nWhere to? villageE, huntersCamp, or forgottenShrine");
   
   function processInput(input){
@@ -347,7 +362,7 @@ function theSingingGate() {
 function orderOfAether() {
     clear();
     print("\n--- THE ORDER OF AETHER ---");
-    print("\nA soaring castle of white marble floating higher than the clouds.");
+    print("\nA soaring castle of white marble floating higher than the rest.");
     print("\nWhere to? shimmeringBasin or orderOfShadow");
     
     function processInput(input){
@@ -743,6 +758,36 @@ function absolutePoint() {
     print("\nYour Ancient Magic burns in your hands. This is the moment. What will you do, thief?");
     print("\nType **SHATTER** to break the rift and free them.");
     print("\nType **ABSORB** to take the Ancient Magic for yourself.");
+printAscii(`
+.........................::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++xxxx+++++++++++++++++;;;;;;;;;;
+.........................:::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++++xxxxxxxxxxx+++++++++++++;;;++++
+:::::::::.............::::::::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;++;++++++++xXXX$Xxxxxxxxxxxx++++;++++++;;;;;;;;;
+:::::::::::::.........::::::::::::::::::::::::::::::::::;;;:;;:;;:;;;;;++++++++++Xxxxxxxxxxxxxxxxxxxxxx++++;;++;;+++;;+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;;;;;;;;;;;;+++++++xxxxxxxxxxxxxxxxxxxxxxxx+xxxx+++++++++
+::::::::::::::::::::::::::::::::::::::;;;;;;;;;;;;;;;::;;::::;;;;;;;;;;;;++++++++xXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx+++++;
+::::::::::::::::::::::::::::::;;:;;;;+++xx+++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;+++++xXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+;;;;;::::::::::::::::::;;;;;;;;;;x$$$$$$$XxxxXXX$$x;;;;+;;;;;;;;;+;;;;;;;;;;;;;+++x++x$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+::::::::::::::;;;:::::;;;;;;;+xXX$$$$XXXXXXxx+;;;;+x$X+;;++;;;;;;;;;;;;;;;;;++;;;++++xXXXxXXXXXxxxxxxxxxxxxxxxxxxxxxXXx
+;;;;;;;;;;;;;;;;;;;;;;;;;;++X$$$&&&&$$$$XXXXxxxxx+++++xXX+;;;;;;;;;;;;;;;;;+++;++x+++++xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+++;;;;;;;;;;;;;;;;;;;;;++xX$$$XxX$+++xX$$$$$$Xxx++++x$$x+xX++++x++++++++++++++++++++++++X$XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
++x;;;;;;;;;;;;;;;;;++++x$$$$Xx++X+::++;;;+XXXXXx+x+++;+X&X+xx++++++++++++++++++++++++++x$&XXXX$$$$$$$$$$$$$$$$$$$$$$$$X
+;;;++;;;;;;;;;;;;;++++X$$$$x+x+;+;;;x+xX$$$$$$$x+++++;;;+X&$xX++++x+++++++++++++++++xxxX&X$$$$$$$$$$$$$$$$$$$$$$$$XXXxx
+;;;;++++++;;;;;;;++++x$$$xx+++;++;x&$XxxX$$$$$$$$$XXXXx;;++X&$$++++x+++++++++++++++xX&XxxxXX$$$$$$$$$$$$$$$$$$$$XXXxXXx
+;;;++++++;;;;;;;;++++X$$$++x;x;++x+x+xxX$$XXXX$$$&$$$XXxxx++x$$$+++++++++++++++++x+xxXxxxxx$&$$$$$$$$$$$$$$$$$$$$$$$XXx
+;;;+++++;;;++;;;;+++x$$$$x+++;++;+;+;+++xXXXXX$$$&&&&$$$Xx;+;x$&X+++++xxx++++++++xxx+xxxxX$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+;;+++;;;;+++++++;;++x$$$$x+;;;;+;;;;;++;++xXX$$$$$&&&$$$XXx;+x$&&x+++++++X++++xxxXxxxxxxx$&&&$$&&&$$$$$$$$$$$$$$$$$$$$$
+;;;;;;;;;+;;;;;;;;++xXx$$Xx++;;+;;;+++xxxxxxX$$$$$&&&&$&$XX+++X&&X+++++++xX++xXXx$XxxxxxX&&$$$$$&&&&$$$$$$$$$$$$$$$$$$$
+;;;;;;;;;;;++;;++;++xXxx$$$Xx+;;;++++++xxxX$&&&&&$&&&$$$$XXXxX$&&Xx++++++xXxx+xxxXx++xxx$&&$$$$$$&&$$$$$$$$$$$$$$$$$$$$
++;;;;;;;;;;+++++++++x$$$X$XXXXxXxx++xxXX$$&$$&&&&$&&&$xXX$$$$$&&&$xx+++++++xxx++xxxxxxxxxX$$$$$$$XX$$$$$$$$$$$$$$$$$$$$
++;;;;;;;++++++++++++x$$XXXX$x$&&X$XX$$$$$&&&$$$XXXx$Xx+;x$&&$X$&&Xxx+++++++xXXXxxxxxxxxxxxxxxxxxxxxX$&&&&&&&&&&&&&&&&&&
+++++++++++++++++++++x$$$+++xXXX&X;;+++x;;;+++xxxxxX$xx;+x$&$$X&&&Xxxxxxx+x+++xxx+xxxxxxxxxxxxxxxxxxxX$$$$&&$$&&&&&&&&&&
+++++++++++++++++++++xXXXX+;;+X$$+:::;;;;+;;;;;;;++x+x+;;+X&XX$&&$xxx+++++++++xxx+++xxx+xxxxxxx+++xxxxxxXX$XxX$&&&&&&&&&
++++++++++x+++++++x++xxx+++;:::;x$x;:.:;::;:;+++;+x++;;;++$x+X&&&xxxxxxx++++++++++++++++++++++++++++xxxxxxXxxxXX$&&&&&&&
++++++++++++++++++++++++xx+;;;::::+xxx+;:;;:::.:;;:;:;+;;++x&&$$xxxxxxxxx+++++++++++++++++++++++++++xxxxxxxxxxxxxxxXXXXX
+++++++++++++++++++++++++X$x;;++::...;xX+++X$Xx+++++;;+;+$&$X$$xxxxxxxxx++++++++++++xxxxxxxxxxxxxxxxxxxxxXXXXXXXXXX$$$$$
++++++++++++++++++++++++xxX$$Xx+x+;;;::;+X$$XXX$$$$XXx+x$XXX$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXX$$$$
+;;;::;;::++++xxxxxxxxxxxxxX$$$$xx++++;::;;++x$$$$$$$$$$$$$XxxxxxxxxxxxxxXXxXXxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXX$$$$$
+`);
 
     function processInput(input) {
         let choice = input.toLowerCase();
