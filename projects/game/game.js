@@ -485,7 +485,7 @@ function echoCanyon() {
             theSingingGate(); }
         else { 
             stayHere(); 
-            waitThenCall(echoCanyon); }
+         }
     }
     waitForInput(processInput);
 }
