@@ -57,3 +57,6 @@ function waitThenCall(target){
 setTimeout(target, 20000);
 }
 
+function stopWaitingForInput(newVillageName) {
+    currentActiveListener = newVillageName; // Change the "Gate" to the new village
+}

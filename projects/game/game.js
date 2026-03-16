@@ -10,8 +10,7 @@ let foundSecret3 = false;
 let foundSecret4 = false;
 let foundSecret5 = false;
 let haveKey = false; 
-
-
+let currentActiveListener = "";
 
 //Declare your other global variables here
 
@@ -23,6 +22,7 @@ let haveKey = false;
 //-------------
 
 function mainPort() {
+    stopWaitingForInput("mainPort"); 
     clear();
     print("\n--MAIN PORT--");
     print("\nYou take the brdge you built as a youth across to reach the main island this a port hub that houses quite a few ports to travel to other land. While some are broken some are not.");
@@ -36,11 +36,11 @@ function mainPort() {
         
     
 function processInput(input) {
+    if (currentActiveListener !== "mainPort") return; 
     let choice = input.toLowerCase();
 
         if (choice === "map") {
         showMap();
-        waitThenCall(mainPort); // After showing the map, it brings them back here
         return; 
     }
 
@@ -52,12 +52,10 @@ function processInput(input) {
             villageC();
         } else {
             print("\nYou need the Break Point item to teleport to this location!");
-            waitThenCall(mainPort);
         }
     } else {
         // Handle staying here if input doesn't match or for other logic
         stayHere(mainPort);
-        waitThenCall(mainPort);
     }
 }
     // This tells the game to wait for the user to type before running the logic above
@@ -66,6 +64,7 @@ function processInput(input) {
 
 
 function villageB() {
+    stopWaitingForInput("villageB"); 
     clear();
     print("\n--- VILLAGE B ---");
     print("\nThe shoreline is littered with rusted gear and ancient scrap metal, washed up by the Tides.");
@@ -77,6 +76,7 @@ function villageB() {
     }
     
     function processInput(input) {
+    if (currentActiveListener !== "villageB") return;
     let choice = input.toLowerCase();
 
     if (choice === "mainport") {
@@ -85,7 +85,6 @@ function villageB() {
     else if (choice === "villagec") {
         if (!haveBreakPoint) {
             print("\nThe port nearby does not hum; you don't have a break point.");
-            waitThenCall(villageB); // Keep them here if they can't leave
         } else {
             print("\nThe port hums and you are pushed to Village C.");
             villageC();
@@ -94,20 +93,18 @@ function villageB() {
     else if (choice === "dig" && !haveGrapple) {
         haveGrapple = true; // Update state first
         print("\n[ITEM FOUND]: You dug out a functional Grapple! You can now reach high places.");
-        waitThenCall(villageB);
     } 
     else {
         stayHere(villageB);
-        waitThenCall(villageB);
     }
 }
-
     waitForInput(processInput);
 }
 
 
 
 function villageC() {
+    stopWaitingForInput("villageC"); 
   clear();
   print("\n--- VILLAGE C ---");
   print("\nThe air hums. You can walk to Village B or Village D.");
@@ -115,6 +112,7 @@ function villageC() {
   print("\nWhere to? villageB, villageD, or use the **portal**?");
 
   function processInput(input){
+    if (currentActiveListener !== "villageC") return;
     let choice = input.toLowerCase();
     if (choice === "villageb") { 
     villageB(); }
@@ -126,17 +124,17 @@ function villageC() {
         echoCanyon();
       } else {
         print("\nThe portal is cold and dark. You need a **Break Point** to activate this teleportation arch.");
-        waitThenCall(villageC);
       }
     } else { 
         stayHere(villageC); 
-        waitThenCall(villageC); }
+}
   }
   waitForInput(processInput);
 }
 
 
 function villageD() {
+    stopWaitingForInput("villageD"); 
   clear();
   print("\n--- VILLAGE D ---");
   print("\nPaths lead to Village C and Village E.");
@@ -144,6 +142,7 @@ function villageD() {
   print("\nWhere to? villageC, villageE, or **grapple** up to the Springs?");
 
   function processInput(input){
+    if (currentActiveListener !== "villageD") return;
     let choice = input.toLowerCase();
     if (choice === "villagec") {
        if (haveBreakPoint) {
@@ -151,7 +150,6 @@ function villageD() {
        villageC();
      } else {
        print("\nYou have no way to reach village C it is to far");
-       waitThenCall(villageD);
      }
    }
     else if (choice === "villagee") { 
@@ -162,21 +160,23 @@ function villageD() {
         nectarSprings();
       } else {
         print("\nThe Springs are floating too high. You'll need a **Grapple** to get up there.");
-        waitThenCall(villageD);
+
       }
-    } else { stayHere(villageD); waitThenCall(villageD); }
+    } else { stayHere(villageD); }
   }
   waitForInput(processInput);
 }
 
 
 function villageE() {
+    stopWaitingForInput("villageE"); 
   clear();
   print("\n--- VILLAGE E ---");
   print("\n Village E the mining village this village minea and supplies the iron order with matierials life is calm");
   print("\n"); 
 
   function processInput(input){
+    if (currentActiveListener !== "villageE") return;
     let choice = input.toLowerCase();
     if (choice === "villaged") {
          villageD(); } 
@@ -186,7 +186,6 @@ function villageE() {
         villageF();
       } else {
         print("\nMassive obsidian rocks block the narrow path. You can't move them by hand.");
-        waitThenCall(villageE);
       }
     } else if (choice === "v") {
       if (haveForce) {
@@ -194,23 +193,24 @@ function villageE() {
         villageF();
       } else {
         print("\nMassive obsidian rocks block the narrow path. You can't move them by hand.");
-        waitThenCall(villageE);
       }
     } else { 
         stayHere(villageE); 
-        waitThenCall(villageE); }
+ }
   }
   waitForInput(processInput);
 }
 
 
 function villageF() {
+    stopWaitingForInput("villageF"); 
   clear();
   print("\n--- VILLAGE F ---");
   print("\n A prosporuse village that has used their use of magic to far and to thrive");
   print("\nWhere to? villageE, huntersCamp, or forgottenShrine");
   
   function processInput(input){
+    if (currentActiveListener !== "villageF") return;
     let choice = input.toLowerCase();
     if (choice === "villagee") { villageE(); } 
     else if (choice === "hunterscamp") {
@@ -219,7 +219,6 @@ function villageF() {
         huntersCamp();
       } else {
         print("\nThe bridge to the camp is destroyed. It's too far to jump.");
-        waitThenCall(villageF);
       }
     } else if (choice === "forgottenshrine") {
        if (haveForce) {
@@ -227,9 +226,8 @@ function villageF() {
          forgottenShrine();
        } else {
          print("\nThe heavy shrine doors won't budge.");
-         waitThenCall(villageF);
        }
-    } else { stayHere(villageF); waitThenCall(villageF); }
+    } else { stayHere(villageF); }
   }
   waitForInput(processInput);
 }
@@ -239,6 +237,7 @@ function villageF() {
 //---------------
 
 function architectsTomb() {
+    stopWaitingForInput("architectsTomb"); 
  clear();
  print("\n--- THE ARCHITECT'S TOMB ---");
  print("\nAn island that shouldn't exist. It is a perfect circle of white marble, and acient sybols untouched by the violet rot.");
@@ -246,6 +245,7 @@ function architectsTomb() {
  print("\nWhere to? villagee or ** Focus **");
  
  function processInput(input) {
+if (currentActiveListener !== "architectsTomb") return;
   let choice = input.toLowerCase();
   if (choice === "villagee") {
    villageE();
@@ -256,7 +256,6 @@ function architectsTomb() {
         }
        else {
          print("\nYou have already meditatesd find something else to do.");
-         waitThenCall(villageF);
        }
 }
 stayHere(architectsTomb);
@@ -264,6 +263,7 @@ stayHere(architectsTomb);
 }
 
 function islandsOfScilence() {
+    stopWaitingForInput("islandsOfScilence"); 
  clear();
  print("\n The islands of Scilence");
  print("\nA cluster of islands where neithor light nore sound reachers");
@@ -271,12 +271,12 @@ function islandsOfScilence() {
  print("\nWhere to? villageb");
  
  function processInput(input) {
+    if (currentActiveListener !== "islandsOfScilence") return;
   let choice = input.toLowerCase();
   if (choice === "villageb") {
    villageB();
   } else {
    stayHere(islandsOfScilence);
-   waitThenCall(obsidianReach);
   }
  }
  waitForInput(processInput);
@@ -288,6 +288,7 @@ function islandsOfScilence() {
 
 
 function nectarSprings() {
+    stopWaitingForInput("nectarSprings"); 
   clear();
   print("\n--- NECTAR SPRINGS ---");
   print("\nSweet-smelling water bubbles up. High atop a floating crystal spire, you see a glint of iron.");
@@ -301,15 +302,14 @@ function nectarSprings() {
   }
 
   function processInput(input){
+    if (currentActiveListener !== "nectarSprings") return;
     let choice = input.toLowerCase();
     if (choice === "force" && !haveKey) {
       if (haveForce) {
         haveKey = true;
         print("\n[SUCCESS]: You shatter the crystal with a pulse of magic and take the Key!");
-        waitThenCall(nectarSprings);
       } else {
         print("\nThe crystal is too strong for your bare hands. You need to use **Force**.");
-        waitThenCall(nectarSprings);
       }
     } 
     else if (choice === "villaged") { 
@@ -318,24 +318,24 @@ function nectarSprings() {
         shimmeringBasin(); }
     else { 
         stayHere(nectarSprings); 
-        waitThenCall(nectarSprings); }
+ }
   }
-   stayHere(nectarSprings); 
   waitForInput(processInput);
 }
 
 function huntersCamp() {
+    stopWaitingForInput("hunertsCamp"); 
     clear();
     print("\nA small outpost for those brave enough to track the violent beasts.");
     print("\nWhere to? villageF or shadowWoods");
     
     function processInput(input){
+        if (currentActiveListener !== "huntersCamp") return;
         let choice = input.toLowerCase();
         if (choice === "villagef") {
              villageF(); }
         else {
-             stayHere(huntersCamp);
-              waitThenCall(huntersCamp); }
+             stayHere(huntersCamp); }
     }
     waitForInput(processInput);
 }
@@ -343,80 +343,84 @@ function huntersCamp() {
 
 
 function forgottenShrine() {
+    stopWaitingForInput("forgottenShrine"); 
     clear();
     print("\nAn ancient altar glowing with a soft, rhythmic light.");
     print("\nWhere to? villageF or crystalCave");
     
     function processInput(input){
+        if (currentActiveListener !== "forgottenShrine") return;
         let choice = input.toLowerCase();
         if (choice === "villagef") { 
             villageF(); }
         else if (choice === "crystalcave") { 
             crystalCave(); }
         else { 
-            stayHere(forgottenShrine); 
-            waitThenCall(forgottenShrine); }
+            stayHere(forgottenShrine);  }
     }
     waitForInput(processInput);
 }
 
 function crystalCave() {
+    stopWaitingForInput("crystalCave"); 
     clear();
     print("\nThe walls are jagged quartz. Your voice echoes three times.");
     print("\nWhere to? forgottenShrine or obsidianPeak");
     
     function processInput(input){
+        if (currentActiveListener !== "crystalCave") return;
         let choice = input.toLowerCase();
         if (choice === "forgottenshrine") { 
             forgottenShrine(); }
         else if (choice === "obsidianpeak") { 
             obsidianPeak(); }
         else { 
-            stayHere(crystalCave); 
-            waitThenCall(crystalCave); }
+            stayHere(crystalCave); }
     }
     waitForInput(processInput);
 }
 
 function obsidianPeak() {
+    stopWaitingForInput("obsidianPeak"); 
     clear();
     print("\nThis is a massive obsidian spire.");
     print("\nWhere to? crystalCave or cloudPeaks");
     
     function processInput(input){
+        if (currentActiveListener !== "obsidianPeak") return;
         let choice = input.toLowerCase();
         if (choice === "crystalcave") { 
             crystalCave(); }
         else if (choice === "cliffpeaks") { 
             cliffPeaks(); }
         else { 
-            stayHere(obsidianPeak); 
-            waitThenCall(obsidianPeak); }
+            stayHere(obsidianPeak); }
     }
     waitForInput(processInput);
 }
 
 function cliffPeaks() {
+    stopWaitingForInput("cliffPeaks"); 
     clear();
     print("\nThe highest point of the island. You can see the Absolute Point from here.");
     print("\nYou cant go anywhere from here would you like to return to the obsidianPeak");
     
     function processInput(input){
+        if (currentActiveListener !== "cliffPeaks") return;
         let choice = input.toLowerCase();
         if (choice === "obsidianpeak") { 
             obsidianPeak(); }
         else { 
-            stayHere(cliffPeaks); 
-            waitThenCall(cliffPeaksPeak); }
+            stayHere(cliffPeaks); }
     }
     waitForInput(processInput);
 }
 
 function shimmeringBasin() {
+    stopWaitingForInput("shimmeringBasin"); 
     clear();
     if (!haveBreakPoint) {
         print("\nA shimmering barrier blocks the path. You need a **Break Point** to pass.");
-        waitThenCall(nectarSprings);
         return;
     }
     if (haveBreakPoint) {
@@ -426,59 +430,45 @@ function shimmeringBasin() {
     
     
     function processInput(input){
+        if (currentActiveListener !== "shimmeringBasin") return;
         let choice = input.toLowerCase();
         if (choice === "nectarsprings") { 
             nectarSprings(); }
         else if (choice === "orderofaether") { 
             orderOfAether(); }
         else { 
-            stayHere(shimmeringBasin); 
-            waitThenCall(shimmeringBasin); }
-    }
-    waitForInput(processInput);
-}
-function echoCanyon() {
-    clear();
-    print("\nEvery footstep sounds like a thunderclap here.");
-    print("\nWhere to? obsidianPeak or villageC");
-    
-    function processInput(input){
-        let choice = input.toLowerCase();
-        if (choice === "obsidianpeak") { 
-            obsidianPeak(); }
-        else if (choice === "villagec") { 
-            villageC(); }
-        else { 
-            stayHere(echoCanyon); 
-            waitThenCall(echoCanyon); }
+            stayHere(shimmeringBasin);  }
     }
     waitForInput(processInput);
 }
 
 function theSingingGate() {
+    stopWaitingForInput("theSingingGate"); 
     clear();
     print("\nA massive archway that vibrates when you speak.");
     print("\nWhere to? huntersCamp or echoCanyon");
     
     function processInput(input){
+        if (currentActiveListener !== "theSingingGate") return;
         let choice = input.toLowerCase();
         if (choice === "hunterscamp") { 
             huntersCamp(); }
         else if (choice === "echocanyon") { 
             echoCanyon(); }
         else { 
-            stayHere(theSingingGate); 
-            waitThenCall(theSingingGate); }
+            stayHere(theSingingGate); }
     }
     waitForInput(processInput);
 }
 
 function echoCanyon() {
+    stopWaitingForInput("echoCanyon"); 
     clear();
     print("\nA massive gap etween two lands were the world seems to echo back anythign that is said or donte");
     print("\nWhere to? theSingingGate");
     
     function processInput(input){
+        if (currentActiveListener !== "echoCanyon") return;
         let choice = input.toLowerCase();
         if (choice === "thesinginggate") { 
             theSingingGate(); }
@@ -493,41 +483,45 @@ function echoCanyon() {
 //Orders
 //------
 function orderOfAether() {
+    stopWaitingForInput("orderOfAether"); 
     clear();
     print("\n--- THE ORDER OF AETHER ---");
     print("\nA soaring castle of white marble floating higher than the rest.");
     print("\nWhere to? shimmeringBasin or orderOfShadow");
     
     function processInput(input){
+        if (currentActiveListener !== "orderOfAether") return;
         let choice = input.toLowerCase();
         if (choice === "shimmeringbasin") { shimmeringBasin(); }
         else if (choice === "orderofshadow") { orderOfShadow(); }
-        else { stayHere(orderOfAether); waitThenCall(orderOfAether); }
+        else { stayHere(orderOfAether); }
     }
     waitForInput(processInput);
 }
 
 function orderOfShadow() {
+    stopWaitingForInput("orderOfShadow"); 
     clear();
     print("\n--- THE ORDER OF SHADOW ---");
     print("\nA fortress carved into a jagged obsidian cliffside.");
     print("\nWhere to? orderOfAether or orderOfIron");
     
     function processInput(input){
+        if (currentActiveListener !== "orderOfShadow") return;
         let choice = input.toLowerCase();
         if (choice === "orderofaether") { orderOfAether(); }
         else if (choice === "orderofiron") { orderOfIron(); }
-        else { stayHere(orderOfShadow); waitThenCall(orderOfShadow); }
+        else { stayHere(orderOfShadow); }
     }
     waitForInput(processInput);
 }
 
 function orderOfIron() {
+    stopWaitingForInput("orderOfIron"); 
     clear();
     if (!haveKey) {
         print("\n--- THE ORDER OF IRON ---");
         print("\nThe gates are locked. You need the **Iron Order Key** from the Springs.");
-        waitThenCall(orderOfShadow);
         return;
     }
     print("\n--- THE ORDER OF IRON ---");
@@ -535,30 +529,34 @@ function orderOfIron() {
     print("\nWhere to? orderOfShadow or theGreatBridge");
     
     function processInput(input){
+        if (currentActiveListener !== "orderOfIron") return;
         let choice = input.toLowerCase();
         if (choice === "orderofshadow") { orderOfShadow(); }
         else if (choice === "thegreatbridge") { theGreatBridge(); }
-        else { stayHere(orderOfIron); waitThenCall(orderOfIron); }
+        else { stayHere(orderOfIron);}
     }
     waitForInput(processInput);
 }
 
 
 function theGreatBridge() {
+    stopWaitingForInput("theGreatBridge"); 
     clear();
     print("\nA massive stone span crossing the 'Void Gap.' The Absolute Point is just ahead.");
     print("\nWhere to? orderOfIron or absolutePoint");
     
     function processInput(input){
+        if (currentActiveListener !== "theGreatBridge") return;
         let choice = input.toLowerCase();
         if (choice === "orderofiron") { orderOfIron(); }
         else if (choice === "absolutepoint") { absolutePoint(); }
-        else { stayHere(theGreatBridge); waitThenCall(theGreatBridge); }
+        else { stayHere(theGreatBridge); }
     }
     waitForInput(processInput);
 }
 
 function fix() {
+    stopWaitingForInput("fix"); 
     clear();
     haveBreakPoint = true; // Ensures the item is marked as found
     print("\n--- THE BREAK POINT RESTORED ---");
@@ -617,19 +615,19 @@ function fix() {
     print("\nWhere to now? You can return to the **mainPort** to begin your journey.");
     
     function processInput(input){
+        if (currentActiveListener !== "fix") return;
         if (input.toLowerCase() === "mainport") {
             mainPort();
         } else {
             stayHere(fix);
-            waitThenCall(fix);
         }
     }
-    haveBreakPoint = true;
     waitForInput(processInput);
 }
 
 
 function noFix() {
+    stopWaitingForInput("noFix"); 
     clear();
     haveBreakPoint = false; // Ensures the item remains broken
     print("\n--- THE UNFINISHED PATH ---");
@@ -639,11 +637,11 @@ function noFix() {
     print("\nWhere to now? You can return to the **mainPort** and see what else the world holds.");
     
     function processInput(input){
+        if (currentActiveListener !== "noFix") return;
         if (input.toLowerCase() === "mainport") {
             mainPort();
         } else {
             stayHere(noFix);
-            waitThenCall(noFix);
         }
     }
     haveBreakPoint = false;
@@ -652,6 +650,7 @@ function noFix() {
 
 
 function next() {
+    stopWaitingForInput("next"); 
     clear();
     print("\n--- THE ANCIENT LIBRARIES ---");
     print("\nYou have spent years hidden in the World Between Worlds, a sanctuary protected from the 'Split.' Here, among thousands of glowing texts, you have begun to master your innate Ancient Magic.");
@@ -660,6 +659,7 @@ function next() {
     print("\nWhat will you do? You can **read** a book on ancient magic, try to **fix** the break point, or leave it and **nofix** it?");
 
     function processInput(input) {
+        if (currentActiveListener !== "next") return;
         let choice = input.toLowerCase();
 
         if (choice === "read") {
@@ -670,7 +670,6 @@ function next() {
                 "\n[LORE]: You learn that a stable Break Point is the only way to reach Village C safely."
             ];
             print(books[Math.floor(Math.random() * books.length)]);
-            waitThenCall(next); // Brings them back to the same story screen
         } 
         else if (choice === "fix") {
             haveBreakPoint = true; 
@@ -682,7 +681,6 @@ function next() {
         } 
         else {
             stayHere(next);
-            waitThenCall(next);
         }
     }
     waitForInput(processInput);
@@ -691,6 +689,7 @@ function next() {
 
 
 function showMap() {
+    stopWaitingForInput("map"); 
     clear();
     print("<h1>--- WORLD MAP: THE SHATTERED REACHES ---</h1>");
     
@@ -763,11 +762,13 @@ function showMap() {
 }
 
 function begin() {
+    stopWaitingForInput("begin"); 
     clear();
     print("\n Before the sky fractured, the oceans were blue and the horizon was a straight line. Then came the Split—a cataclysmic event at the world's center that tore the earth into floating islands and bled violet into the tides. None have reached the absolute point though it is said to be a point where neither chaos nor peace live. Peopel have tried reachign the point again and agin they calaim that they heard the voices of the ones they had lost. The absolute point is located on a large floating island in the middle of adense group of clouds. Hassimon is a thief who uses his vast knowledge of magic and the lands to navigate this torn world without getting caught. Hassimon uses ports, archways with figures inscribed upon them. These ports were built by the ancient societies who used ancient magic to build the port to which no one knows the true purpose behind them. Hassimon is one of the few people who were born with innate magic or ancient magic. While most people can only use magic learned by book and require a source to channel the magic like a staff or wand, people born with ancient or innate magic can directly channel their power through themselves. The rulers at the time did not understand this ancient magic so they regarded it as chaotic and wrong swearing to rid the world of this “chaotic magic”. Ancient magic according to the vast amount of books at the ancient library which is located in the world between worlds. These lands were mostly protected from the “split” due to the vast amounts of ancient protection magic that surrounded the place to keep people without the ancient blood out. The world between worlds are a few but large islands that house hundreds of texts on ancient magic and is a safe place for those born with ancient blood to study and learn to control their abilities. It exists between both time and reality which make it a perfect spot for Hassimon to live, and practice the ancient magic that was imbued within him at birth. This is where our story begins ");
     print("\nType next to continue");
 
     function processInput(input){
+    if (currentActiveListener !== "begin") return;
     let choice = input.toLowerCase();
     if (choice === "next") {
     next();
@@ -782,10 +783,13 @@ function begin() {
 //very start. For this simple example, any input will bring you
 //to locationA
 function start(){
+    stopWaitingForInput("start"); 
+    clear();
     print("<h1>Welcome To Echoes Of Time<h1>");
-    print("Type begin to proceed on an advventure to heal the world and find your family");
+    print("Type begin to proceed on an adventure to heal the world and find your family");
 
     function processInput(input){
+        if (currentActiveListener !== "start") return;
         if (input.toLowerCase() === "begin") {
             begin();
         } else {
@@ -844,18 +848,18 @@ function start(){
     waitForInput(processInput);
 }
 
-function stayHere() {
+function stayHere(returnLocation, locationName) {
     let roll = Math.random();
 
     // 1. THE TRUTH (The "loreForAl" requirement)
-    if (roll < 0.001 && loreForAll === 0) { 
+    if (locationName == absolutePoint && roll < 0.001 && loreForAll === 0) { 
         print("\n[The Truth]: The point is not just an object and neither are you... embrace the ancient magic within yoursefl **AETHEL-VOSS**.");
         loreForAll = 1;
         return; 
     }
 
     // 2. SECRET 1: Sister/True Name
-    if (roll < 0.06 && !foundSecret1) { 
+    if (locationName == orderOfShadow && roll < 0.06 && !foundSecret1) { 
         print("\n[SECRET]: A voice whispers your true name: Aethel-Voss. Was that your sister?");
         foundSecret1 = true;
         loreFound++;
@@ -863,7 +867,7 @@ function stayHere() {
     }
 
     // 3. SECRET 2: Daughter's Ribbon
-    if (roll < 0.06 && !foundSecret2) { 
+    if (locationName == villageB && roll < 0.06 && !foundSecret2) { 
         print("\n[ECHO]: You see a flash of your daughter's ribbon tangled in a gear...");
         foundSecret2 = true;
         loreFound++;
@@ -871,7 +875,7 @@ function stayHere() {
     }
 
     // 4. SECRET 3: Blue Sea Vision
-    if (roll < 0.06 && !foundSecret3) { 
+    if (locationName == mainPort && roll < 0.06 && !foundSecret3) { 
         print("\n[ULTRA RARE]: For a split second, the sea turns blue again.");
         foundSecret3 = true;
         loreFound++;
@@ -879,7 +883,7 @@ function stayHere() {
     }
 
     // 5. SECRET 4: Child's Laughter
-    if (roll < 0.06 && !foundSecret4) { 
+    if (locationName == villageC && roll < 0.06 && !foundSecret4) { 
         print("\n[ULTRA RARE]: A child's laughter echoes from the point.");
         foundSecret4 = true;
         loreFound++;
@@ -887,7 +891,7 @@ function stayHere() {
     }
 
     // 6. SECRET 5: The Luck/Break Point
-    if (roll < .08 && !foundSecret5 && !haveBreakPoint) {
+    if (locationName == huntersCamp && roll < .08 && !foundSecret5 && !haveBreakPoint) {
         print("\n[LUCK]: A rift opens and a cracked Break Point falls at your feet.");
         foundSecret5 = true;
         loreFound++;
@@ -908,11 +912,11 @@ function stayHere() {
 
     let randomIndex = Math.floor(Math.random() * responses.length);
     print(responses[randomIndex]);
-    waitThenCall(returnLocation); 
 }
 
 
 function absolutePoint() {
+    stopWaitingForInput("absolutePoint"); 
     clear();
     print("\nYou stand at the edge of existence. The **Absolute Point** is a jagged, screaming tear in reality.");
     print("\nThrough the shimmering violet light, you see your family. They are frozen in a single, silent second—neither inside nor outside of time.");
@@ -955,6 +959,7 @@ printAscii(`
 //-------
 
     function processInput(input) {
+        if (currentActiveListener !== "absolutePoint") return;
         let choice = input.toLowerCase();
 
         if (choice === "shatter") {
