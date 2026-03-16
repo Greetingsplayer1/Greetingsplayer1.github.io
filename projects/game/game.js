@@ -56,7 +56,7 @@ function processInput(input) {
         }
     } else {
         // Handle staying here if input doesn't match or for other logic
-        stayHere();
+        stayHere(mainPort);
         waitThenCall(mainPort);
     }
 }
@@ -97,7 +97,7 @@ function villageB() {
         waitThenCall(villageB);
     } 
     else {
-        stayHere();
+        stayHere(villageB);
         waitThenCall(villageB);
     }
 }
@@ -129,7 +129,7 @@ function villageC() {
         waitThenCall(villageC);
       }
     } else { 
-        stayHere(); 
+        stayHere(villageC); 
         waitThenCall(villageC); }
   }
   waitForInput(processInput);
@@ -164,7 +164,7 @@ function villageD() {
         print("\nThe Springs are floating too high. You'll need a **Grapple** to get up there.");
         waitThenCall(villageD);
       }
-    } else { stayHere(); waitThenCall(villageD); }
+    } else { stayHere(villageD); waitThenCall(villageD); }
   }
   waitForInput(processInput);
 }
@@ -197,7 +197,7 @@ function villageE() {
         waitThenCall(villageE);
       }
     } else { 
-        stayHere(); 
+        stayHere(villageE); 
         waitThenCall(villageE); }
   }
   waitForInput(processInput);
@@ -229,7 +229,7 @@ function villageF() {
          print("\nThe heavy shrine doors won't budge.");
          waitThenCall(villageF);
        }
-    } else { stayHere(); waitThenCall(villageF); }
+    } else { stayHere(villageF); waitThenCall(villageF); }
   }
   waitForInput(processInput);
 }
@@ -249,10 +249,7 @@ function architectsTomb() {
   let choice = input.toLowerCase();
   if (choice === "villagee") {
    villageE();
-  } else {
-   stayHere();
-   waitThenCall(architectsGrave);
-  } if (choice === "focus") {
+  } else if (choice === "focus") {
        if (!haveForce) {
         print("\nYou focus your energy into calmind down the calm air swirls you feel new powers inside you");
         forgottenShrine()}; 
@@ -262,6 +259,7 @@ function architectsTomb() {
          waitThenCall(villageF);
        }
 }
+stayHere(architectsTomb);
  waitForInput(processInput);
 }
 
@@ -277,7 +275,7 @@ function islandsOfScilence() {
   if (choice === "villageb") {
    villageB();
   } else {
-   stayHere();
+   stayHere(islandsOfScilence);
    waitThenCall(obsidianReach);
   }
  }
@@ -319,29 +317,30 @@ function nectarSprings() {
     else if (choice === "shimmeringbasin") { 
         shimmeringBasin(); }
     else { 
-        stayHere(); 
+        stayHere(nectarSprings); 
         waitThenCall(nectarSprings); }
   }
+   stayHere(nectarSprings); 
   waitForInput(processInput);
 }
 
 function huntersCamp() {
     clear();
-    print("\nA small outpost for those brave enough to track the violet beasts.");
+    print("\nA small outpost for those brave enough to track the violent beasts.");
     print("\nWhere to? villageF or shadowWoods");
     
     function processInput(input){
         let choice = input.toLowerCase();
         if (choice === "villagef") {
              villageF(); }
-        else if (choice === "shadowwoods") {
-             shadowWoods(); }
         else {
-             stayHere();
+             stayHere(huntersCamp);
               waitThenCall(huntersCamp); }
     }
     waitForInput(processInput);
 }
+
+
 
 function forgottenShrine() {
     clear();
@@ -355,7 +354,7 @@ function forgottenShrine() {
         else if (choice === "crystalcave") { 
             crystalCave(); }
         else { 
-            stayHere(); 
+            stayHere(forgottenShrine); 
             waitThenCall(forgottenShrine); }
     }
     waitForInput(processInput);
@@ -373,7 +372,7 @@ function crystalCave() {
         else if (choice === "obsidianpeak") { 
             obsidianPeak(); }
         else { 
-            stayHere(); 
+            stayHere(crystalCave); 
             waitThenCall(crystalCave); }
     }
     waitForInput(processInput);
@@ -391,7 +390,7 @@ function obsidianPeak() {
         else if (choice === "cliffpeaks") { 
             cliffPeaks(); }
         else { 
-            stayHere(); 
+            stayHere(obsidianPeak); 
             waitThenCall(obsidianPeak); }
     }
     waitForInput(processInput);
@@ -407,7 +406,7 @@ function cliffPeaks() {
         if (choice === "obsidianpeak") { 
             obsidianPeak(); }
         else { 
-            stayHere(); 
+            stayHere(cliffPeaks); 
             waitThenCall(cliffPeaksPeak); }
     }
     waitForInput(processInput);
@@ -433,7 +432,7 @@ function shimmeringBasin() {
         else if (choice === "orderofaether") { 
             orderOfAether(); }
         else { 
-            stayHere(); 
+            stayHere(shimmeringBasin); 
             waitThenCall(shimmeringBasin); }
     }
     waitForInput(processInput);
@@ -450,7 +449,7 @@ function echoCanyon() {
         else if (choice === "villagec") { 
             villageC(); }
         else { 
-            stayHere(); 
+            stayHere(echoCanyon); 
             waitThenCall(echoCanyon); }
     }
     waitForInput(processInput);
@@ -468,7 +467,7 @@ function theSingingGate() {
         else if (choice === "echocanyon") { 
             echoCanyon(); }
         else { 
-            stayHere(); 
+            stayHere(theSingingGate); 
             waitThenCall(theSingingGate); }
     }
     waitForInput(processInput);
@@ -484,7 +483,7 @@ function echoCanyon() {
         if (choice === "thesinginggate") { 
             theSingingGate(); }
         else { 
-            stayHere(); 
+            stayHere(echoCanyon); 
          }
     }
     waitForInput(processInput);
@@ -503,7 +502,7 @@ function orderOfAether() {
         let choice = input.toLowerCase();
         if (choice === "shimmeringbasin") { shimmeringBasin(); }
         else if (choice === "orderofshadow") { orderOfShadow(); }
-        else { stayHere(); waitThenCall(orderOfAether); }
+        else { stayHere(orderOfAether); waitThenCall(orderOfAether); }
     }
     waitForInput(processInput);
 }
@@ -518,7 +517,7 @@ function orderOfShadow() {
         let choice = input.toLowerCase();
         if (choice === "orderofaether") { orderOfAether(); }
         else if (choice === "orderofiron") { orderOfIron(); }
-        else { stayHere(); waitThenCall(orderOfShadow); }
+        else { stayHere(orderOfShadow); waitThenCall(orderOfShadow); }
     }
     waitForInput(processInput);
 }
@@ -539,7 +538,7 @@ function orderOfIron() {
         let choice = input.toLowerCase();
         if (choice === "orderofshadow") { orderOfShadow(); }
         else if (choice === "thegreatbridge") { theGreatBridge(); }
-        else { stayHere(); waitThenCall(orderOfIron); }
+        else { stayHere(orderOfIron); waitThenCall(orderOfIron); }
     }
     waitForInput(processInput);
 }
@@ -554,7 +553,7 @@ function theGreatBridge() {
         let choice = input.toLowerCase();
         if (choice === "orderofiron") { orderOfIron(); }
         else if (choice === "absolutepoint") { absolutePoint(); }
-        else { stayHere(); waitThenCall(theGreatBridge); }
+        else { stayHere(theGreatBridge); waitThenCall(theGreatBridge); }
     }
     waitForInput(processInput);
 }
@@ -621,7 +620,7 @@ function fix() {
         if (input.toLowerCase() === "mainport") {
             mainPort();
         } else {
-            stayHere();
+            stayHere(fix);
             waitThenCall(fix);
         }
     }
@@ -643,7 +642,7 @@ function noFix() {
         if (input.toLowerCase() === "mainport") {
             mainPort();
         } else {
-            stayHere();
+            stayHere(noFix);
             waitThenCall(noFix);
         }
     }
@@ -682,7 +681,7 @@ function next() {
             noFix();
         } 
         else {
-            stayHere();
+            stayHere(next);
             waitThenCall(next);
         }
     }
@@ -773,7 +772,7 @@ function begin() {
     if (choice === "next") {
     next();
     } else {
-    stayHere();
+    stayHere(showMap);
     }
     }
     waitForInput(processInput);
@@ -790,7 +789,7 @@ function start(){
         if (input.toLowerCase() === "begin") {
             begin();
         } else {
-            stayHere();
+            stayHere(start);
         }
 }
     printAscii(`
@@ -909,6 +908,7 @@ function stayHere() {
 
     let randomIndex = Math.floor(Math.random() * responses.length);
     print(responses[randomIndex]);
+    waitThenCall(returnLocation); 
 }
 
 
@@ -1024,7 +1024,7 @@ printAscii(`
         }  
 
          else {
-            stayHere();
+            stayHere(absolutePoint);
         }
     }
     waitForInput(processInput);

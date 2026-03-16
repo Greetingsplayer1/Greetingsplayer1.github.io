@@ -54,6 +54,6 @@ function waitForInput(handlerFunction){
 }
 
 function waitThenCall(target){
-    setTimeout(target,10000);
+setTimeout(target, 20000);
 }
 
