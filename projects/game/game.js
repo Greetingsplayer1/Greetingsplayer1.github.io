@@ -173,7 +173,7 @@ function villageD() {
 function villageE() {
   clear();
   print("\n--- VILLAGE E ---");
-  print("\n");
+  print("\n Village E the mining village this village minea and supplies the iron order with matierials life is calm");
   print("\n"); 
 
   function processInput(input){
@@ -207,7 +207,7 @@ function villageE() {
 function villageF() {
   clear();
   print("\n--- VILLAGE F ---");
-  print("\n");
+  print("\n A prosporuse village that has used their use of magic to far and to thrive");
   print("\nWhere to? villageE, huntersCamp, or forgottenShrine");
   
   function processInput(input){
@@ -243,7 +243,7 @@ function architectsTomb() {
  print("\n--- THE ARCHITECT'S TOMB ---");
  print("\nAn island that shouldn't exist. It is a perfect circle of white marble, and acient sybols untouched by the violet rot.");
  print("\nOn the inside there are hundrees of acient markings carved into the tomb, and casting acient magic to protect it");
- print("\nWhere to? villagee");
+ print("\nWhere to? villagee or ** Focus **");
  
  function processInput(input) {
   let choice = input.toLowerCase();
@@ -252,15 +252,24 @@ function architectsTomb() {
   } else {
    stayHere();
    waitThenCall(architectsGrave);
-  }
- }
+  } if (choice === "focus") {
+       if (!haveForce) {
+        print("\nYou use **Force** to push the ancient shrine doors open.");
+        forgottenShrine()}; 
+        }
+       else {
+         print("\nThe heavy shrine doors won't budge.");
+         waitThenCall(villageF);
+       }
+}
  waitForInput(processInput);
 }
 
 function islandsOfScilence() {
  clear();
- print("\n--- THE OBSIDIAN REACH ---");
- print("\nA jagged finger of rock pointing toward the Absolute Point. The wind here screams with the voices of the lost.");
+ print("\n The islands of Scilence");
+ print("\nA cluster of islands where neithor light nore sound reachers");
+  print("\nLands plunged into etaeral ngiht with only the violent tint, and echoing scilence");
  print("\nWhere to? villageb");
  
  function processInput(input) {
@@ -461,6 +470,22 @@ function theSingingGate() {
         else { 
             stayHere(); 
             waitThenCall(theSingingGate); }
+    }
+    waitForInput(processInput);
+}
+
+function echoCanyon() {
+    clear();
+    print("\nA massive gap etween two lands were the world seems to echo back anythign that is said or donte");
+    print("\nWhere to? theSingingGate");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "theSingingGate") { 
+            theSingingGate(); }
+        else { 
+            stayHere(); 
+            waitThenCall(echoCanyon); }
     }
     waitForInput(processInput);
 }
