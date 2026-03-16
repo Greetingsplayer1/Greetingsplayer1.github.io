@@ -18,8 +18,10 @@ let haveKey = false;
 
 //If you need, add any "helper" functions here
 
+//-------------
+//Main Villages
+//-------------
 
-//Make one function for each location
 function mainPort() {
     clear();
     print("\n--MAIN PORT--");
@@ -134,9 +136,6 @@ function villageC() {
 }
 
 
-
-
-
 function villageD() {
   clear();
   print("\n--- VILLAGE D ---");
@@ -181,7 +180,15 @@ function villageE() {
     let choice = input.toLowerCase();
     if (choice === "villaged") {
          villageD(); } 
-    else if (choice === "villagef") {
+    else if (choice === "architectsTomb") {
+      if (haveForce) {
+        print("\nA large white marble dopr stands in your way from gewtting into the tomb. Use force to shove it aside using ** Force **");
+        villageF();
+      } else {
+        print("\nMassive obsidian rocks block the narrow path. You can't move them by hand.");
+        waitThenCall(villageE);
+      }
+    } else if (choice === "v") {
       if (haveForce) {
         print("\nA cluster of obsidian boulders blocks the ledge. You use **Force** to push them into the void.");
         villageF();
@@ -227,7 +234,50 @@ function villageF() {
   waitForInput(processInput);
 }
 
+//---------------
+// The lost lands
+//---------------
 
+function architectsTomb() {
+ clear();
+ print("\n--- THE ARCHITECT'S TOMB ---");
+ print("\nAn island that shouldn't exist. It is a perfect circle of white marble, and acient sybols untouched by the violet rot.");
+ print("\nOn the inside there are hundrees of acient markings carved into the tomb, and casting acient magic to protect it");
+ print("\nWhere to? villagee");
+ 
+ function processInput(input) {
+  let choice = input.toLowerCase();
+  if (choice === "villagee") {
+   villageE();
+  } else {
+   stayHere();
+   waitThenCall(architectsGrave);
+  }
+ }
+ waitForInput(processInput);
+}
+
+function islandsOfScilence() {
+ clear();
+ print("\n--- THE OBSIDIAN REACH ---");
+ print("\nA jagged finger of rock pointing toward the Absolute Point. The wind here screams with the voices of the lost.");
+ print("\nWhere to? villageb");
+ 
+ function processInput(input) {
+  let choice = input.toLowerCase();
+  if (choice === "villageb") {
+   villageB();
+  } else {
+   stayHere();
+   waitThenCall(obsidianReach);
+  }
+ }
+ waitForInput(processInput);
+}
+
+//----------
+//Wild lands
+//----------
 
 
 function nectarSprings() {
@@ -264,22 +314,6 @@ function nectarSprings() {
         waitThenCall(nectarSprings); }
   }
   waitForInput(processInput);
-}
-
-
-
-function theGreatBridge() {
-    clear();
-    print("\n--The Great Bridge--");
-    print("\nA massive stone span crossing the 'Void Gap.' The wind howls below.");
-    print("\nWhere to? Aboslute point or Order of iron");
-    
-    function processInput(input){
-        let choice = input.toLowerCase();
-        if (choice === "villagee") { villageE(); }
-        else { stayHere(); waitThenCall(theGreatBridge); }
-    }
-    waitForInput(processInput);
 }
 
 function huntersCamp() {
@@ -338,18 +372,34 @@ function crystalCave() {
 
 function obsidianPeak() {
     clear();
-    print("\nThe highest point of the island. You can see the Absolute Point from here.");
+    print("\nThis is a massive obsidian spire.");
     print("\nWhere to? crystalCave or cloudPeaks");
     
     function processInput(input){
         let choice = input.toLowerCase();
         if (choice === "crystalcave") { 
             crystalCave(); }
-        else if (choice === "cloudpeaks") { 
-            cloudPeaks(); }
+        else if (choice === "cliffpeaks") { 
+            cliffPeaks(); }
         else { 
             stayHere(); 
             waitThenCall(obsidianPeak); }
+    }
+    waitForInput(processInput);
+}
+
+function cliffPeaks() {
+    clear();
+    print("\nThe highest point of the island. You can see the Absolute Point from here.");
+    print("\nYou cant go anywhere from here would you like to return to the obsidianPeak");
+    
+    function processInput(input){
+        let choice = input.toLowerCase();
+        if (choice === "obsidianpeak") { 
+            obsidianPeak(); }
+        else { 
+            stayHere(); 
+            waitThenCall(cliffPeaksPeak); }
     }
     waitForInput(processInput);
 }
@@ -415,6 +465,9 @@ function theSingingGate() {
     waitForInput(processInput);
 }
 
+//------
+//Orders
+//------
 function orderOfAether() {
     clear();
     print("\n--- THE ORDER OF AETHER ---");
@@ -486,7 +539,7 @@ function fix() {
     haveBreakPoint = true; // Ensures the item is marked as found
     print("\n--- THE BREAK POINT RESTORED ---");
     print("\nYou close your eyes and channel the ancient magic innate to your bloodline. The violet energy in the room bends to your will, stitching the stone disk back together.");
-    print("\n[SUCCESS]: You have fixed the Break Point! The 'World Between Worlds' hums in approval, Aethel-Voss.");
+    print("\n[SUCCESS]: You have fixed the Break Point! The device hums in your palm.");
     
      printAscii(`
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -547,6 +600,7 @@ function fix() {
             waitThenCall(fix);
         }
     }
+    haveBreakPoint = true;
     waitForInput(processInput);
 }
 
@@ -568,6 +622,7 @@ function noFix() {
             waitThenCall(noFix);
         }
     }
+    haveBreakPoint = false;
     waitForInput(processInput);
 }
 
@@ -869,6 +924,10 @@ printAscii(`
 +++++++++++++++++++++++xxX$$Xx+x+;;;::;+X$$XXX$$$$XXx+x$XXX$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXX
 ;;;::;;::++++xxxxxxxxxxxxxX$$$$xx++++;::;;++x$$$$$$$$$$$$$XxxxxxxxxxxxxxXXxXXxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXX
 `);
+
+//-------
+//Endings
+//-------
 
     function processInput(input) {
         let choice = input.toLowerCase();
