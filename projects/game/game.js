@@ -67,7 +67,7 @@ function villageB() {
     stopWaitingForInput("villageB"); 
     clear();
     print("\n--- VILLAGE B ---");
-    print("\nThe shoreline is littered with rusted gear and ancient scrap metal, washed up by the Tides.");
+    print("\nThe shoreline of Village B is a graveyard of the Old World. Rusted gears the size of houses are half-buried in violet-stained sand. You remember stories that these were part of the Great Machine that kept the sky from falling. Now, they just whistle in the wind.");
     if (!haveGrapple) {
         print("\nYou see a high-tension **Grapple** hook buried under some metallic debris.");
         print("\nWhere to? mainPort, villageC, or **dig** through the scrap?");
@@ -172,22 +172,22 @@ function villageE() {
     stopWaitingForInput("villageE"); 
   clear();
   print("\n--- VILLAGE E ---");
-  print("\n Village E the mining village this village minea and supplies the iron order with matierials life is calm");
-  print("\n"); 
+  print("\n Village E, the mining hub. Here, the Iron Order strips the floating islands of their ore to build their fortresses. Life is 'calm' only because the Rulers have crushed any spark of magic. You see the obsidian rocks blocking the path to the Architect’s Tomb—they weren't put there by nature; they were placed there to hide the truth of your bloodline.");
+  print("\n Where wouuld yo liek to go architetctsTomb, villageD, or villageF"); 
 
   function processInput(input){
     if (currentActiveListener !== "villageE") return;
     let choice = input.toLowerCase();
     if (choice === "villaged") {
          villageD(); } 
-    else if (choice === "architectsTomb") {
+    else if (choice === "architectstomb") {
       if (haveForce) {
         print("\nA large white marble dopr stands in your way from gewtting into the tomb. Use force to shove it aside using ** Force **");
         villageF();
       } else {
         print("\nMassive obsidian rocks block the narrow path. You can't move them by hand.");
       }
-    } else if (choice === "v") {
+    } else if (choice === "villagef") {
       if (haveForce) {
         print("\nA cluster of obsidian boulders blocks the ledge. You use **Force** to push them into the void.");
         villageF();
@@ -464,7 +464,7 @@ function theSingingGate() {
 function echoCanyon() {
     stopWaitingForInput("echoCanyon"); 
     clear();
-    print("\nA massive gap etween two lands were the world seems to echo back anythign that is said or donte");
+    print("\nThe air in Echo Canyon is thick and tastes like copper. The 'Split' is visible here overn the huge iron walls of the order of iron. The Split a literal tear where you can see other timelines flickering like heat haze. Your own voice comes back to you, but it sounds older... or perhaps younger.");
     print("\nWhere to? theSingingGate");
     
     function processInput(input){
@@ -486,7 +486,7 @@ function orderOfAether() {
     stopWaitingForInput("orderOfAether"); 
     clear();
     print("\n--- THE ORDER OF AETHER ---");
-    print("\nA soaring castle of white marble floating higher than the rest.");
+    print("\nThe white marble glows with an artificial light. The air is too clean, too perfect. It’s a castle built by those who tried to ignore the 'Split' by climbing above it.");
     print("\nWhere to? shimmeringBasin or orderOfShadow");
     
     function processInput(input){
@@ -503,15 +503,23 @@ function orderOfShadow() {
     stopWaitingForInput("orderOfShadow"); 
     clear();
     print("\n--- THE ORDER OF SHADOW ---");
-    print("\nA fortress carved into a jagged obsidian cliffside.");
-    print("\nWhere to? orderOfAether or orderOfIron");
+  print("\nThis fortress is carved into a spire of 'Void-Glass'—obsidian that drinks the light.");
+  print("\nYou feel a cold shiver; this is where the Rulers kept the secres on Ancient Magic. The halls are lined with sealed iron doors, each holding a secret they tried to bury.");
+  
+  // Highlighting the "Secrets" theme
+  print("\nIn the center, a **Great Archive** of black stone hums with the acient magic made to contian to trap.");
+  print("\nWhere to? **orderOfAether**, **orderOfIron**, or will you **whisper** to the Archive?");
+
     
     function processInput(input){
         if (currentActiveListener !== "orderOfShadow") return;
         let choice = input.toLowerCase();
         if (choice === "orderofaether") { orderOfAether(); }
         else if (choice === "orderofiron") { orderOfIron(); }
-        else { stayHere(orderOfShadow); }
+        else if (choice === "whisper") {
+       // Logic to trigger the Secret 1 (True Name) from your stayHere function
+       stayHere(orderOfShadow, orderOfShadow); 
+    } else { stayHere(orderOfShadow); }
     }
     waitForInput(processInput);
 }
@@ -764,7 +772,7 @@ function showMap() {
 function begin() {
     stopWaitingForInput("begin"); 
     clear();
-    print("\n Before the sky fractured, the oceans were blue and the horizon was a straight line. Then came the Split—a cataclysmic event at the world's center that tore the earth into floating islands and bled violet into the tides. None have reached the absolute point though it is said to be a point where neither chaos nor peace live. Peopel have tried reachign the point again and agin they calaim that they heard the voices of the ones they had lost. The absolute point is located on a large floating island in the middle of adense group of clouds. Hassimon is a thief who uses his vast knowledge of magic and the lands to navigate this torn world without getting caught. Hassimon uses ports, archways with figures inscribed upon them. These ports were built by the ancient societies who used ancient magic to build the port to which no one knows the true purpose behind them. Hassimon is one of the few people who were born with innate magic or ancient magic. While most people can only use magic learned by book and require a source to channel the magic like a staff or wand, people born with ancient or innate magic can directly channel their power through themselves. The rulers at the time did not understand this ancient magic so they regarded it as chaotic and wrong swearing to rid the world of this “chaotic magic”. Ancient magic according to the vast amount of books at the ancient library which is located in the world between worlds. These lands were mostly protected from the “split” due to the vast amounts of ancient protection magic that surrounded the place to keep people without the ancient blood out. The world between worlds are a few but large islands that house hundreds of texts on ancient magic and is a safe place for those born with ancient blood to study and learn to control their abilities. It exists between both time and reality which make it a perfect spot for Hassimon to live, and practice the ancient magic that was imbued within him at birth. This is where our story begins ");
+    print("\n Before the sky fractured, the oceans were blue and the horizon was a straight line. Then came the Split—a cataclysmic event at the world's center that tore the earth into floating islands and bled violet into the tides. None have reached the absolute point though it is said to be a point where neither chaos nor peace live. Peopel have tried reachign the point again and agin they calaim that they heard the voices of the ones they had lost. The absolute point is located on a large floating island in the middle of adense group of clouds. Hassimon is a thief who uses his vast knowledge of magic and the lands to navigate this torn world without getting caught. Hassimon uses ports, archways with figures inscribed upon them. These ports were built by the ancient societies who used ancient magic to build the port to which no one knows the true purpose behind them. Hassimon is one of the few people who were born with innate magic or ancient magic. While most people can only use magic learned by book and require a source to channel the magic like a staff or wand, people born with ancient or innate magic can directly channel their power through themselves. The rulers at the time did not understand this ancient magic so they regarded it as chaotic and wrong swearing to rid the world of this “chaotic magic”. Ancient magic according to the vast amount of books at the ancient library which is located in the world between worlds. These lands were mostly protected from the “Split” due to the vast amounts of ancient protection magic that surrounded the place to keep people without the ancient blood out. The world between worlds are a few but large islands that house hundreds of texts on ancient magic and is a safe place for those born with ancient blood to study and learn to control their abilities. It exists between both time and reality which make it a perfect spot for Hassimon to live, and practice the ancient magic that was imbued within him at birth. This is where our story begins ");
     print("\nType next to continue");
 
     function processInput(input){
@@ -876,7 +884,7 @@ function stayHere(returnLocation, locationName) {
 
     // 4. SECRET 3: Blue Sea Vision
     if (locationName == mainPort && roll < 0.06 && !foundSecret3) { 
-        print("\n[ULTRA RARE]: For a split second, the sea turns blue again.");
+        print("\n[ULTRA RARE]: For a Split second, the sea turns blue again.");
         foundSecret3 = true;
         loreFound++;
         return; 
