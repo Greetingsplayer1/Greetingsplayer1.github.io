@@ -550,7 +550,7 @@ function orderOfShadow() {
         else if (choice === "orderofiron") { orderOfIron(); }
         else if (choice === "whisper") {
        // Logic to trigger the Secret 1 (True Name) from your stayHere function
-       stayHere(orderOfShadow, orderOfShadow); 
+       stayHere(orderOfShadow); 
     } else { stayHere(orderOfShadow); }
     }
     waitForInput(processInput);
@@ -885,7 +885,7 @@ function start(){
     waitForInput(processInput);
 }
 
-function stayHere(returnLocation, locationName) {
+function stayHere(locationName) {
     let roll = Math.random();
 
     // 1. THE TRUTH (The "loreForAl" requirement)
