@@ -254,11 +254,11 @@ function architectsTomb() {
    waitThenCall(architectsGrave);
   } if (choice === "focus") {
        if (!haveForce) {
-        print("\nYou use **Force** to push the ancient shrine doors open.");
+        print("\nYou focus your energy into calmind down the calm air swirls you feel new powers inside you");
         forgottenShrine()}; 
         }
        else {
-         print("\nThe heavy shrine doors won't budge.");
+         print("\nYou have already meditatesd find something else to do.");
          waitThenCall(villageF);
        }
 }
@@ -481,7 +481,7 @@ function echoCanyon() {
     
     function processInput(input){
         let choice = input.toLowerCase();
-        if (choice === "theSingingGate") { 
+        if (choice === "thesinginggate") { 
             theSingingGate(); }
         else { 
             stayHere(); 
