@@ -12,10 +12,7 @@ let foundSecret5 = false;
 let haveKey = false; 
 let currentActiveListener = "";
 
-//Declare your other global variables here
 
-
-//If you need, add any "helper" functions here
 
 //-------------
 //Main Villages
@@ -822,9 +819,6 @@ function begin() {
     waitForInput(processInput);
 }
 
-//finally, make sure you customize this to tell it what should happen at the
-//very start. For this simple example, any input will bring you
-//to locationA
 function start(){
     stopWaitingForInput("start"); 
     clear();
