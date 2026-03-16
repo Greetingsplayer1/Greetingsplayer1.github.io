@@ -1014,7 +1014,14 @@ printAscii(`
             } else {
                 print("\nYou whisper the words, but the Ancient Magic doesn't recognize you yet. You haven't listened to enough of the world's echoes.");
             }
-        }
+        }   else if (choice === "away") {
+            clear();
+            print("<h1>[BAD OR GOOD: THE DIFFICULT CHOICE]</h1>");
+             print("\nYou have reached the absolute point it is time");
+            print("\nYou think about the life you have been living the exiitment and the nerves");
+            print("\nYou stop running your magic you bakc up and walk out making sure to evade guards and returs to your life.");
+            print("\nWAS it worth it");
+        }  
 
          else {
             stayHere();
