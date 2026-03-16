@@ -139,7 +139,7 @@ function villageD() {
   print("\n--- VILLAGE D ---");
   print("\nPaths lead to Village C and Village E.");
   print("\nHigh above, you see the floating waterfalls of **Nectar Springs**.");
-  print("\nWhere to? villageC, villageE, or **grapple** up to the Springs?");
+  print("\nWhere to? villageC, villageE, or **grapple** up to the Springs?, or ** focus ** your energy");
 
   function processInput(input){
     if (currentActiveListener !== "villageD") return;
@@ -160,9 +160,14 @@ function villageD() {
         nectarSprings();
       } else {
         print("\nThe Springs are floating too high. You'll need a **Grapple** to get up there.");
-
       }
-    } else { stayHere(villageD); }
+    } else if (choice === "focus") {
+       if (!haveForce) {
+        print("\nYou focus your energy the violet air around you recceds you power grows with the calmness.");
+        haveForce = true;
+       }else {
+         print("\nYou have already meditatesd find something else to do."); 
+    }} else { stayHere(villageD); }
   }
   waitForInput(processInput);
 }
@@ -173,14 +178,14 @@ function villageE() {
   clear();
   print("\n--- VILLAGE E ---");
   print("\n Village E, the mining hub. Here, the Iron Order strips the floating islands of their ore to build their fortresses. Life is 'calm' only because the Rulers have crushed any spark of magic. You see the obsidian rocks blocking the path to the Architect’s Tomb—they weren't put there by nature; they were placed there to hide the truth of your bloodline.");
-  print("\n Where wouuld yo liek to go architetctsTomb, villageD, or villageF"); 
+  print("\n Where wouuld yo liek to go ** enter ** to go to the store, villageD, or villageF"); 
 
   function processInput(input){
     if (currentActiveListener !== "villageE") return;
     let choice = input.toLowerCase();
     if (choice === "villaged") {
          villageD(); } 
-    else if (choice === "architectstomb") {
+    else if (choice === "enter") {
       if (haveForce) {
         print("\nA large white marble dopr stands in your way from gewtting into the tomb. Use force to shove it aside using ** Force **");
         villageF();
@@ -249,14 +254,7 @@ if (currentActiveListener !== "architectsTomb") return;
   let choice = input.toLowerCase();
   if (choice === "villagee") {
    villageE();
-  } else if (choice === "focus") {
-       if (!haveForce) {
-        print("\nYou focus your energy into calmind down the calm air swirls you feel new powers inside you");
-        forgottenShrine()}; 
-        }
-       else {
-         print("\nYou have already meditatesd find something else to do.");
-       }
+  }
 }
 stayHere(architectsTomb);
  waitForInput(processInput);
@@ -327,15 +325,13 @@ function huntersCamp() {
     stopWaitingForInput("hunertsCamp"); 
     clear();
     print("\nA small outpost for those brave enough to track the violent beasts.");
-    print("\nWhere to? villageF or shadowWoods");
+    print("\nWhere to? villageF");
     
     function processInput(input){
         if (currentActiveListener !== "huntersCamp") return;
         let choice = input.toLowerCase();
         if (choice === "villagef") {
              villageF(); }
-        else {
-             stayHere(huntersCamp); }
     }
     waitForInput(processInput);
 }
@@ -424,7 +420,7 @@ function shimmeringBasin() {
         return;
     }
     if (haveBreakPoint) {
-    print("\nA shallow lake reflecting a sky that isn't yours.");
+    print("\nA shallow lake reflecting a sky that isn't yours. Its blue the sun shines brightly with warm light.");
     print("\nWhere to? nectarSprings or orderOfAether");
 }
     
@@ -464,7 +460,8 @@ function theSingingGate() {
 function echoCanyon() {
     stopWaitingForInput("echoCanyon"); 
     clear();
-    print("\nThe air in Echo Canyon is thick and tastes like copper. The 'Split' is visible here overn the huge iron walls of the order of iron. The Split a literal tear where you can see other timelines flickering like heat haze. Your own voice comes back to you, but it sounds older... or perhaps younger.");
+    print("\nAs you land on the ridge on the echo canyon the port behind you smokes and dissintagrates you may not return as you take in your surroundings");
+    print("\nThe air in Echo Canyon is thick and tastes like copper. The 'Split' is visible here over the huge iron walls of the order of iron. The Split a literal tear where you can see other timelines flickering like heat haze. Your own voice comes back to you, but it sounds older... or perhaps younger.");
     print("\nWhere to? theSingingGate");
     
     function processInput(input){
@@ -931,6 +928,7 @@ function absolutePoint() {
     print("\nYour Ancient Magic burns in your hands. This is the moment. What will you do, thief?");
     print("\nType **SHATTER** to break the rift and free them.");
     print("\nType **ABSORB** to take the Ancient Magic for yourself.");
+        print("\nType **AWAY** to take the Ancient Magic for yourself.");
 printAscii(`
 .........................::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++xxxx+++++++++++++++++;;;;;
 .........................:::::::::::::::::::::::::;;;;;;;;;;;;;;;;;;;;;;;;++++++++++++++xxxxxxxxxxx+++++++++++++;;
@@ -1022,7 +1020,7 @@ printAscii(`
                 print("\nThe islands gently descend, reconnecting into a single, vast continent. The sea turns a crystal, sparkling blue. No more Ports, no more rifts, no more hiding.");
                 print("\nYou are no longer a thief. You are the man who put the world back together.");
                 print("\n<b>The cycle is finally broken. You are home.</b>");
-                print("\nand not just that you feel the full power of the acient magic coursing through you giving you mroe power than ever before");
+                print("\nand not just that you feel the full power of the acient magic coursing through you giving you more power than ever before");
                 gameActive = false;
             } else {
                 print("\nYou whisper the words, but the Ancient Magic doesn't recognize you yet. You haven't listened to enough of the world's echoes.");
@@ -1032,7 +1030,8 @@ printAscii(`
             print("<h1>[BAD OR GOOD: THE DIFFICULT CHOICE]</h1>");
              print("\nYou have reached the absolute point it is time");
             print("\nYou think about the life you have been living the exiitment and the nerves");
-            print("\nYou stop running your magic you bakc up and walk out making sure to evade guards and returs to your life.");
+            print("\nBut instead of using your magic to fix the world you take on last look at your family thinking you can always return then you turn and");
+            print("\nyou walk out making sure to evade the guards of the iron order and returs to your life.");
             print("\nWAS it worth it");
         }  
 
