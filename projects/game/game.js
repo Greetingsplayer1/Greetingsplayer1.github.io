@@ -246,7 +246,7 @@ function villageF() {
     stopWaitingForInput("villageF"); 
   clear();
   print("\n--- VILLAGE F ---");
-  print("\n A prosporuse village that has used their use of magic to far and to thrive");
+  print("\nThese lands were isolated druing the split and while connections are near impossibel they found their own way of life magic. These speelbound lands are built and thriving off modern magiac with protection against weather for farming and a hint of freshenss in the air wich has long since been forgotten to the peopel.");
   print("\nWhere to? villageE, huntersCamp, or forgottenShrine");
   
   function processInput(input){
@@ -282,7 +282,7 @@ function architectsTomb() {
  print("\n--- THE ARCHITECT'S TOMB ---");
  print("\nAn island that shouldn't exist. It is a perfect circle of white marble, and acient sybols untouched by the violet rot.");
  print("\nOn the inside there are hundrees of acient markings carved into the tomb, and casting acient magic to protect it");
- print("\nWhere to? villagee or ** Focus **");
+ print("\nWhere to? villagee");
  
  function processInput(input) {
 if (currentActiveListener !== "architectsTomb") return;
@@ -300,7 +300,7 @@ function islandsOfScilence() {
  clear();
  print("\n The islands of Scilence");
  print("\nA cluster of islands where neithor light nore sound reachers");
-  print("\nLands plunged into etaeral ngiht with only the violent tint, and echoing scilence");
+  print("\nLands plunged into eternal ngiht with only the violent tint, and echoing scilence");
  print("\nWhere to? villageb");
  
  function processInput(input) {
