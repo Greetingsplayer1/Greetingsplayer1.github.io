@@ -19,6 +19,14 @@ In your lore, "Hassimon" is his thief name—the name he uses to hide from the r
 Everybody uses the ports though there are few that are hidden that the main chactor uses
 In your lore, "Hassimon" is his thief name—the name he uses to hide from the rulers. But his True Name, the one that is used to fix the world is Aethel-Voss, is Aethel-Voss (meaning "The Bridge that Breathes"). He isn't just a thief; he is the "Key" that the Ancient Societies left behind to fix the world.
 
+# Summery
+
+Expansive Map: Explore over 20 unique locations across a "scrolling" world.
+Ancient Magic System: Navigate a world where magic is common but "Ancient Magic" is a dangerous, innate power that only the protagonist truly understands.
+Metroidvania Progression: Use items like the Grapple Hook and the Break Point (a triangular relic of interlocking magic) to unlock paths to the 10 final floating islands.
+Branching Narrative: Your choices lead to 5+ distinct endings, ranging from the divine restoration of the world to the dark tragedy of the Hollow King.
+
+
 # map
 
 - you can scroll sidwe ways ver big
