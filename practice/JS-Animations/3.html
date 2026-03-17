@@ -8,7 +8,7 @@
     </head>
     <body>
         <h2>Hello animations</h2>
-        <canvas id="myCanvas" width="600" height="400"></canvas>
+        <canvas id="myCanvas" width="1000" height="900"></canvas>
 
         <script>
             console.log("hi")
@@ -73,12 +73,9 @@ function animate() {
     if (keys['ArrowUp'])    posY -= 5;
     if (keys['ArrowDown'])  posY += 10;
 
-    // --- BOUNDARY CHECKS ---
-    // Left and Right (width of character is roughly 100 including arms)
     if (posX < 30) posX = 30; 
     if (posX > canvas.width - 90) posX = canvas.width - 90;
 
-    // Up and Down (head is at -85 relative to Y, feet are at +100)
     if (posY < 85) posY = 85;
     if (posY > canvas.height - 100) posY = canvas.height - 100;
 
