@@ -71,7 +71,16 @@ function animate() {
     if (keys['ArrowRight']) posX += 5;
     if (keys['ArrowLeft'])  posX -= 5;
     if (keys['ArrowUp'])    posY -= 5;
-    if (keys['ArrowDown'])  posY += 10; // Making down slightly faster
+    if (keys['ArrowDown'])  posY += 10;
+
+    // --- BOUNDARY CHECKS ---
+    // Left and Right (width of character is roughly 100 including arms)
+    if (posX < 30) posX = 30; 
+    if (posX > canvas.width - 90) posX = canvas.width - 90;
+
+    // Up and Down (head is at -85 relative to Y, feet are at +100)
+    if (posY < 85) posY = 85;
+    if (posY > canvas.height - 100) posY = canvas.height - 100;
 
     drawRect(posX, posY);
     requestAnimationFrame(animate);
