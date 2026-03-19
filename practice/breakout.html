@@ -7,25 +7,25 @@
 </head>
 <body>
 
-<canvas id="myCanvas" width="800" height="1400"></canvas>
+<canvas id="myCanvas" width="2000" height="1400"></canvas>
 
 <script>
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
-    let ballRadius = 10;
+    let ballRadius = 5;
     let x = canvas.width/2;
     let y = canvas.height-30;
-    let dx = 2;
-    let dy = -2;
+    let dx = 10;
+    let dy = -10;
     let paddleHeight = 10;
     let paddleWidth = 75;
     let paddleX = (canvas.width-paddleWidth)/2;
     let rightPressed = false;
     let leftPressed = false;
-    let brickRowCount = 15;
-    let brickColumnCount = 40;
-    let brickWidth = 40;
-    let brickHeight = 20;
+    let brickRowCount =78;
+    let brickColumnCount = 50;
+    let brickWidth = 15;
+    let brickHeight = 15;
     let brickPadding = 10;
     let brickOffsetTop = 30;
     let brickOffsetLeft = 30;
