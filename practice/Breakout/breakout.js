@@ -31,8 +31,10 @@ let balls = [];
 function drawBricks(){
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
-      //TODO: use the variables above to write the code that draws the bricks.
-      //this should be a single function call to ctx.fillRect();
+      ctx.beginPath();
+      ctx.rect(c*(brickWidth+brickPadding)+brickOffsetLeft, r*(brickHeight+brickPadding)+brickOffsetTop, brickWidth, brickHeight);
+      ctx.fill();
+      ctx.closePath();
     }
   }
 }
