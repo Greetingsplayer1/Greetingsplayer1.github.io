@@ -25,7 +25,6 @@ const brickHeight = 20;
 const brickPadding = 10;
 const brickOffsetTop = 30;
 const brickOffsetLeft = 30;
-let balls = [];
 
 
 function drawBricks(){
