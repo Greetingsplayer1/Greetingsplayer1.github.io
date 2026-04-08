@@ -30,7 +30,10 @@ function checkCollisions(){
                 ship_max_x = s.x + 15*s.size;
                 ship_min_y = s.y - 15*s.size;
                 ship_max_y = s.y + 15*s.size;
-
+                if(junk_max_x > ship_min_x && junk_min_x < ship_max_x && junk_max_y > ship_min_y && junk_min_y < ship_max_y) {
+                j.alive = false;
+                s.alive = false;
+                }
             }
         }
     }
