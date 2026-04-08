@@ -16,7 +16,7 @@ function animate() {
     drawShipsAndJunk();
 
     //spawn new ships and junk
-    if(shipTimer == 200){
+    if(shipTimer == 75){
       addNewShip();
       shipTimer = 0;
     }
