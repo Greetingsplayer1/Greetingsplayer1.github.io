@@ -5,6 +5,7 @@ function drawBackground() {
   ctx.fillStyle = '#4a90e2';
   ctx.beginPath();
   ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
+  ctx.mo
   ctx.fill();
   
 }
@@ -30,6 +31,12 @@ function drawShip(x, y, angle, size) {
   ctx.lineTo(0, 18);
   ctx.lineTo(5, 10);
   ctx.fill();
+
+  //circular cockpit seeable black on the ship
+    ctx.fillStyle = '#000000';
+    ctx.beginPath();
+    ctx.arc(0, -5, 3, 0, Math.PI * 2);
+    ctx.fill();
   
   ctx.restore();
 }
