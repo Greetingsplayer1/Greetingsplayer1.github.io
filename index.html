@@ -94,6 +94,71 @@
   }
 
   hr { border: 0; height: 1px; background: #D4AF37; margin: 40px 0; }
+  #testgrid {
+  display: grid;
+  grid:
+    'pic1 test1' 1fr
+    'test2 pic2' 1fr
+    'pic3 test3' 1fr
+    /1fr 1fr;
+}
+
+#testgrid img {
+  height: 300px;
+  margin: auto;
+}
+
+#testgrid p {
+  margin: auto;
+}
+
+#pic1 {
+  grid-area: pic1;
+}
+
+#test1 {
+  grid-area: test1;
+}
+
+#pic2 {
+  grid-area: pic2
+}
+
+#test2 {
+  grid-area: test2;
+}
+
+#pic3 {
+  grid-area: pic3;
+}
+
+#test3 {
+  grid-area: test3;
+}
+
+@media screen and (max-width: 480px) {
+  #testgrid {
+    display: flex;
+    flex-direction: column;
+    grid: unset;
+  }
+
+  #testgrid img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 0;
+  }
+
+  #pic1,
+  #test1,
+  #pic2,
+  #test2,
+  #pic3,
+  #test3 {
+    grid-area: unset;
+  }
+}
 </style>
 </head>
 <body>
@@ -145,7 +210,40 @@
       <span class="tag">Technical Writing</span> <span class="tag">Research</span>
     </div>
   </div>
+  
+  <hr>
+  <h1>The coding I have done</h1>
+  <div id="testgrid">
+                
+                <img id="pic1" src="" alt="Code From Projects">
 
+                <blockquote id="test1">
+                    <h1></h1>
+                    
+                    <br>
+                    <br>
+                </blockquote>
+
+                <br>
+                
+                <img id="pic2" src="" alt="More Code of a diffent laguage">
+
+                <blockquote id="test2">
+                    <h1></h1>
+                    
+                    <br>
+                    <br>
+                </blockquote>
+                <br>
+                <img id="pic3" src="" alt="Code in another lagauage">
+
+                <blockquote id="test3">
+                    <h1></h1>
+                    
+                    <br>
+                    <br>
+                </blockquote>
+            </div>
   <hr>
   
   <div style="text-align:center">
